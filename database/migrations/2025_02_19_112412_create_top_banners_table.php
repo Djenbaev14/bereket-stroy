@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('top_banners', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->string('url');
             $table->string('photo');
             $table->json('header');
             $table->json('text');

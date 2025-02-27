@@ -15,6 +15,7 @@
         "filament/spatie-laravel-media-library-plugin": "3.2",
         "filament/spatie-laravel-tags-plugin": "3.2",
         "filament/spatie-laravel-translatable-plugin": "^3.2",
+        "goodoneuz/pay-uz": "^2.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
@@ -25,6 +26,7 @@
         "owenvoke/blade-fontawesome": "^2.9",
         "rawilk/filament-password-input": "^2.0",
         "thiktak/filament-nested-builder-form": "^1.0",
+        "traineratwot/filament-openstreetmap": "^1.2",
         "ysfkaya/filament-phone-input": "^3.1"
     },
     "require-dev": {

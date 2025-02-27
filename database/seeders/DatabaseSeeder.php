@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             LocaleSeeder::class,
             DiscountrTypeSeeder::class,
             UserSeeder::class,
+            PaymentTypeSeeder::class,
+            DeliveryMethodSeeder::class,
+            DaySeeder::class,
         ]);
     }
 }

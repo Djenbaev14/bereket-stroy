@@ -6,8 +6,11 @@ use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\SubSubCategoryController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DeliveyMethodController;
+use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\UserAddressController;
 use App\Models\Country;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,22 +24,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::apiResource('products',ProductController::class);
-Route::apiResource('categories',CategoryController::class);
-Route::apiResource('sub_categories',SubCategoryController::class);
-Route::apiResource('sub_sub_categories',SubSubCategoryController::class);
 
-Route::get('/brands', [BrandController::class,'index'])->middleware('auth:sanctum');
-Route::get('/countries', [BrandController::class,'country']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::apiResources([
+    'brands' => BrandController::class,
+    'countries' => CountryController::class,
+    'products'=>ProductController::class,
+    'categories'=>CategoryController::class,
+    'sub_categories'=>SubCategoryController::class,
+    'sub_sub_categories'=>SubSubCategoryController::class,
+    'delivery-methods'=>DeliveyMethodController::class,
+    'user-addresses'=>UserAddressController::class,
+    'payment-types'=>PaymentMethodController::class,
+]);
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum','token.expired']);
 
 Route::post('/register-verify', [AuthController::class, 'registerVerifyCode']);
 Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/form', [AuthController::class, 'form'])->middleware('auth:sanctum');
+
+
+Route::post('/login-verify', [AuthController::class, 'loginVerifyCode']);
+Route::post('/login', [AuthController::class, 'login']);
 
 
 

@@ -23,15 +23,70 @@ class SettingResource extends Resource
     {
         return $form
             ->schema([
-                //
-            ]);
+                Forms\Components\TextInput::make('phone')
+                    ->placeholder('998901234567')
+                    ->label('Тел номер')
+                    ->tel()
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(6),
+                Forms\Components\TextInput::make('email')
+                    ->placeholder('Емайл')
+                    ->email()
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(6),
+                Forms\Components\TextInput::make('instagram')
+                    ->placeholder('Инстаграм')
+                    ->label('Инстаграм')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(3),
+                Forms\Components\TextInput::make('facebook')
+                    ->placeholder('Фейсбук')
+                    ->label('Фейсбук')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(3),
+                Forms\Components\TextInput::make('telegram')
+                    ->placeholder('Телеграм')
+                    ->label('Телеграм')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(3),
+                Forms\Components\TextInput::make('youtube')
+                    ->placeholder('Ютуб')
+                    ->label('Ютуб')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(3),
+            ])->columns(12);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('phone')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('instagram')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('facebook')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('telegram')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('youtube')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -46,18 +101,6 @@ class SettingResource extends Resource
             ]);
     }
 
-    public static function getNavigationLabel(): string
-    {
-        return 'Настройки'; // Rus tilidagi nom
-    }
-    public static function getModelLabel(): string
-    {
-        return 'Настройки'; // Rus tilidagi yakka holdagi nom
-    }
-    public static function getPluralModelLabel(): string
-    {
-        return 'Настройки'; // Rus tilidagi ko'plik shakli
-    }
     public static function getRelations(): array
     {
         return [

@@ -16,8 +16,5 @@ class BrandController extends Controller
         $brands = Brand::orderBy('id','desc')->get();
         return $this->responsePagination($brands, BrandResource::collection($brands));
     }
-    public function country(){
-        $countries = Country::orderBy('id','desc')->get();
-        return $this->responsePagination($countries, CountryResource::collection($countries));
-    }
+    
 }

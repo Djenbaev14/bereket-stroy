@@ -59,6 +59,12 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    
+    
+    
+    // 'SMS_EMAIL'=>'makonnokisbaev@gmail.com',
+    // 'SMS_PASSWORD'=>'UIFiZ7Fvh1n8dyDq4KW00xLH4GfJByMsdR8ko3qC',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

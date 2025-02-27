@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->json('phones');
+            $table->string('phone');
             $table->string('email');
-            $table->json('social');
+            $table->string('instagram');
+            $table->string('facebook');
+            $table->string('telegram');
+            $table->string('youtube');
             $table->timestamps();
         });
     }

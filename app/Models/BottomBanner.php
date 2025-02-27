@@ -17,7 +17,4 @@ class BottomBanner extends Model
         'header' => 'array',
         'text' => 'array',
     ];
-    public function product(){
-        return $this->belongsTo(Product::class);
-    }
 }

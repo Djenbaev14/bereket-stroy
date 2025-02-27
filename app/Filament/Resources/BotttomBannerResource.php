@@ -42,7 +42,7 @@ class BotttomBannerResource extends Resource
                         ->image()
                         ->label('Фото')
                         ->disk('public') 
-                        ->directory('top-banner') 
+                        ->directory('bottom-banner') 
                         ->required()
                         ->imageEditor()
                         ->imageEditorAspectRatios([
@@ -51,10 +51,10 @@ class BotttomBannerResource extends Resource
                             '1:1',
                         ])
                         ->columnSpan(12),
-                    Select::make('product_id')
-                        ->label('Продукты')
-                        ->options(Product::all()->pluck('name', 'id'))
-                        ->searchable()
+                    TextInput::make('url')
+                        ->label('Ссылка')
+                        ->placeholder('Ссылка')
+                        ->required()
                         ->columnSpan(6),
                     TextInput::make('header')
                         ->label('Текст заголовка')
@@ -77,6 +77,7 @@ class BotttomBannerResource extends Resource
             ->columns([
                 TextColumn::make('id')->label('Ид'),
                 ImageColumn::make('photo')->label('Фото'),
+                TextColumn::make('url')->label('Ссылка'),
                 TextColumn::make('header')->label('Текст заголовка'),
                 TextColumn::make('text')->label('Текстовый абзац'),
                 TextColumn::make('created_at')

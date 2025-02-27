@@ -17,8 +17,5 @@ class TopBanner extends Model
         'header' => 'array',
         'text' => 'array',
     ];
-    public function category(){
-        return $this->belongsTo(Category::class);
-    }
     
 }

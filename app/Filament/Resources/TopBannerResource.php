@@ -49,11 +49,12 @@ class TopBannerResource extends Resource
                             '1:1',
                         ])
                         ->columnSpan(12),
-                    Select::make('category_id')
-                        ->label('Категории')
-                        ->options(Category::all()->pluck('name', 'id'))
-                        ->searchable()
-                        ->columnSpan(6),
+                    TextInput::make('url')
+                        ->label('Ссылка')
+                        ->placeholder('Ссылка')
+                        ->required()
+                        ->columnSpan(6)
+                        ->url(),
                     TextInput::make('header')
                         ->label('Текст заголовка')
                         ->placeholder('Текст заголовка')
@@ -74,6 +75,7 @@ class TopBannerResource extends Resource
             ->columns([
                 TextColumn::make('id')->label('Ид'),
                 ImageColumn::make('photo')->label('Фото'),
+                TextColumn::make('url')->label('Ссылка'),
                 TextColumn::make('header')->label('Текст заголовка'),
                 TextColumn::make('text')->label('Текстовый абзац'),
                 TextColumn::make('created_at')
