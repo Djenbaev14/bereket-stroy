@@ -14,4 +14,5 @@ class CreateCustomer extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+    
 }

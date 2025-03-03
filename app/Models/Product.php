@@ -26,6 +26,17 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function commentProducts()
+    {
+        return $this->hasMany(CommentProduct::class);
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->commentProducts()->avg('rating') ?? 0;
+    }
+
+    protected $appends = ['average_rating'];
     protected static function boot()
     {
         parent::boot();

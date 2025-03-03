@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\AuthController;
@@ -44,15 +45,14 @@ Route::apiResources([
 
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
+Route::get('/comments', [CommentController::class, 'index'])->middleware(['auth:sanctum']);
+Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth:sanctum']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 Route::post('/register-verify', [AuthController::class, 'registerVerifyCode']);
 Route::post('/register', [AuthController::class, 'register']);
-
-
 Route::post('/login-verify', [AuthController::class, 'loginVerifyCode']);
 Route::post('/login', [AuthController::class, 'login']);
-
-
 
 

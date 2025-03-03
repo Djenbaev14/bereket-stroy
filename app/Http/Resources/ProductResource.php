@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             "price"=>$this->price,
             'brand' => $this->brand->getTranslations('name'),
             'status'=>$this->created_at->diffInDays(Carbon::now()) <= 7 ?'yangi':null,
+            'rating'=>$this->getAverageRatingAttribute(),
             'is_sale'=>$this->is_active ,
             'discounted_price' => $this->activeDiscount->isNotEmpty() 
                 ? ($this->activeDiscount->first()->discount_type->discount_type == 'UZS' 

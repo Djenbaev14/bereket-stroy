@@ -8,30 +8,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     public function login(Request $request){
-        if($request->has('is_legal') && $request->is_legal ==0){
-            $request->validate([
-                'phone' => 'required|numeric',
-            ]);
-            $customer = Customer::where('phone', $request->phone)->first();
-            if(!$customer){
-                return response()->json(['message' => 'Telefon nomer noto‘g‘ri!'], 401);
-            }
+        $rules = [
+            'phone' => ['required', 'numeric', Rule::exists('customers', 'phone')->where(fn ($query) => $query->where('is_verified', true))],
+        ];
+        
+        if ($request->has('is_legal') && $request->is_legal == 1) {
+            $rules['inn'] = 'required|exists:customers,inn';
         }
-        else if($request->has('is_legal') && $request->is_legal ==1){
-            $request->validate([
-                'phone' => 'required|numeric',
-                'inn' => 'required|numeric',
-            ]);
+        
+        $validator = Validator::make($request->all(), $rules);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        
+        $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
+
+        if ($customer) {
             
-            $customer = Customer::where('phone', $request->phone)->where('inn', $request->inn)->first();
-            if(!$customer){
-                return response()->json(['message' => 'Telefon nomer yoki inn noto‘g‘ri!'], 401);
-            }
-        }
         $now = time();
         $five_minutes = $now + (5 * 60);
         if(Session::has('expiresAt')){
@@ -61,22 +62,27 @@ class AuthController extends Controller
                 Session::put('verification_code', $ran);
                 Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
             }
+        }else{
+            return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
+        }
 
-        return response()->json(['message' => 'success','phone'=>$request->phone]);
+        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','phone'=>$request->phone],200);
     }
     public function register(Request $request){
-        if($request->has('is_legal') && $request->is_legal ==0){
-            $request->validate([
-                'phone' => 'required|numeric|unique:customers,phone,' . $request->phone,
-                'name' => 'required',
-            ]);
-        }else{
-            $request->validate([
-                'phone' => 'required|numeric|unique:customers,phone,' . $request->phone,
-                'name' => 'required',
-                'company_name' => 'required',
-                'inn' => 'required|unique:customers,inn,' . $request->inn,
-            ]);
+        $rules = [
+            'phone' => ['required', 'numeric', Rule::unique('customers', 'phone')->where(fn ($query) => $query->where('is_verified', true))],
+            'name' => 'required',
+            'is_legal' => 'required|boolean',
+        ];
+        if ($request->has('is_legal') && $request->is_legal == 1) {
+            $rules['company_name'] = 'required';
+            $rules['inn'] = 'required|unique:customers,inn,' . $request->inn;
+        }
+    
+        $validator = Validator::make($request->all(), $rules);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
         $now = time();
         $five_minutes = $now + (5 * 60);
@@ -108,24 +114,19 @@ class AuthController extends Controller
                 Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
 
                 
-                if($request->has('is_legal') && $request->is_legal ==0){
-                    Customer::create( [
-                        'first_name'=>$request->name,
-                        'phone'=>$request->phone,
-                        'is_verified'=>false,
-                    ]);
-                }else{
-                    Customer::create(  [
-                        'first_name'=>$request->name,
-                        'phone'=>$request->phone,
-                        'company_name'=>$request->company_name,
-                        'inn'=>$request->inn,
-                        'is_verified'=>false,
-                    ]);
-                }
+                $customer = Customer::updateOrCreate(
+                    ['phone' => $request->phone, 'is_verified' => false],
+                    [
+                        'is_legal' => $request->is_legal,
+                        'company_name' => $request->company_name ?? null,
+                        'inn' => $request->inn ?? null,
+                        'first_name' => $request->name ?? null,
+                    ]
+                );
+                
             }
 
-        return response()->json(['message' => 'success','phone'=>$request->phone]);
+        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','phone'=>$request->phone],200);
     }
     public static function loginVerifyCode(Request $request)
     {
@@ -149,15 +150,15 @@ class AuthController extends Controller
                     Session::forget('phone');
                     DB::commit();
                 }else{
-                    return response()->json(['message' => 'Tasdiqlash kodi xato.']);
+                    return response()->json(['message' => 'Tasdiqlash kodi xato.'],422);
                 }
             }else{
-                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.']);
+                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.'],422);
             }
         }
         catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['message' => 'xato.']);
+            return response()->json(['message' => 'xato.'],422);
         }
             
         return response()->json([
@@ -189,10 +190,10 @@ class AuthController extends Controller
                     Session::forget('phone');
                     DB::commit();
                 }else{
-                    return response()->json(['message' => 'Tasdiqlash kodi xato.']);
+                    return response()->json(['message' => 'Tasdiqlash kodi xato.'],422);
                 }
             }else{
-                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.']);
+                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.'],422);
             }
         }
         catch (\Throwable $th) {
