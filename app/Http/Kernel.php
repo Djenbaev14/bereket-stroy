@@ -47,6 +47,11 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
         ],
     ];
+    // protected function schedule(\Illuminate\Console\Scheduling\Schedule $schedule)
+    // {
+    //     $schedule->job(new \App\Jobs\DeleteExpiredTokens())->everyThirtyMinutes();
+    // }
+
 
     /**
      * The application's middleware aliases.

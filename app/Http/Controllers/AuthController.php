@@ -24,7 +24,7 @@ class AuthController extends Controller
         else if($request->has('is_legal') && $request->is_legal ==1){
             $request->validate([
                 'phone' => 'required|numeric',
-                'inn' => 'required',
+                'inn' => 'required|numeric',
             ]);
             
             $customer = Customer::where('phone', $request->phone)->where('inn', $request->inn)->first();
@@ -46,23 +46,23 @@ class AuthController extends Controller
             ]);
             $auth = $auth->json();
             if ($auth['message'] == 'token_generated') {
-                $url = "notify.eskiz.uz/api/message/sms/send";
-                $ran=random_int(10000,99999);
-                $resposnse = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $auth['data']['token'],
-                    ])->post($url, [
-                        'mobile_phone' => '998'.$request->phone,
-                        "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
-                    ]);
+                // $url = "notify.eskiz.uz/api/message/sms/send";
+                // $ran=random_int(10000,99999);
+                // $resposnse = Http::withHeaders([
+                //     'Authorization' => 'Bearer ' . $auth['data']['token'],
+                //     ])->post($url, [
+                //         'mobile_phone' => '998'.$request->phone,
+                //         "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
+                //     ]);
                     
-                $resposnse = $resposnse->json();
-                
+                // $resposnse = $resposnse->json();
+                $ran=12345;
                 Session::put('phone', $request->phone); 
                 Session::put('verification_code', $ran);
                 Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
             }
 
-        return response()->json(['message' => $resposnse,'phone'=>$request->phone]);
+        return response()->json(['message' => 'success','phone'=>$request->phone]);
     }
     public function register(Request $request){
         if($request->has('is_legal') && $request->is_legal ==0){
@@ -92,17 +92,17 @@ class AuthController extends Controller
             ]);
             $auth = $auth->json();
             if ($auth['message'] == 'token_generated') {
-                $url = "notify.eskiz.uz/api/message/sms/send";
-                $ran=random_int(10000,99999);
-                $resposnse = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $auth['data']['token'],
-                    ])->post($url, [
-                        'mobile_phone' => '998'.$request->phone,
-                        "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
-                    ]);
+                // $url = "notify.eskiz.uz/api/message/sms/send";
+                // $ran=random_int(10000,99999);
+                // $resposnse = Http::withHeaders([
+                //     'Authorization' => 'Bearer ' . $auth['data']['token'],
+                //     ])->post($url, [
+                //         'mobile_phone' => '998'.$request->phone,
+                //         "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
+                //     ]);
                     
-                $resposnse = $resposnse->json();
-                
+                // $resposnse = $resposnse->json();
+                $ran=12345;
                 Session::put('phone', $request->phone); 
                 Session::put('verification_code', $ran);
                 Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
@@ -125,7 +125,7 @@ class AuthController extends Controller
                 }
             }
 
-        return response()->json(['message' => $resposnse,'phone'=>$request->phone]);
+        return response()->json(['message' => 'success','phone'=>$request->phone]);
     }
     public static function loginVerifyCode(Request $request)
     {

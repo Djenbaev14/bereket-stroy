@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -17,5 +18,29 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+    public function status()
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+    }
+    public function OrderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+    public function calculateTotalAmount()
+    {
+        return $this->OrderItems->sum(function ($OrderItem) {
+            return $OrderItem->quantity * $OrderItem->price;
+        });
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            $latestOrder = Order::latest()->first();
+            $nextId = $latestOrder ? intval(substr($latestOrder->order_id, -6)) + 1 : 1;
+            $order->order_id = str_pad($nextId, 6, '0', STR_PAD_LEFT);
+        });
     }
 }

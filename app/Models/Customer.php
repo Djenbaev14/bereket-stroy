@@ -28,4 +28,14 @@ class Customer extends Authenticatable
         return $query->where('is_legal', true);
     }
 
+    // addresses of the customer
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function addresses()
+    {
+        return $this->hasMany(CustomerAddress::class);
+    }
+    
 }

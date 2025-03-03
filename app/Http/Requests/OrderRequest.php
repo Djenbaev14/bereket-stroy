@@ -22,9 +22,20 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "customer_id" => ["required", "numeric"],
+            "receiver_name"=>["required", "string"],
+            "receiver_phone"=>["required", "string"],
+            "receiver_comment"=>["nullable"],
+
+            'delivery_method_id' => 'required',
+            'branch_id' => 'required_if:delivery_method_id,1|exists:branches,id',
+            'region' => 'required_if:delivery_method_id,2|string',
+            'district' => 'required_if:delivery_method_id,2|string',
+            'address' => 'required_if:delivery_method_id,2|string',
+            'latitude' => 'required_if:delivery_method_id,2|numeric',
+            'longitude' => 'required_if:delivery_method_id,2|numeric',
+            
             "payment_type_id" => ["required", "numeric"],
-            "payment_status" => ["required", "string"],
+            
             "products" => ["required", "array"],
             "products.*.product_id" => ["required", "numeric"],
             "products.*.quantity" => ["required", "numeric"],

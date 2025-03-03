@@ -24,9 +24,9 @@ return new class extends Migration
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->json('name');
-            $table->json('description');
+            $table->json('description')->nullable();
             $table->string('slug');
-            $table->json('photos');
+            $table->json('photos')->nullable();
             $table->unsignedBigInteger('unit_id');
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->decimal('price',10,2);

@@ -100,6 +100,22 @@ class SettingResource extends Resource
                 ]),
             ]);
     }
+    public static function canCreate(): bool
+    {
+        return false; // Create tugmasini o'chiradi
+    }
+    public static function getNavigationLabel(): string
+    {
+        return 'Настройки'; // Rus tilidagi nom
+    }
+    public static function getModelLabel(): string
+    {
+        return 'Настройки'; // Rus tilidagi yakka holdagi nom
+    }
+    public static function getPluralModelLabel(): string
+    {
+        return 'Настройки'; // Rus tilidagi ko'plik shakli
+    }
 
     public static function getRelations(): array
     {

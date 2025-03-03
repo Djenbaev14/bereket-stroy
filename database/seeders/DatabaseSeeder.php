@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ColorSeeder::class,
             CategorySeeder::class,
-            // ProductSeeder::class,
             SubCategorySeeder::class,
             SubSubCategorySeeder::class,
             CountrySeeder::class,
             BrandSeeder::class,
             UnitSeeder::class,
+            ProductSeeder::class,
             AttributeSeeder::class,
             LocaleSeeder::class,
             DiscountrTypeSeeder::class,
@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             PaymentTypeSeeder::class,
             DeliveryMethodSeeder::class,
             DaySeeder::class,
+            OrderStatusSeeder::class,
+            PaymentStatusSeeder::class,
         ]);
     }
 }

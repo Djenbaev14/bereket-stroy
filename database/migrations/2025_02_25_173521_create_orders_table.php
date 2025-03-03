@@ -15,15 +15,37 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            
+            $table->string('order_id')->unique(); // Custom Order ID
+            // qabul qiluvchi
+            $table->string('receiver_name');
+            $table->string('receiver_phone');
+            $table->string('receiver_comment')->nullable();
+            
+            $table->unsignedBigInteger('delivery_method_id');
+            $table->foreign('delivery_method_id')->references('id')->on('delivery_methods')->onDelete('cascade');
+            
+            // olib ketish
+            $table->unsignedBigInteger('branch_id')->nullable();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            
+            // yetkazib berish
+            $table->string('region')->nullable(); // Tuman yoki viloyat
+            $table->string('district')->nullable(); // Rayon
+            $table->string('address')->nullable(); // Uy manzili
+            $table->decimal('latitude', 10, 7)->nullable(); // Geografik kenglik
+            $table->decimal('longitude', 10, 7)->nullable(); // Geografik uzunlik
+            
+            // payment
             $table->unsignedBigInteger('payment_type_id');
             $table->foreign('payment_type_id')->references('id')->on('payment_types')->onDelete('cascade');
-            $table->unsignedBigInteger('branch_id');
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending'); // To‘lov holati
-            $table->enum('status', ['pending', 'processing', 'shipped', 'completed', 'cancelled'])->default('pending'); // Buyurtma holati
-            $table->decimal('total', 10, 2); // Buyurtma umumiy summasi
-            $table->string('address_id')->nullable(); // Yetkazib berish manzili
-            $table->longText('comment')->nullable(); // Buyurtma haqida izoh
+            $table->unsignedBigInteger('payment_status_id');
+            $table->foreign('payment_status_id')->references('id')->on('payment_statuses')->onDelete('cascade');
+            
+            $table->decimal('total_amount', 10, 2);
+            $table->unsignedBigInteger('order_status_id');
+            $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
+            $table->longText('comment')->nullable(); 
             $table->timestamps();
         });
     }

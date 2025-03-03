@@ -7,7 +7,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\SubSubCategoryController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\DeliveyMethodController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\UserAddressController;
 use App\Models\Country;
@@ -37,11 +39,12 @@ Route::apiResources([
     'sub_categories'=>SubCategoryController::class,
     'sub_sub_categories'=>SubSubCategoryController::class,
     'delivery-methods'=>DeliveyMethodController::class,
-    'user-addresses'=>UserAddressController::class,
     'payment-types'=>PaymentMethodController::class,
 ]);
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum','token.expired']);
+Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
+Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 
 Route::post('/register-verify', [AuthController::class, 'registerVerifyCode']);
 Route::post('/register', [AuthController::class, 'register']);
