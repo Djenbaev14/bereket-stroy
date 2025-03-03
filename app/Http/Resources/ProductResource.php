@@ -32,6 +32,12 @@ class ProductResource extends JsonResource
                     ? $this->price - $this->activeDiscount->first()->discount_amount 
                     : round((100 - $this->activeDiscount->first()->discount_amount) * $this->price / 100))
                 : $this->price,
+            'discount' => $this->activeDiscount->isNotEmpty() 
+                ? $this->activeDiscount->first()->discount_amount
+                : 0,
+            'discount_type' => $this->activeDiscount->isNotEmpty() 
+                ? $this->activeDiscount->first()->discount_type->discount_type
+                : null,
         ];
     }
 }
