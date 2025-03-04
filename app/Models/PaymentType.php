@@ -10,8 +10,11 @@ class PaymentType extends Model
     use HasFactory;
     protected $guarded=["id"];
     
+    
+    public $translatable=['name','text'];
 
     protected $casts = [
         'name' => 'array',
+        'text' => 'array',
     ];
 }

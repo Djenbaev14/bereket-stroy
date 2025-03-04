@@ -12,6 +12,7 @@ use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\DeliveyMethodController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\UserAddressController;
 use App\Models\Country;
 use Illuminate\Support\Facades\Route;
@@ -46,8 +47,10 @@ Route::apiResources([
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
 
-Route::get('/comments', [CommentController::class, 'index'])->middleware(['auth:sanctum']);
+Route::get('/comments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth:sanctum']);
+
+Route::get('/payment-types', [PaymentTypeController::class, 'index']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
 Route::post('/register-verify', [AuthController::class, 'registerVerifyCode']);

@@ -33,8 +33,9 @@ class Product extends Model
 
     public function getAverageRatingAttribute()
     {
-        return $this->commentProducts()->avg('rating') ?? 0;
-    }
+        $rating= $this->commentProducts()->avg('rating') ?? 0;
+        return round($rating,1);
+    } 
 
     protected $appends = ['average_rating'];
     protected static function boot()
@@ -61,12 +62,6 @@ class Product extends Model
             ->where('deadline', '>', now());
     }
 
-    
-//     public function activeDiscounts()
-// {
-//     return $this->belongsToMany(Discount::class, 'discount_products', 'products_id', 'discount_id')
-//         ->where('deadline', '<=', now()); // Faqat deadline o'tmagan chegirmalar
-// }
     public function discounts()
     {
         return $this->belongsToMany(Discount::class, 'discount_products', 'products_id', 'discount_id');

@@ -19,6 +19,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Grohe',
                     'ru' => 'Grohe',
                     'en' => 'Grohe',
+                    'kr' => 'Grohe',
                 ],
             ],
             [
@@ -26,6 +27,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Hansgrohe',
                     'ru' => 'Hansgrohe',
                     'en' => 'Hansgrohe',
+                    'kr' => 'Grohe',
                 ],
             ],
             [
@@ -33,6 +35,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Roca',
                     'ru' => 'Roca',
                     'en' => 'Roca',
+                    'kr' => 'Roca',
                 ],
             ],
             [
@@ -40,6 +43,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Geberit',
                     'ru' => 'Geberit',
                     'en' => 'Geberit',
+                    'kr' => 'Geberit',
                 ],
             ],
             [
@@ -47,6 +51,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Vitra',
                     'ru' => 'Vitra',
                     'en' => 'Vitra',
+                    'kr' => 'Vitra',
                 ],
             ],
             [
@@ -54,6 +59,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Ideal Standard',
                     'ru' => 'Ideal Standard',
                     'en' => 'Ideal Standard',
+                    'kr' => 'Ideal Standard',
                 ],
             ],
             [
@@ -61,6 +67,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Cersanit',
                     'ru' => 'Cersanit',
                     'en' => 'Cersanit',
+                    'kr' => 'Cersanit',
                 ],
             ],
             [
@@ -68,6 +75,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Kohler',
                     'ru' => 'Kohler',
                     'en' => 'Kohler',
+                    'kr' => 'Kohler',
                 ],
             ],
             [
@@ -75,6 +83,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Duravit',
                     'ru' => 'Duravit',
                     'en' => 'Duravit',
+                    'kr' => 'Duravit',
                 ],
             ],
             [
@@ -82,6 +91,7 @@ class BrandSeeder extends Seeder
                     'uz' => 'Laufen',
                     'ru' => 'Laufen',
                     'en' => 'Laufen',
+                    'kr' => 'Laufen',
                 ],
             ],
         ];

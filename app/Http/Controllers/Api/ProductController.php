@@ -67,7 +67,7 @@ class ProductController extends Controller
         // } else {
         //     $query->orderBy('id', 'desc');
         // }
-        $products=$query->paginate(12);
+        $products=$query->orderBy('id','desc')->paginate(12);
         
         return $this->responsePagination($products, ProductResource::collection($products));
 
