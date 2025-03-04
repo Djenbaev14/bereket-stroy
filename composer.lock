@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96ad923dcc7d7676ef454037d4be219a",
+    "content-hash": "cbf144088c718272cefdd8f1344747c0",
     "packages": [
         {
             "name": "amidesfahani/filament-tinyeditor",
@@ -4388,6 +4388,67 @@
             "time": "2024-03-31T07:05:07+00:00"
         },
         {
+            "name": "matanyadaev/laravel-eloquent-spatial",
+            "version": "3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MatanYadaev/laravel-eloquent-spatial.git",
+                "reference": "1dc6ce646bde4e5cdbc07f61d69e1fe7786f1b0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MatanYadaev/laravel-eloquent-spatial/zipball/1dc6ce646bde4e5cdbc07f61d69e1fe7786f1b0a",
+                "reference": "1dc6ce646bde4e5cdbc07f61d69e1fe7786f1b0a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "laravel/framework": "^10.0",
+                "phayes/geophp": "^1.2",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^3.5.3",
+                "friendsofphp/php-cs-fixer": "^3.14.3",
+                "jubeki/laravel-code-style": "^1.2",
+                "nunomaduro/larastan": "^1.0|^2.4",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MatanYadaev\\EloquentSpatial\\EloquentSpatialServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MatanYadaev\\EloquentSpatial\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matan Yadaev",
+                    "email": "matan.yed@gmail.com"
+                }
+            ],
+            "description": "Spatial library for Laravel",
+            "homepage": "https://github.com/matanyadaev/laravel-eloquent-spatial",
+            "support": {
+                "issues": "https://github.com/MatanYadaev/laravel-eloquent-spatial/issues",
+                "source": "https://github.com/MatanYadaev/laravel-eloquent-spatial/tree/3.2.2"
+            },
+            "time": "2024-01-05T07:50:54+00:00"
+        },
+        {
             "name": "milon/barcode",
             "version": "v11.0.1",
             "source": {
@@ -5115,6 +5176,46 @@
                 }
             ],
             "time": "2025-02-17T10:20:16+00:00"
+        },
+        {
+            "name": "phayes/geophp",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phayes/geoPHP.git",
+                "reference": "015404e85b602e0df1f91441f8db0f9e98f7e567"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phayes/geoPHP/zipball/015404e85b602e0df1f91441f8db0f9e98f7e567",
+                "reference": "015404e85b602e0df1f91441f8db0f9e98f7e567",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "geoPHP.inc"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2 or New-BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Hayes"
+                }
+            ],
+            "description": "GeoPHP is a open-source native PHP library for doing geometry operations. It is written entirely in PHP and can therefore run on shared hosts. It can read and write a wide variety of formats: WKT (including EWKT), WKB (including EWKB), GeoJSON, KML, GPX, GeoRSS). It works with all Simple-Feature geometries (Point, LineString, Polygon, GeometryCollection etc.) and can be used to get centroids, bounding-boxes, area, and a wide variety of other useful information.",
+            "homepage": "https://github.com/phayes/geoPHP",
+            "support": {
+                "issues": "https://github.com/phayes/geoPHP/issues",
+                "source": "https://github.com/phayes/geoPHP/tree/master"
+            },
+            "time": "2014-12-02T06:11:22+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -9439,6 +9540,79 @@
                 "source": "https://github.com/tinymce/tinymce-dist/tree/7.6.1"
             },
             "time": "2025-01-22T03:57:00+00:00"
+        },
+        {
+            "name": "traineratwot/filament-openstreetmap",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Traineratwot/filament-openstreetmap.git",
+                "reference": "bfada56abe55bfca274caa10f22c7717c92edc93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Traineratwot/filament-openstreetmap/zipball/bfada56abe55bfca274caa10f22c7717c92edc93",
+                "reference": "bfada56abe55bfca274caa10f22c7717c92edc93",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3",
+                "filament/forms": "^3",
+                "illuminate/contracts": "^10.0",
+                "matanyadaev/laravel-eloquent-spatial": "3.2.2",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Traineratwot\\FilamentOpenStreetMap\\FilamentOpenStreetMapServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Traineratwot\\FilamentOpenStreetMap\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Traineratwot",
+                    "email": "traineratwot@yandex.ru",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This is my package filament-openstreetmap",
+            "homepage": "https://github.com/traineratwot/filament-openstreetmap",
+            "keywords": [
+                "Traineratwot",
+                "filament-openstreetmap",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/traineratwot/filament-openstreetmap/issues",
+                "source": "https://github.com/traineratwot/filament-openstreetmap"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Traineratwot",
+                    "type": "github"
+                }
+            ],
+            "abandoned": true,
+            "time": "2024-02-05T07:37:42+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
