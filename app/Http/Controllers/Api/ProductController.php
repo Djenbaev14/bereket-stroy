@@ -39,6 +39,12 @@ class ProductController extends Controller
         }
 
 
+        // ✅ Name bo‘yicha izlash (3 tilda)
+        if ($request->has('slug')) {
+            $slug = $request->input('slug');
+            $query->where('slug', $slug);
+        }
+
         // ✅ Minimal va maksimal narx bo‘yicha filtrlash
         if ($request->has('min_price')) {
             $query->where('price', '>=', $request->input('min_price'));
