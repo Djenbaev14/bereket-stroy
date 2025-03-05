@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class PaymentType extends Model
 {
-    use HasFactory;
+    use HasFactory,HasTranslations;
     protected $guarded=["id"];
     
     
     public $translatable=['name','text'];
-
     protected $casts = [
         'name' => 'array',
         'text' => 'array',
