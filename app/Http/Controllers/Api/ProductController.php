@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductSearchResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,16 +39,6 @@ class ProductController extends Controller
         }
 
 
-        // ✅ Name bo‘yicha izlash (3 tilda)
-        if ($request->has('name')) {
-            $search = $request->input('name');
-            $query->where(function ($q) use ($search) {
-                $q->where(DB::raw("CAST(name->>'$.uz' AS CHAR)"), 'like', "%{$search}%")
-                  ->orWhere(DB::raw("CAST(name->>'$.ru' AS CHAR)"), 'like', "%{$search}%")
-                  ->orWhere(DB::raw("CAST(name->>'$.en' AS CHAR)"), 'like', "%{$search}%");
-            });
-        }
-
         // ✅ Minimal va maksimal narx bo‘yicha filtrlash
         if ($request->has('min_price')) {
             $query->where('price', '>=', $request->input('min_price'));
@@ -55,7 +46,6 @@ class ProductController extends Controller
         if ($request->has('max_price')) {
             $query->where('price', '<=', $request->input('max_price'));
         }
-
         // ✅ Brend bo‘yicha filtrlash
         if ($request->has('brand_id')) {
             $query->where('brand_id', $request->input('brand_id'));
@@ -73,9 +63,23 @@ class ProductController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function search(Request $request){
+        $query = Product::query();
+        if ($request->has('name')) {
+            $search = $request->input('name');
+            $query->where(function ($q) use ($search) {
+                $q->where(DB::raw("CAST(name->>'$.uz' AS CHAR)"), 'like', "%{$search}%")
+                  ->orWhere(DB::raw("CAST(name->>'$.qr' AS CHAR)"), 'like', "%{$search}%")
+                  ->orWhere(DB::raw("CAST(name->>'$.ru' AS CHAR)"), 'like', "%{$search}%")
+                  ->orWhere(DB::raw("CAST(name->>'$.en' AS CHAR)"), 'like', "%{$search}%");
+            });
+        }
+
+        $products=$query->paginate(12);
+        
+        return $this->responsePagination($products, ProductSearchResource::collection($products));
+        
+    }
     public function create()
     {
         //

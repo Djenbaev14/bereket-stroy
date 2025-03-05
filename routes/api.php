@@ -44,6 +44,8 @@ Route::apiResources([
     'payment-types'=>PaymentMethodController::class,
 ]);
 
+Route::get('/product-search', [ProductController::class, 'search']);
+
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
 
