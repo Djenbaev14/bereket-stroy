@@ -29,7 +29,7 @@ class PaymentTypeSeeder extends Seeder
                     'en'=>"You can pay for the order in installments from 3 to 24 months.",
                     'qr'=>"Buyırtpanı 3 aydan 24 ayǵa shekemgi múddetke bólip tólew múmkin.",
                 ],
-                'photo'=>'payments/muddatli.png',
+                'photo'=>'images/payments/muddatli.png',
             ],
             [
                 'name' => [
@@ -38,7 +38,7 @@ class PaymentTypeSeeder extends Seeder
                     "en" => "Cash",
                     "qr" => "naq pul",
                 ],
-                'photo'=>'payments/naqd.png',
+                'photo'=>'images/payments/naqd.png',
                 'text'=>[
                     'uz'=>'Buyurtmani qo‘lingizga olganingizda naqt ko‘rinishida to‘lashingiz mumkin.',
                     'ru'=>'Вы можете оплатить заказ наличными при получении.',
@@ -53,7 +53,7 @@ class PaymentTypeSeeder extends Seeder
                     "en" => "Uzum bank",
                     "qr" => "Uzum bank",
                 ],
-                'photo'=>'payments/uzum.png',
+                'photo'=>'images/payments/uzum.png',
                 'text'=>[
                     'uz'=>'Sizni Uzum bank ilovasiga yo‘naltiramiz, u yerda buyurtma uchun to‘lovni amalga oshirishingiz mumkin.',
                     'ru'=>'Мы перенаправим вас в приложение Uzum bank, где вы сможете оплатить заказ.',
@@ -67,7 +67,7 @@ class PaymentTypeSeeder extends Seeder
                     "ru" => "Payme",
                     "en" => "Payme"
                 ],
-                'photo'=>'payments/payme.png',
+                'photo'=>'images/payments/payme.png',
                 'text'=>[
                     'uz'=>'Sizni Payme ilovasiga yo‘naltiramiz, u yerda buyurtma uchun to‘lovni amalga oshirishingiz mumkin.',
                     'ru'=>'Мы перенаправим вас в приложение Payme, где вы сможете оплатить заказ.',
@@ -81,7 +81,7 @@ class PaymentTypeSeeder extends Seeder
                     "ru" => "Click",
                     "en" => "Click"
                 ],
-                'photo'=>'payments/click.png',
+                'photo'=>'images/payments/click.png',
                 'text'=>[
                     'uz'=>'Sizni click-up ilovasiga yo‘naltiramiz, u yerda buyurtma uchun to‘lovni amalga oshirishingiz mumkin.',
                     'ru'=>'Мы перенаправим вас в приложение Click, где вы сможете оплатить заказ.',
