@@ -28,7 +28,7 @@ class OrderWidget extends BaseWidget
     {
         $orderData = Trend::model(Order::class)
             ->between(
-                start: now()->subYear(),
+                start: now()->startOfYear(),
                 end: now(),
             )
             ->perMonth()
