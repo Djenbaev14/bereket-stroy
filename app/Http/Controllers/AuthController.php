@@ -47,17 +47,16 @@ class AuthController extends Controller
             ]);
             $auth = $auth->json();
             if ($auth['message'] == 'token_generated') {
-                // $url = "notify.eskiz.uz/api/message/sms/send";
-                // $ran=random_int(10000,99999);
-                // $resposnse = Http::withHeaders([
-                //     'Authorization' => 'Bearer ' . $auth['data']['token'],
-                //     ])->post($url, [
-                //         'mobile_phone' => '998'.$request->phone,
-                //         "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
-                //     ]);
+                $url = "notify.eskiz.uz/api/message/sms/send";
+                $ran=random_int(10000,99999);
+                $resposnse = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $auth['data']['token'],
+                    ])->post($url, [
+                        'mobile_phone' => '998'.$request->phone,
+                        "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
+                    ]);
                     
-                // $resposnse = $resposnse->json();
-                $ran=12345;
+                $resposnse = $resposnse->json();
                 Session::put('phone', $request->phone); 
                 Session::put('verification_code', $ran);
                 Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
@@ -66,7 +65,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
         }
 
-        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','phone'=>$request->phone],200);
+        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone],200);
     }
     public function register(Request $request){
         $rules = [
@@ -98,17 +97,16 @@ class AuthController extends Controller
             ]);
             $auth = $auth->json();
             if ($auth['message'] == 'token_generated') {
-                // $url = "notify.eskiz.uz/api/message/sms/send";
-                // $ran=random_int(10000,99999);
-                // $resposnse = Http::withHeaders([
-                //     'Authorization' => 'Bearer ' . $auth['data']['token'],
-                //     ])->post($url, [
-                //         'mobile_phone' => '998'.$request->phone,
-                //         "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
-                //     ]);
+                $url = "notify.eskiz.uz/api/message/sms/send";
+                $ran=random_int(10000,99999);
+                $resposnse = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $auth['data']['token'],
+                    ])->post($url, [
+                        'mobile_phone' => '998'.$request->phone,
+                        "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
+                    ]);
                     
-                // $resposnse = $resposnse->json();
-                $ran=12345;
+                $resposnse = $resposnse->json();
                 Session::put('phone', $request->phone); 
                 Session::put('verification_code', $ran);
                 Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
@@ -126,7 +124,7 @@ class AuthController extends Controller
                 
             }
 
-        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','phone'=>$request->phone],200);
+        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','response'=>$resposnse,'phone'=>$request->phone],200);
     }
     public static function loginVerifyCode(Request $request)
     {
