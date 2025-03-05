@@ -25,7 +25,7 @@ class TopBannerResource extends Resource
 {
     use Translatable;
     protected static ?string $model = TopBanner::class;
-    protected static ?string $navigationGroup = 'Баннер';
+    protected static ?string $navigationGroup = 'Настройки';
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

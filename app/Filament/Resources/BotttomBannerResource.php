@@ -26,7 +26,7 @@ class BotttomBannerResource extends Resource
 {
     use Translatable;
     protected static ?string $model = BottomBanner::class;
-    protected static ?string $navigationGroup = 'Баннер';
+    protected static ?string $navigationGroup = 'Настройки';
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

@@ -21,6 +21,16 @@ return new class extends Migration
             $table->string('youtube');
             $table->timestamps();
         });
+
+        DB::table('settings')->insert([
+            'phone' => '998901234567',
+            'email' => 'bereket-stroy@gmail.com',
+            'instagram' => 'https://www.instagram.com/',
+            'facebook' => 'https://www.facebook.com/',
+            'telegram' => 'https://t.me/',
+            'youtube' => 'https://www.youtube.com/',
+        ]);
+            
     }
 
     /**

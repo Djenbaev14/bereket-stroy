@@ -18,6 +18,8 @@ class SettingResource extends Resource
     protected static ?string $model = Setting::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    
+    protected static ?string $navigationGroup = 'Настройки';
 
     public static function form(Form $form): Form
     {
@@ -100,6 +102,14 @@ class SettingResource extends Resource
                 ]),
             ]);
     }
+    public static function getTableQuery()
+    {
+        return parent::getTableQuery()->limit(1);
+    }
+    public static function getNavigationUrl(): string
+    {
+        return static::getUrl('edit', ['record' => 1]); // 'id' 1 bilan tahrirlash sahifasiga yo'naltirish
+    }
     public static function canCreate(): bool
     {
         return false; // Create tugmasini o'chiradi
@@ -128,7 +138,6 @@ class SettingResource extends Resource
     {
         return [
             'index' => Pages\ListSettings::route('/'),
-            'create' => Pages\CreateSetting::route('/create'),
             'edit' => Pages\EditSetting::route('/{record}/edit'),
         ];
     }

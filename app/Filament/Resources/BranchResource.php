@@ -24,6 +24,8 @@ class BranchResource extends Resource
     
     use Translatable;
     protected static ?string $model = Branch::class;
+    
+    protected static ?string $navigationGroup = 'Настройки';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

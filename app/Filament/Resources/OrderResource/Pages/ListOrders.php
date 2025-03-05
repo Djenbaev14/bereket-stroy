@@ -14,7 +14,7 @@ class ListOrders extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make(),
         ];
     }
     protected function getHeaderWidgets(): array
@@ -24,10 +24,10 @@ class ListOrders extends ListRecords
     public function getTabs(): array
     {
         return [
-            null => Tab::make('All'),
-            'new' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '1')),
-            'completed' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '2')),
-            'cancelled' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '3')),
+            null => Tab::make('Все'),
+            'Новый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '1')),
+            'Завершенный' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '2')),
+            'Отменённый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '3')),
         ];
     }
 }

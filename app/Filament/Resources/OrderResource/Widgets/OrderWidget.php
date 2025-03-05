@@ -35,14 +35,14 @@ class OrderWidget extends BaseWidget
             ->count();
 
         return [
-            Stat::make('Orders', $this->getPageTableQuery()->count())
+            Stat::make('Заказы', $this->getPageTableQuery()->count())
                 ->chart(
                     $orderData
                         ->map(fn (TrendValue $value) => $value->aggregate)
                         ->toArray()
                 ),
             // Stat::make('Open orders', $this->getPageTableQuery()->whereIn('status', ['open', 'processing'])->count()),
-            Stat::make('Average price', number_format($this->getPageTableQuery()->avg('total_amount'), 2)),
+            Stat::make('Сумма всех заказов', number_format($this->getPageTableQuery()->sum('total_amount')).' Сум    '),
         ];
     }
 }
