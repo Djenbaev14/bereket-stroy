@@ -28,6 +28,8 @@ use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use MarcoGermani87\FilamentCaptcha\Facades\FilamentCaptcha;
 class AdminPanelProvider extends PanelProvider
 {
+
+    
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -35,16 +37,17 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->topNavigation()
+            // ->topNavigation()
             ->colors([
                 'primary' => Color::Yellow,
             ])
             ->plugins([
                 FilamentApexChartsPlugin::make()
             ])
+            ->spa()
             ->plugin(
                 SpatieLaravelTranslatablePlugin::make()
-                    ->defaultLocales(['ru','uz','kr','en']),
+                ->defaultLocales(['ru', 'uz','qr', 'en'])
             )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

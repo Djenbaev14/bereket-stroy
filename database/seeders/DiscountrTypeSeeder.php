@@ -19,6 +19,7 @@ class DiscountrTypeSeeder extends Seeder
                     'uz' => 'Foiz',
                     'ru' => 'Процент',
                     'en' => 'Percentage',
+                    'qr' => 'Procent',
                 ],
                 'discount_type'=>'%'
             ],
@@ -27,6 +28,7 @@ class DiscountrTypeSeeder extends Seeder
                     'uz' => 'Fiksa',
                     'ru' => 'Фиксированная скидка',
                     'en' => 'Fixed',
+                    'qr' => 'Fiksa',
                 ],
                 'discount_type'=>'UZS'
             ]

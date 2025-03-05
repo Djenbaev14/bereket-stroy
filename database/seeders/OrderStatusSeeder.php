@@ -21,15 +21,24 @@ class OrderStatusSeeder extends Seeder
                 "name"=>[
                     "uz"=>"yangi",
                     "en"=>"new",
-                    "ru"=>"новый"
+                    "ru"=>"новый",
+                    "qr"=>"jańa",
                 ],
             ],
             [
-                
+                "name"=>[
+                    "uz"=>"qabul qilingan",
+                    "ru"=>"принят",
+                    "qr"=>"qabıl etilgen",
+                    'en'=>'accepted'
+                ],
+            ],
+            [
                 "name"=>[
                     "en"=>"completed",
                     "uz"=>"tugallangan",
-                    "ru"=>"завершено"
+                    "ru"=>"завершено",
+                    "qr"=>"tamamlanǵan",
                 ],
             ],
             [
@@ -37,7 +46,8 @@ class OrderStatusSeeder extends Seeder
                 "name"=>[
                     "en"=>"cancelled",
                     "uz"=>"bekor qilingan",
-                    "ru"=>"отменено"
+                    "ru"=>"отменено",
+                    "qr"=>"biykar etilgen",
                 ],
             ]
         ];

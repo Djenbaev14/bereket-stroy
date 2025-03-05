@@ -20,6 +20,7 @@ class DeliveryMethodSeeder extends Seeder
                     'uz'=>'Olib ketish',
                     'ru'=>'Еда на вынос',
                     'en'=>'Take away',
+                    'qr'=>'Alıp ketiw',
                 ],
             ],
             [
@@ -27,6 +28,7 @@ class DeliveryMethodSeeder extends Seeder
                     'uz'=>'Yetkazib berish',
                     'ru'=>'Доставка',
                     'en'=> 'Delivery',
+                    'qr'=>'Jetkerip beriw',
                 ],
             ],
             

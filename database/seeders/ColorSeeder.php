@@ -14,7 +14,7 @@ class ColorSeeder extends Seeder
     public function run(): void
     {
         $colors = [
-            ['name' => ['en' => 'Red', 'ru' => 'Красный', 'uz' => 'Qizil'], 'hex' => '#FF0000'],
+            ['name' => ['en' => 'Red', 'ru' => 'Красный', 'uz' => 'Qizil',], 'hex' => '#FF0000'],
             ['name' => ['en' => 'Green', 'ru' => 'Зеленый', 'uz' => 'Yashil'], 'hex' => '#008000'],
             ['name' => ['en' => 'Blue', 'ru' => 'Синий', 'uz' => 'Ko‘k'], 'hex' => '#0000FF'],
             ['name' => ['en' => 'Yellow', 'ru' => 'Желтый', 'uz' => 'Sariq'], 'hex' => '#FFFF00'],

@@ -21,6 +21,7 @@ class SubCategorySeeder extends Seeder
                     'uz' => 'Vannalar',
                     'ru' => 'Ванны',
                     'en' => 'Bathtubs',
+                    'qr' => 'Vannalar',
                 ],
             ],
             [
@@ -29,6 +30,7 @@ class SubCategorySeeder extends Seeder
                     'uz' => 'Dush kabinalar',
                     'ru' => 'Душевые кабины',
                     'en' => 'Shower Cabins',
+                    'qr' => 'Dush kabinalar',
                 ],
             ],
             [
@@ -37,6 +39,7 @@ class SubCategorySeeder extends Seeder
                     'uz' => 'Suv quvurlari',
                     'ru' => 'Водопроводные трубы',
                     'en' => 'Water Pipes',
+                    'qr' => 'Suv quvurlari',
                 ],
             ],
             [
@@ -45,6 +48,7 @@ class SubCategorySeeder extends Seeder
                     'uz' => 'Kranchalar va Armaturlar',
                     'ru' => 'Краны и арматура',
                     'en' => 'Faucets and Fittings',
+                    'qr' => 'Kranchalar va Armaturlar',
                 ],
             ],
 
@@ -53,7 +57,8 @@ class SubCategorySeeder extends Seeder
                 'name' => [
                     'uz' => 'Oshxona mebellari',
                     'en' => 'Kitchen Furniture',
-                    'ru' => 'Кухонная мебель'
+                    'ru' => 'Кухонная мебель',
+                    'qr' => 'Oshxona mebellari',
                 ],
             ],
             [
@@ -61,7 +66,8 @@ class SubCategorySeeder extends Seeder
                 'name' => [
                     'uz' => 'Yotoqxona mebellari',
                     'en' => 'Bedroom Furniture',
-                    'ru' => 'Спальная мебель'
+                    'ru' => 'Спальная мебель',
+                    'qr' => 'Yotoqxona mebellari',
                 ],
             ],
             

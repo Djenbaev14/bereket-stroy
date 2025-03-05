@@ -25,11 +25,13 @@ class ProductSeeder extends Seeder
                     'uz' => 'Vannalar',
                     'ru' => 'Ванны',
                     'en' => 'Bathtubs',
+                    'qr' => 'Bathtubs',
                 ],
                 'description' => [
                     'uz' => 'Vannalar',
                     'ru' => 'Ванны',
                     'en' => 'Bathtubs',
+                    'qr' => 'Bathtubs',
                 ],
                 'unit_id'=>1,
                 'price'=>150000
@@ -43,11 +45,13 @@ class ProductSeeder extends Seeder
                     'uz' => 'Dush kabinalar',
                     'ru' => 'Душевые кабины',
                     'en' => 'Shower Cabins',
+                    'qr' => 'Shower Cabins',
                 ],
                 'description' => [
                     'uz' => 'Dush kabinalar',
                     'ru' => 'Душевые кабины',
                     'en' => 'Shower Cabins',
+                    'qr' => 'Shower Cabins',
                 ],
                 'unit_id'=>1,
                 'price'=>800000
@@ -62,11 +66,13 @@ class ProductSeeder extends Seeder
                     'uz' => 'Suv quvurlari',
                     'ru' => 'Водопроводные трубы',
                     'en' => 'Water Pipes',
+                    'qr' => 'Water Pipes',
                 ],
                 'description' => [
                     'uz' => 'Suv quvurlari',
                     'ru' => 'Водопроводные трубы',
                     'en' => 'Water Pipes',
+                    'qr' => 'Water Pipes',
                 ],
                 'unit_id'=>1,
                 'price'=>990000
@@ -81,11 +87,13 @@ class ProductSeeder extends Seeder
                     'uz' => 'Kranchalar va Armaturlar',
                     'ru' => 'Краны и арматура',
                     'en' => 'Faucets and Fittings',
+                    'qr' => 'Faucets and Fittings',
                 ],
-                'name' => [
+                'description' => [
                     'uz' => 'Kranchalar va Armaturlar',
                     'ru' => 'Краны и арматура',
                     'en' => 'Faucets and Fittings',
+                    'qr' => 'Faucets and Fittings',
                 ],
                 'unit_id'=>1,
                 'price'=>100000

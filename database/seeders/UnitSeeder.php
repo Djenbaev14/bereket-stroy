@@ -19,6 +19,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Dona',
                     'ru' => 'Штука',
                     'en' => 'Piece',
+                    'qr' => 'Dona',
                 ],
             ],
             [
@@ -26,6 +27,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Metrlik',
                     'ru' => 'Метровый',
                     'en' => 'Meter',
+                    'qr' => 'Metrlik',
                 ],
             ],
             [
@@ -33,6 +35,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Kvadrat metr',
                     'ru' => 'Квадратный метр',
                     'en' => 'Square meter',
+                    'qr' => 'Kvadrat metr',
                 ],
             ],
             [
@@ -40,6 +43,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Kub metr',
                     'ru' => 'Кубический метр',
                     'en' => 'Cubic meter',
+                    'qr' => 'Kub metr',
                 ],
             ],
             [
@@ -47,6 +51,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Litr',
                     'ru' => 'Литр',
                     'en' => 'Liter',
+                    'qr' => 'Litr',
                 ],
             ],
             [
@@ -54,6 +59,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Millimetr',
                     'ru' => 'Миллиметр',
                     'en' => 'Millimeter',
+                    'qr' => 'Millimetr',
                 ],
             ],
             [
@@ -61,6 +67,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Santimetr',
                     'ru' => 'Сантиметр',
                     'en' => 'Centimeter',
+                    'qr' => 'Santimetr',
                 ],
             ],
             [
@@ -68,6 +75,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Kelvin',
                     'ru' => 'Кельвин',
                     'en' => 'Kelvin',
+                    'qr' => 'Kelvin',
                 ],
             ],
             [
@@ -75,6 +83,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Bar',
                     'ru' => 'Бар',
                     'en' => 'Bar',
+                    'qr' => 'Bar',
                 ],
             ],
             [
@@ -82,6 +91,7 @@ class UnitSeeder extends Seeder
                     'uz' => 'Kg',
                     'ru' => 'Кг',
                     'en' => 'Kg',
+                    'qr' => 'Kg',
                 ],
             ],
         ];

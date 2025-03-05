@@ -18,7 +18,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => [
                     'uz' => 'Santexnika',
-                    'kr' => 'Santexnika',
+                    'qr' => 'Santexnika',
                     'ru' => 'Сантехника',
                     'en' => 'Plumbing',
                 ],
@@ -26,7 +26,7 @@ class CategorySeeder extends Seeder
             [
                 'name' => [
                     'uz' => 'Mebellar',
-                    'kr' => 'Mebeller',
+                    'qr' => 'Mebeller',
                     'ru' => 'мебель',
                     'en' => 'Furnitures',
                 ],

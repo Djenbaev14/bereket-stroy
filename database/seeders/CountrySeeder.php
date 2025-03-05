@@ -18,12 +18,14 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Germaniya',
                     'ru' => 'Германия',
+                    'qr' => 'Germaniya',
                     'en' => 'Germany',
                 ],
             ],
             [
                 'name' => [
                     'uz' => 'Italiya',
+                    'qr' => 'Italiya',
                     'ru' => 'Италия',
                     'en' => 'Italy',
                 ],
@@ -31,6 +33,7 @@ class CountrySeeder extends Seeder
             [
                 'name' => [
                     'uz' => 'Shveysariya',
+                    'qr' => 'Shveysariya',
                     'ru' => 'Швейцария',
                     'en' => 'Switzerland',
                 ],
@@ -39,6 +42,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Ispaniya',
                     'ru' => 'Испания',
+                    'qr' => 'Ispaniya',
                     'en' => 'Spain',
                 ],
             ],
@@ -46,6 +50,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'AQSh',
                     'ru' => 'США',
+                    'qr' => 'AQSh',
                     'en' => 'USA',
                 ],
             ],
@@ -53,6 +58,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Fransiya',
                     'ru' => 'Франция',
+                    'qr' => 'Fransiya',
                     'en' => 'France',
                 ],
             ],
@@ -60,6 +66,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Turkiya',
                     'ru' => 'Турция',
+                    'qr' => 'Turkiya',
                     'en' => 'Turkey',
                 ],
             ],
@@ -67,6 +74,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Xitoy',
                     'ru' => 'Китай',
+                    'qr' => 'Xitoy',
                     'en' => 'China',
                 ],
             ],
@@ -74,6 +82,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Polsha',
                     'ru' => 'Польша',
+                    'qr' => 'Polsha',
                     'en' => 'Poland',
                 ],
             ],
@@ -81,6 +90,7 @@ class CountrySeeder extends Seeder
                 'name' => [
                     'uz' => 'Buyuk Britaniya',
                     'ru' => 'Великобритания',
+                    'qr' => 'Ullı Britaniya',
                     'en' => 'United Kingdom',
                 ],
             ],

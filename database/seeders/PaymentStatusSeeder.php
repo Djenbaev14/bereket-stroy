@@ -19,14 +19,16 @@ class PaymentStatusSeeder extends Seeder
                 "name"=>[
                     "uz"=>"To'langan",
                     "ru"=>"Оплачено",
-                    "en"=> "Paid"
+                    "en"=> "Paid",
+                    "qr"=>"Tólengen",
                 ]
             ],
             [
                 "name"=>[
                     "en"=>"failed",
-                    "uz"=>"To'lanmadi",
-                    "ru"=>"Не оплачено"
+                    "uz"=>"To'lanmagan",
+                    "ru"=>"Не оплачено",
+                    "qr"=>"Tólenbegen",
                 ]
             ],
         ];

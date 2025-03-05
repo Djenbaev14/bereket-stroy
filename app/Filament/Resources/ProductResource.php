@@ -132,17 +132,6 @@ class ProductResource extends Resource
                                         ->required()
                                         ->searchable()
                                         ->columnSpan(1),
-                                    // TextInput::make('product_code')
-                                    //     ->label('Product SKU')
-                                    //     ->required()
-                                    //     ->unique(ignoreRecord: true)
-                                    //     ->default(fn () => Str::upper(Str::random(6))) // Default qiymat
-                                    //     ->suffixAction(
-                                    //         Action::make('generateSku')
-                                    //         ->icon('heroicon-o-arrow-path')
-                                    //             ->label('Generate Code')
-                                    //             ->action(fn (callable $set) => $set('sku', Str::upper(Str::random(6))))
-                                    //     )
                                 ])      
                         ]),
                     Wizard\Step::make('Цены и другие')
@@ -151,31 +140,6 @@ class ProductResource extends Resource
                             ->schema([
                                 TextInput::make('price')->required()->numeric()->label('Цена')->placeholder('Цена')->columnSpan(1),
                                 TextInput::make('min_order_qty')->required()->numeric()->placeholder('Минимальное количество заказов')->label('Минимальное количество заказов')->columnSpan(1),
-                                // Select::make('discount_type_id')
-                                //     ->label('Chegirma Turi')
-                                //     ->options(DiscountType::pluck('name', 'id'))
-                                //     ->searchable()
-                                //     ->preload()
-                                //     ->reactive(), // Tanlangan qiymatga qarab boshqa inputlarni o'zgartirish uchun
-
-                                // TextInput::make('discount_amount')
-                                //     ->label(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
-                                //     ->placeholder(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
-                                //     ->suffix(fn ($get) =>DiscountType::find($get('discount_type_id'))?->discount_type)
-                                //     ->numeric()
-                                //     ->reactive()
-                                //     ->rules([
-                                //         fn ($get) => \Illuminate\Validation\Rule::when(
-                                //             DiscountType::find($get('name'))?->discount_type === 'Процент',
-                                //             ['max:100'] // Foiz chegirma 100% dan oshmasligi kerak
-                                //         ),
-                                //         fn ($get) => \Illuminate\Validation\Rule::when(
-                                //             DiscountType::find($get('name'))?->discount_type === 'Фиксированная скидка',
-                                //             ['lte:' . $get('price')] // Fiks chegirma mahsulot narxidan katta bo‘lmasligi kerak
-                                //         ),
-                                //     ])
-                                //     ->hidden(fn ($get) => !$get('discount_type_id')), // Chegirma turi tanlanmaguncha yashirin bo'ladi
-
                             ])
                         ]),
                     Wizard\Step::make('Настройка переменной товара')
@@ -270,24 +234,13 @@ class ProductResource extends Resource
                 ])->columnSpan(2)
             ]);
     }
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        // if (isset($data['name']['en'])) {
-        //     $data['slug'] = [
-        //         'en' => Str::slug($data['name']['en']),
-        //         'ru' => isset($data['name']['ru']) ? Str::slug($data['name']['ru']) : null,
-        //         'uz' => isset($data['name']['uz']) ? Str::slug($data['name']['uz']) : null,
-        //     ];
-        // }
+    // protected function mutateFormDataBeforeCreate(array $data): array
+    // {
 
-        return $data;
-    }
+    //     return $data;
+    // }
     public static function afterCreate($record, array $data)
     {
-    }
-    public static function getTranslatableLocales(): array
-    {
-        return ['ru', 'uz', 'en']; // 3 tilda ishlaydi
     }
     public static function table(Table $table): Table
     {

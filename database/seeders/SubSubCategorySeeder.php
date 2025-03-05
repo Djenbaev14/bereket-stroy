@@ -20,7 +20,8 @@ class SubSubCategorySeeder extends Seeder
                 'name' => [
                     'uz' => 'Akril vannalar',
                     'en' => 'Acrylic Bathtubs',
-                    'ru' => 'Акриловые ванны'
+                    'ru' => 'Акриловые ванны',
+                    'qr'=>'Akril vannalar',
                 ],
             ],
             [
@@ -29,7 +30,8 @@ class SubSubCategorySeeder extends Seeder
                 'name' => [
                     'uz' => 'Chugun vannalar',
                     'en' => 'Cast Iron Bathtubs',
-                    'ru' => 'Чугунные ванны'
+                    'ru' => 'Чугунные ванны',
+                    'qr' => 'Chugun vannalar',
                 ],
             ],
             [
@@ -38,7 +40,8 @@ class SubSubCategorySeeder extends Seeder
                 'name' => [
                     'uz' => 'Modulli oshxona mebellari',
                     'en' => 'Modular Kitchen Furniture',
-                    'ru' => 'Модульная кухонная мебель'
+                    'ru' => 'Модульная кухонная мебель',
+                    'qr' => 'Modulli oshxona mebellari',
                 ],
             ],
             [
@@ -47,7 +50,8 @@ class SubSubCategorySeeder extends Seeder
                 'name' => [
                     'uz' => 'Tayyor oshxona mebellari',
                     'en' => 'Ready-made Kitchen Furniture',
-                    'ru' => 'Готовая кухонная мебель'
+                    'ru' => 'Готовая кухонная мебель',
+                    'qr' => 'Tayyor oshxona mebellari',
                 ],
             ],
         ];
