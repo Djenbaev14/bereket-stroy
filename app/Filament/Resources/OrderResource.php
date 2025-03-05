@@ -36,12 +36,12 @@ class OrderResource extends Resource
     {
         return static::getModel()::where('order_status_id', 1)->count();
     }
-    public static function getWidgets(): array
-    {
-        return [
-            OrderWidget::class,
-        ];
-    }
+    // public static function getWidgets(): array
+    // {
+    //     return [
+    //         OrderWidget::class,
+    //     ];
+    // }
 
 
     public static function form(Form $form): Form
