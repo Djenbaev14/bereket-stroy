@@ -59,7 +59,7 @@ class BranchResource extends Resource
                     ->label('Рабочие дни')
                     ->relationship('days',"name") // Uz tilida chiqarish
                     ->options(function () {
-                        return Day::all()->pluck('name.ru', 'id'); // JSON dan 'uz' tilini olish
+                        return Day::all()->pluck('name', 'id'); // JSON dan 'uz' tilini olish
                     })
                     ->columnSpan(4),
 

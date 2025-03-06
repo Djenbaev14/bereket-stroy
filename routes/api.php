@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\SubSubCategoryController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\DeliveyMethodController;
@@ -36,6 +37,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResources([
     'brands' => BrandController::class,
+    'branches' => BranchController::class,
     'countries' => CountryController::class,
     'products'=>ProductController::class,
     'categories'=>CategoryController::class,

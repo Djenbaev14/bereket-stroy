@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
     public function index(Request $request){
-
-
         $comments = CommentProduct::query();
 
         if($request->has("product_id")){
@@ -19,7 +17,6 @@ class CommentController extends Controller
         }
         $comments=$comments->get();         
         return $this->responsePagination($comments, CommentResource::collection($comments));
-
     }
 
     public function store(Request $request){
