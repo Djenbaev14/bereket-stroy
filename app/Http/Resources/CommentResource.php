@@ -20,6 +20,7 @@ class CommentResource extends JsonResource
             "first_name"=>$this->customer->first_name,
             "comment"=>$this->comment,
             "rating"=>$this->rating,
+            "photo"=>$this->photo,
         ];
     }
 }

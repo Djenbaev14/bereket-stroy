@@ -63,7 +63,7 @@ class ProductResource extends Resource
     protected static ?int $navigationSort = 1;
 
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
     public static function form(Form $form): Form
     {
         return $form
@@ -81,7 +81,6 @@ class ProductResource extends Resource
                                 ->fileAttachmentsDirectory('uploads')
                                 ->profile('default|simple|full|minimal|none|custom')
                                 ->label('Описание')
-                                ->ltr() // Set RTL or use ->direction('auto|rtl|ltr')
                                 ->columnSpan('full')
                         ]),
                     Wizard\Step::make('Общая настройка')

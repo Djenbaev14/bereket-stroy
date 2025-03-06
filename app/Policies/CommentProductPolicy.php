@@ -9,22 +9,22 @@ use Illuminate\Auth\Access\Response;
 
 class CommentProductPolicy
 {
+    
     use HandlesAuthorization;
-
-    /**
+     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_commentproduct');
+        return $user->can('view_any_comment::product');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Commentproduct $commentproduct): bool
+    public function view(User $user, CommentProduct $commentProduct): bool
     {
-        return $user->can('view_commentproduct');
+        return $user->can('view_comment::product');
     }
 
     /**
@@ -32,23 +32,23 @@ class CommentProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_commentproduct');
+        return $user->can('create_comment::product');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Commentproduct $commentproduct): bool
+    public function update(User $user, CommentProduct $commentProduct): bool
     {
-        return $user->can('update_commentproduct');
+        return $user->can('update_comment::product');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Commentproduct $commentproduct): bool
+    public function delete(User $user, CommentProduct $commentProduct): bool
     {
-        return $user->can('delete_commentproduct');
+        return $user->can('delete_comment::product');
     }
 
     /**
@@ -56,15 +56,15 @@ class CommentProductPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_commentproduct');
+        return $user->can('delete_any_comment::product');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Commentproduct $commentproduct): bool
+    public function forceDelete(User $user, CommentProduct $commentProduct): bool
     {
-        return $user->can('force_delete_commentproduct');
+        return $user->can('force_delete_comment::product');
     }
 
     /**
@@ -72,15 +72,15 @@ class CommentProductPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_commentproduct');
+        return $user->can('force_delete_any_comment::product');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Commentproduct $commentproduct): bool
+    public function restore(User $user, CommentProduct $commentProduct): bool
     {
-        return $user->can('restore_commentproduct');
+        return $user->can('restore_comment::product');
     }
 
     /**
@@ -88,15 +88,15 @@ class CommentProductPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_commentproduct');
+        return $user->can('restore_any_comment::product');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Commentproduct $commentproduct): bool
+    public function replicate(User $user, CommentProduct $commentProduct): bool
     {
-        return $user->can('replicate_commentproduct');
+        return $user->can('replicate_comment::product');
     }
 
     /**
@@ -104,6 +104,6 @@ class CommentProductPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_commentproduct');
+        return $user->can('reorder_comment::product');
     }
 }

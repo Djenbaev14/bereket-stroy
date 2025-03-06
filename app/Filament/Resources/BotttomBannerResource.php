@@ -29,7 +29,7 @@ class BotttomBannerResource extends Resource
     protected static ?string $navigationGroup = 'Настройки';
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bars-3-bottom-right';
 
     public static function form(Form $form): Form
     {

@@ -26,7 +26,7 @@ class SubCategoryResource extends Resource
     use Translatable;
     protected static ?string $model = SubCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
     protected static ?string $navigationGroup = 'Продукты';
     protected static ?int $navigationSort = 3;
 

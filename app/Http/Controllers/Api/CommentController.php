@@ -23,16 +23,28 @@ class CommentController extends Controller
     }
 
     public function store(Request $request){
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'comment' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+            'photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
         $user = auth()->user();
+        $photoPath = null;
+
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('comments', 'public');
+        }
         $comment = CommentProduct::create([
             "customer_id"=> $user->id,
             "product_id"=> $request->input("product_id"),
             "comment"=> $request->input("comment"),
-            'rating' => $request->input('rating')
+            'rating' => $request->input('rating'),
+            'photo' => $photoPath,
         ]);
         return response()->json([
             "message"=> "Comment created successfully",
-            "comment"=> $comment
+            "data"=> $comment
         ]);
     }
    

@@ -19,4 +19,8 @@ class CommentProduct extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+    public function getPhotoAttribute($value)
+    {
+        return $value ? asset('storage/' . $value) : null;
+    }
 }

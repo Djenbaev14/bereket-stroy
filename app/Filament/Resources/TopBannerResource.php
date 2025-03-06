@@ -28,7 +28,7 @@ class TopBannerResource extends Resource
     protected static ?string $navigationGroup = 'Настройки';
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-bars-3-bottom-left';
 
     public static function form(Form $form): Form
     {

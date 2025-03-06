@@ -30,41 +30,41 @@ class AuthController extends Controller
         }
         
         $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
-
+        // return response()->json(['message'=>date('m-d-Y H:i:s', time()+(2 * 60))]);
         if ($customer) {
             
-        $now = time();
-        $five_minutes = $now + (5 * 60);
-        if(Session::has('expiresAt')){
-                Session::forget('verification_code');
-                Session::forget('expiresAt');
-        }
-            $url_login = "notify.eskiz.uz/api/auth/login";
-        
-            $auth = Http::post($url_login, [
-                'email' => 'santexglobalnukus@gmail.com',
-                'password' => 'rnbyQKHGOH6DQV05lNzqh32Itym9M2SKEUUuCtCH',
-            ]);
-            $auth = $auth->json();
-            if ($auth['message'] == 'token_generated') {
-                $url = "notify.eskiz.uz/api/message/sms/send";
-                $ran=random_int(10000,99999);
-                $resposnse = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $auth['data']['token'],
-                    ])->post($url, [
-                        'mobile_phone' => '998'.$request->phone,
-                        "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
-                    ]);
-                    
-                $resposnse = $resposnse->json();
-                Session::put('phone', $request->phone); 
-                Session::put('verification_code', $ran);
-                Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
+            $now = time();
+            $two_minute = $now + (2 * 60);
+            if(Session::has('expiresAt')){
+                    Session::forget('verification_code');
+                    Session::forget('expiresAt');
+                    Session::forget('phone');
             }
+                $url_login = "notify.eskiz.uz/api/auth/login";
+            
+                $auth = Http::post($url_login, [
+                    'email' => 'santexglobalnukus@gmail.com',
+                    'password' => 'rnbyQKHGOH6DQV05lNzqh32Itym9M2SKEUUuCtCH',
+                ]);
+                $auth = $auth->json();
+                if ($auth['message'] == 'token_generated') {
+                    $url = "notify.eskiz.uz/api/message/sms/send";
+                    $ran=random_int(10000,99999);
+                    $resposnse = Http::withHeaders([
+                        'Authorization' => 'Bearer ' . $auth['data']['token'],
+                        ])->post($url, [
+                            'mobile_phone' => '998'.$request->phone,
+                            "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
+                        ]);
+                        
+                    $resposnse = $resposnse->json();
+                    Session::put('phone', $request->phone); 
+                    Session::put('verification_code', $ran);
+                    Session::put('expiresAt', date('m-d-Y H:i:s', $two_minute));
+                }
         }else{
             return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
         }
-
         return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone],200);
     }
     public function register(Request $request){
@@ -84,7 +84,7 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         $now = time();
-        $five_minutes = $now + (5 * 60);
+        $two_minute = $now + (2 * 60);
         if(Session::has('expiresAt')){
                 Session::forget('verification_code');
                 Session::forget('expiresAt');
@@ -109,7 +109,7 @@ class AuthController extends Controller
                 $resposnse = $resposnse->json();
                 Session::put('phone', $request->phone); 
                 Session::put('verification_code', $ran);
-                Session::put('expiresAt', date('m-d-Y H:i:s', $five_minutes));
+                Session::put('expiresAt', date('m-d-Y H:i:s', $two_minute));
 
                 
                 $customer = Customer::updateOrCreate(
@@ -151,7 +151,7 @@ class AuthController extends Controller
                     return response()->json(['message' => 'Tasdiqlash kodi xato.'],422);
                 }
             }else{
-                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.'],422);
+                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.','expiresAt'=>session('expiresAt')],422);
             }
         }
         catch (\Throwable $th) {

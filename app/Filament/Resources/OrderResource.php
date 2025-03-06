@@ -26,7 +26,7 @@ class OrderResource extends Resource
     protected static ?int $navigationSort = 10;
 
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
     // public static function navigationBadge(): ?string
     // {
     //     $newOrders = Order::where('order_status_id', 1)->count(); // 1 - yangi zakaz statusi
