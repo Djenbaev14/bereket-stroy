@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -33,13 +33,6 @@ class AuthController extends Controller
         // return response()->json(['message'=>date('m-d-Y H:i:s', time()+(2 * 60))]);
         if ($customer) {
             
-            $now = time();
-            $two_minute = $now + (2 * 60);
-            if(Session::has('expiresAt')){
-                    Session::forget('verification_code');
-                    Session::forget('expiresAt');
-                    Session::forget('phone');
-            }
                 $url_login = "notify.eskiz.uz/api/auth/login";
             
                 $auth = Http::post($url_login, [
@@ -58,14 +51,14 @@ class AuthController extends Controller
                         ]);
                         
                     $resposnse = $resposnse->json();
-                    Session::put('phone', $request->phone); 
-                    Session::put('verification_code', $ran);
-                    Session::put('expiresAt', date('m-d-Y H:i:s', $two_minute));
+                    Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
+                    Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
+                    Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
                 }
         }else{
             return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
         }
-        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone,'expiresAt'=>session()->get('expiresAt')],200);
+        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone],200);
     }
     public function register(Request $request){
         $rules = [
@@ -82,12 +75,6 @@ class AuthController extends Controller
     
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
-        }
-        $now = time();
-        $two_minute = $now + (2 * 60);
-        if(Session::has('expiresAt')){
-                Session::forget('verification_code');
-                Session::forget('expiresAt');
         }
             $url_login = "notify.eskiz.uz/api/auth/login";
         
@@ -107,9 +94,10 @@ class AuthController extends Controller
                     ]);
                     
                 $resposnse = $resposnse->json();
-                Session::put('phone', $request->phone); 
-                Session::put('verification_code', $ran);
-                Session::put('expiresAt', date('m-d-Y H:i:s', $two_minute));
+
+                Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
+                Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
+                Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
 
                 
                 $customer = Customer::updateOrCreate(
@@ -123,7 +111,7 @@ class AuthController extends Controller
                 );
                 
             }
-
+// ,'phone_cache'=>Cache::get('phone_'.$request->phone),'time_cache'=>Cache::get('expiresAt_'.$request->phone),'code_cache'=>Cache::get('verification_code_'.$request->phone)
         return response()->json(['message' => 'Tasdiqlash kodi yuborildi','response'=>$resposnse,'phone'=>$request->phone],200);
     }
     public static function loginVerifyCode(Request $request)
@@ -135,23 +123,23 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $now = time();
-            if(Session::has('expiresAt') &&  date('m-d-Y H:i:s', $now) <= session()->get('expiresAt')){
-                if(Session::has('verification_code') && $request->code == session('verification_code') && $request->phone == session('phone'))    {
+            if(Cache::has('expiresAt_'.$request->phone) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.$request->phone)){
+                if(Cache::has('verification_code_'.$request->phone) && $request->code == Cache::get('verification_code_'.$request->phone) && $request->phone == Cache::get('phone_'.$request->phone) )    {
                     $customer=Customer::where('phone', $request->phone)->first();
                     if (!$customer) {
                         return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
                     }
                     $token = $customer->createToken('auth_token')->plainTextToken;
 
-                    Session::forget('verification_code');
-                    Session::forget('expiresAt');
-                    Session::forget('phone');
+                    Cache::forget('verification_code_'.$request->phone);
+                    Cache::forget('expiresAt_'.$request->phone);
+                    Cache::forget('phone_'.$request->phone);
                     DB::commit();
                 }else{
                     return response()->json(['message' => 'Tasdiqlash kodi xato.'],422);
                 }
             }else{
-                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.','expiresAt'=>session()->get('expiresAt')],422);
+                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.'],422);
             }
         }
         catch (\Throwable $th) {
@@ -174,8 +162,8 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $now = time();
-            if(Session::has('expiresAt') &&  date('m-d-Y H:i:s', $now) <= session()->get('expiresAt')){
-                if(Session::has('verification_code') && $request->code == session('verification_code') && $request->phone == session('phone'))    {
+            if(Cache::has('expiresAt_'.$request->phone) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.$request->phone)){
+                if(Cache::has('verification_code_'.$request->phone) && $request->code == Cache::get('verification_code_'.$request->phone) && $request->phone == Cache::get('phone_'.$request->phone))    {
                     $customer=Customer::where('phone', $request->phone)->first();
                     if (!$customer) {
                         return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
@@ -183,9 +171,9 @@ class AuthController extends Controller
                     $customer->update(['is_verified'=>true]);
                     $token = $customer->createToken('auth_token')->plainTextToken;
 
-                    Session::forget('verification_code');
-                    Session::forget('expiresAt');
-                    Session::forget('phone');
+                    Cache::forget('verification_code_'.$request->phone);
+                    Cache::forget('expiresAt_'.$request->phone);
+                    Cache::forget('phone_'.$request->phone);
                     DB::commit();
                 }else{
                     return response()->json(['message' => 'Tasdiqlash kodi xato.'],422);
