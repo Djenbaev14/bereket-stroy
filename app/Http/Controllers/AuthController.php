@@ -65,7 +65,7 @@ class AuthController extends Controller
         }else{
             return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
         }
-        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone],200);
+        return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone,'expiresAt'=>session()->get('expiresAt')],200);
     }
     public function register(Request $request){
         $rules = [
@@ -151,7 +151,7 @@ class AuthController extends Controller
                     return response()->json(['message' => 'Tasdiqlash kodi xato.'],422);
                 }
             }else{
-                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.','expiresAt'=>session('expiresAt')],422);
+                return response()->json(['message' => 'Tasdiqlash kodining vaqti tugadi.','expiresAt'=>session()->get('expiresAt')],422);
             }
         }
         catch (\Throwable $th) {
