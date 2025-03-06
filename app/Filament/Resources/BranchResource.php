@@ -64,12 +64,12 @@ class BranchResource extends Resource
                     ->columnSpan(4),
 
                 MapInput::make('point_array')
-                ->label('Локация')
-                ->saveAsArray() // Important for Array type
-                ->placeholder('Choose your location')
-                ->coordinates(59.6022910410232, 42.47038509576842) // start coordinates
-                ->rows(10)
-                ->columnSpan(8), // height of map
+                    ->label('Локация')
+                    ->saveAsArray() // Important for Array type
+                    ->placeholder('Choose your location')
+                    ->coordinates(59.6022910410232, 42.47038509576842) // start coordinates
+                    ->rows(10)
+                    ->columnSpan(8), // height of map
 
             ])->columns(12);
     }
