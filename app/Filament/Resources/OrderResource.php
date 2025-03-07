@@ -115,7 +115,8 @@ class OrderResource extends Resource
                     ->badge()
                     ->color(fn (Order $record) => match ($record->status->name['en']) {
                         'new' => 'primary',       // Yangi — Ko‘k
-                        'completed' => 'success', // Tugallangan — Yashil
+                        'payment pending' => 'success', // Tugallangan — Yashil
+                        'paid' => 'success', // Tugallangan — Yashil
                         'cancelled' => 'danger',   // Bekor qilingan — Qizil
                         default => 'danger',
                     }),
