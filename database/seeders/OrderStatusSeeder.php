@@ -26,20 +26,21 @@ class OrderStatusSeeder extends Seeder
                 ],
             ],
             [
+                
                 "name"=>[
-                    "uz"=>"qabul qilingan",
-                    "ru"=>"принят",
-                    "qr"=>"qabıl etilgen",
-                    'en'=>'accepted'
+                    "uz"=>"tolov kutilmoqda",
+                    "en"=>"payment pending",
+                    "ru"=>"ожидание оплаты",
+                    "qr"=>"to'lem kutilip atir",
                 ],
             ],
             [
-                "name"=>[
-                    "en"=>"completed",
-                    "uz"=>"tugallangan",
-                    "ru"=>"завершено",
-                    "qr"=>"tamamlanǵan",
-                ],
+               "name"=>[
+                'en'=>"paid",
+                'uz'=>"to'landi",
+                'ru'=>"оплачено",
+                'qr'=>"to'lendi",
+               ] 
             ],
             [
                 

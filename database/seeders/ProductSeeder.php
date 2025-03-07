@@ -34,7 +34,7 @@ class ProductSeeder extends Seeder
                     'qr' => 'Bathtubs',
                 ],
                 'unit_id'=>1,
-                'price'=>150000
+                'price'=>500
             ],
             [
                 "category_id"=>1,
@@ -54,7 +54,7 @@ class ProductSeeder extends Seeder
                     'qr' => 'Shower Cabins',
                 ],
                 'unit_id'=>1,
-                'price'=>800000
+                'price'=>500
             ],
             [
                 "category_id"=>1,
@@ -75,7 +75,7 @@ class ProductSeeder extends Seeder
                     'qr' => 'Water Pipes',
                 ],
                 'unit_id'=>1,
-                'price'=>990000
+                'price'=>500
             ],
             [
                 "category_id"=>1,
@@ -96,7 +96,7 @@ class ProductSeeder extends Seeder
                     'qr' => 'Faucets and Fittings',
                 ],
                 'unit_id'=>1,
-                'price'=>100000
+                'price'=>500
             ],
         ];
 
