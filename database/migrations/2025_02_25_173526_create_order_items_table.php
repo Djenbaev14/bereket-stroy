@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('quantity'); // Soni
             $table->decimal('price', 12, 2); // Bir dona mahsulot narxi
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -78,9 +78,6 @@ class OrderResource extends Resource
                 Forms\Components\TextInput::make('payment_type_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('payment_status_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\TextInput::make('order_status_id')
                     ->required()
                     ->numeric(),

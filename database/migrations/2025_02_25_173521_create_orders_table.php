@@ -39,13 +39,12 @@ return new class extends Migration
             // payment
             $table->unsignedBigInteger('payment_type_id');
             $table->foreign('payment_type_id')->references('id')->on('payment_types')->onDelete('cascade');
-            $table->unsignedBigInteger('payment_status_id');
-            $table->foreign('payment_status_id')->references('id')->on('payment_statuses')->onDelete('cascade');
             
             $table->decimal('total_amount', 10, 2);
             $table->unsignedBigInteger('order_status_id');
             $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
             $table->longText('comment')->nullable(); 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

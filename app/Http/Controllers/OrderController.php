@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderItem;
 use DB;
@@ -12,8 +13,9 @@ class OrderController extends Controller
 {
 
     public function index(){
-        $orders = Order::orderBy("created_at","desc")->paginate(10);
-        return response()->json($orders);
+        $orders = Order::where('customer_id',auth()->user()->id)->orderBy("created_at","desc")->paginate(10);
+        
+        return $this->responsePagination($orders, OrderResource::collection($orders));
     }
     public function store(Request $orderRequest){
 
@@ -33,7 +35,6 @@ class OrderController extends Controller
             'longitude' => $orderRequest->longitude,
     
             'payment_type_id'=>$orderRequest->payment_type_id,
-            'payment_status_id'=>1,
             'order_status_id'=>1,
             'total_amount' => 0, // vaqtincha
     

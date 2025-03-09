@@ -19,6 +19,18 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+    public function delivery_method()
+    {
+        return $this->belongsTo(DeliveryMethod::class);
+    }
+    public function payment_type()
+    {
+        return $this->belongsTo(PaymentType::class);
+    }
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
     public function status()
     {
         return $this->belongsTo(OrderStatus::class, 'order_status_id');
