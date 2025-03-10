@@ -80,7 +80,7 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('products.*.quantity')
                             ->label('Количество')
                             ->disabled(),
-                    ])->repeatable(),
+                    ]),
                 ]),
             ]);
     }

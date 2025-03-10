@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use App\Filament\Imports\ProductImporter;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Attribute;
@@ -36,6 +37,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\Contracts\Editable;
 use Filament\Tables\Columns\ImageColumn;
@@ -244,6 +246,10 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->headerActions([
+            ImportAction::make()
+            ->importer(ProductImporter::class)
+        ])
             ->columns([
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable(),
