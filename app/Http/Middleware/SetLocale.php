@@ -15,7 +15,13 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $lang = $request->header('Accept-Language', 'ru'); // Default 'en'
+        $supportedLocales = ['en', 'ru', 'uz','qr']; // Ruxsat berilgan tillar
+        $lang = explode(',', $request->header('Accept-Language', 'ru'))[0]; // Birinchi tilni olish
+
+        if (!in_array($lang, $supportedLocales)) {
+            $lang = 'ru'; // Default til
+        }
+
         app()->setLocale($lang);
 
         return $next($request);
