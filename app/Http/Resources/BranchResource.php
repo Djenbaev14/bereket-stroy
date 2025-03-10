@@ -16,8 +16,8 @@ class BranchResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            "name"=> $this->getTranslations('branch_name'),
-            "street"=> $this->getTranslations('branch_name'),
+            "name"=> $this->branch_name,
+            "street"=> $this->street,
             "start_date"=> $this->start_date,
             "end_date"=> $this->end_date,
             "point_array"=> $this->point_array,

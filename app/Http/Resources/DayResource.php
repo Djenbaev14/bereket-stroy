@@ -14,6 +14,6 @@ class DayResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return $this->getTranslations('name');
+        return $this->name;
     }
 }
