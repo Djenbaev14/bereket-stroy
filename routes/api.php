@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\SubCategoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\SubSubCategoryController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CustomerAddressController;
@@ -57,6 +58,9 @@ Route::get('/comments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth:sanctum']);
 
 Route::get('/payment-types', [PaymentTypeController::class, 'index']);
+
+Route::get('/top-banner', [BannerController::class, 'topBanner']);
+Route::get('/bottom-banner', [BannerController::class, 'bottomBanner']);
 
 Route::get('/user/me', [UserController::class, 'index'])->middleware(['auth:sanctum']);
 
