@@ -31,7 +31,6 @@ class OrderController extends Controller
                 'products'=>'required|array',
                 'products.*.product_id'=>'required|exists:products,id',
                 'products.*.quantity'=>'required|integer',
-                'products.*.price'=>'required|numeric',
             ]);
             if($orderRequest->has('branch_id')){
                 $orderRequest->validate([
@@ -46,26 +45,6 @@ class OrderController extends Controller
                     'latitude'=>'required|string',
                     'longitude'=>'required|string',
                 ]);
-            }
-            foreach ($orderRequest['products'] as $item) {
-                $product = Product::findOrFail($item['product_id']);
-                $discountedPrice = $product->getDiscountedPriceAttribute();
-
-                if ($item['price'] != $discountedPrice) {
-
-                    return response()->json([
-                        'success' => false,
-                        'message' => [
-                            'uz'=>'Mahsulot narxi xato',
-                            'en'=>'Wrong product price',
-                            'ru'=>'Неверная цена продукта',
-                            'qr'=>'Ónim bahası qáte'
-                        ],
-                        'product_id' => $product->id,
-                        'expected_price' => $discountedPrice,
-                        'actual_price' => $item['price']
-                    ], 422);
-                }
             }
             $order=Order::create([
                 'customer_id'=>auth()->user()->id,
@@ -96,7 +75,7 @@ class OrderController extends Controller
                     "customer_id"=>auth()->user()->id,
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
-                    'price' => $item['price'],
+                    'price' => Product::find($item['product_id'])->getDiscountedPriceAttribute(),
                 ]);
             }
 
