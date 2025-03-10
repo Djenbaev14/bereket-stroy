@@ -86,6 +86,7 @@ class CustomerResource extends Resource
     }),
                 TextColumn::make('created_at')->dateTime()
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])

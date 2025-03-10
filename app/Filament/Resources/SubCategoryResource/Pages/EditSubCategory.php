@@ -9,12 +9,13 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditSubCategory extends EditRecord
 {
-    use Translatable;
+    use EditRecord\Concerns\Translatable;
     protected static string $resource = SubCategoryResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
+            Actions\LocaleSwitcher::make(),
             Actions\DeleteAction::make(),
         ];
     }
