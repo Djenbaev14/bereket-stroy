@@ -13,6 +13,7 @@ use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\DeliveyMethodController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
+use App\Http\Controllers\PaymentSystemController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
@@ -56,6 +57,7 @@ Route::get('/comments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth:sanctum']);
 
 Route::get('/payment-types', [PaymentTypeController::class, 'index']);
+Route::get('/payment-system/payme', [PaymentSystemController::class, 'payme']);
 
 Route::get('/user/me', [UserController::class, 'index'])->middleware(['auth:sanctum']);
 

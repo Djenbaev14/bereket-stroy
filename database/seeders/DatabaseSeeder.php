@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Goodoneuz\PayUz\Database\Seeds\PayUzSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             DaySeeder::class,
             OrderStatusSeeder::class,
             BranchSeeder::class,
+            PayUzSeeder::class,
         ]);
     }
 }
