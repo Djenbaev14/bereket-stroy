@@ -62,6 +62,29 @@ class Product extends Model
             ->where('deadline', '>', now());
     }
 
+    public function discounted_price()
+    {
+        return $this->hasOne(Discount::class);
+    }
+
+    public function getDiscountedPriceAttribute()
+    {
+        $activeDiscount = $this->activeDiscount()->first(); // Funksiya chaqirish kerak
+        if ($activeDiscount) {
+            $discountType = $activeDiscount->discount_type; // Agar discount_type bog‘langan model bo‘lsa
+            $discountAmount = $activeDiscount->discount_amount;
+
+            if ($discountType && $discountType->discount_type == 'UZS') {
+                return $this->price - $discountAmount;
+            } else {
+                return round((100 - $discountAmount) * $this->price / 100);
+            }
+        }
+
+        return $this->price;
+    }
+
+
     public function discounts()
     {
         return $this->belongsToMany(Discount::class, 'discount_products', 'products_id', 'discount_id');

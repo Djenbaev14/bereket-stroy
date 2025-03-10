@@ -52,13 +52,11 @@ Route::get('/product-search', [ProductController::class, 'search']);
 
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
-Route::post('/orders/pay', [OrderController::class, 'pay'])->middleware(['auth:sanctum']);
 
 Route::get('/comments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth:sanctum']);
 
 Route::get('/payment-types', [PaymentTypeController::class, 'index']);
-// Route::get('/payment-system/payme', [PaymentSystemController::class, 'payme']);
 
 Route::get('/user/me', [UserController::class, 'index'])->middleware(['auth:sanctum']);
 

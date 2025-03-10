@@ -22,6 +22,8 @@ class Discount extends Model
     {
         return $this->hasMany(DiscountProduct::class);
     }
+    // active discount
+    
     
     public function discount_type()
     {

@@ -29,6 +29,5 @@ class DeleteExpiredTokens implements ShouldQueue
     {
         $deleted = PersonalAccessToken::where('created_at', '<', Carbon::now()->subMinutes(2))->delete();
 
-        \Log::info("O'chirilgan API tokenlar soni: " . $deleted);
     }
 }

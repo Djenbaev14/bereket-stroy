@@ -102,10 +102,6 @@ class DiscountResource extends Resource
             ->columns([
                 ImageColumn::make('photo'),
                 TextColumn::make('name')->label('Название')->searchable(),
-                TextColumn::make('products')
-                    ->label('Продукты')
-                    ->state(fn ($record) => $record->products->pluck('name')->join(', '))
-                    ->wrap(),
                 // Select::make('products')
                 //     ->label('Продукты')
                 //     // ->relationship('products', 'name->ru') // O‘zbek tilida chiqarish
@@ -138,6 +134,18 @@ class DiscountResource extends Resource
         return [
             //
         ];
+    }
+    public static function canCreate(): bool
+    {
+        // Bazadagi eng oxirgi discountni tekshiramiz
+        $latestDiscount = Discount::latest('id')->first();
+
+        // Agar deadline mavjud bo‘lsa va muddati o‘tmagan bo‘lsa, create tugma chiqmasin
+        if ($latestDiscount && $latestDiscount->deadline > now()) {
+            return false;
+        }
+
+        return true;
     }
     public static function getNavigationLabel(): string
     {

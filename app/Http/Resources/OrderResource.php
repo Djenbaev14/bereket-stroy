@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +30,9 @@ class OrderResource extends JsonResource
             'longitude' => $this->longitude,
             'total_amount' => $this->total_amount,
             'status' => $this->status->name,
+            'products_count'=>$this->OrderItems->count(),
+            'products'=>OrderItemResource::collection(OrderItem::where('order_id',$this->id)->get()),
+            'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
         ];
     }
 }
