@@ -6,6 +6,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\PaymentType;
 use DB;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class OrderController extends Controller
             'latitude' => $orderRequest->latitude,
             'longitude' => $orderRequest->longitude,
     
-            'payment_type_id'=>$orderRequest->payment_type_id,
+            'payment_type_id'=>PaymentType::where('key',$orderRequest->payment_type)->first()->id,
             'order_status_id'=>1,
             'total_amount' => 0, // vaqtincha
     
@@ -52,8 +53,37 @@ class OrderController extends Controller
             ]);
         }
 
+        
         $order->update(['total_amount' => $order->calculateTotalAmount()]);
-        return response()->json(['message' => 'Order created successfully','order'=>$order], 201);
+        if($orderRequest->payment_type=='payme'){
+            $url="https://bereket.webclub.uz/pay/{$orderRequest->payment_type}/{$order->id}/{$order->total_amount}";
+            return response()->json(['message' => 'Order created successfully','url'=>$url], 201);
+        }
+        return response()->json(['message' => 'Order created successfully'], 201);
 
     }
+
+    // public function pay(Request $request){
+    //     $request->validate([
+    //         'order_id' => 'required|exists:orders,id',
+    //         'pay_system'=>'required|in:payme',
+    //     ]);
+    //     $order=Order::find($request->order_id);
+    //     if($order->order_status_id=3){
+    //         return response()->json(['message' => 'Order already paid'], 400);
+    //     }
+
+    //     $url = "https://bereket.webclub.uz/pay/{$request->pay_system}/{$order->id}/{$order->total_amount}";
+
+    //     $data = [
+    //         'status'=>'success',
+    //         'message'=>'Operation successful',
+    //         'data'=>[
+    //             'url'=>$url
+    //         ],
+    //         'pagination'=>null
+    //     ];
+
+    //     return response()->json($data);
+    // }
 }

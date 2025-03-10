@@ -17,6 +17,7 @@ class PaymentTypeSeeder extends Seeder
         
         $payment_types = [
             [
+                'key'=>'term_payment',
                 'name' => [
                     "uz" => "Muddatli to'lov",
                     "ru"=>"Отсроченный платеж",
@@ -32,6 +33,7 @@ class PaymentTypeSeeder extends Seeder
                 'photo'=>'images/payments/muddatli.png',
             ],
             [
+                'key'=>'cash',
                 'name' => [
                     "uz" => "Naqd pul",
                     "ru" => "Наличные",
@@ -47,6 +49,7 @@ class PaymentTypeSeeder extends Seeder
                 ]
             ],
             [
+                'key'=>'uzum_bank',
                 'name' => [
                     "uz" => "Uzum bank",
                     "ru" => "Uzum bank",
@@ -62,6 +65,7 @@ class PaymentTypeSeeder extends Seeder
                 ]
             ],
             [
+                'key'=>'payme',
                 'name' => [
                     "uz" => "Payme",
                     "ru" => "Payme",
@@ -76,6 +80,7 @@ class PaymentTypeSeeder extends Seeder
                 ]
             ],
             [
+                'key'=>'click',
                 'name' => [
                     "uz" => "Click",
                     "ru" => "Click",

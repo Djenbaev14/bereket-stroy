@@ -16,6 +16,7 @@ class PaymentTypeResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'key'=>$this->key,
             'name'=>$this->getTranslations('name'),
             'text'=>$this->getTranslations('text'),
             'photo'=>$this->photo,
