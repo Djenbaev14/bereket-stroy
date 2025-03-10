@@ -48,41 +48,40 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('customer_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('receiver_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('receiver_phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('receiver_comment')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('delivery_method_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('branch_id')
-                    ->numeric(),
-                Forms\Components\TextInput::make('region')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('district')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('address')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('latitude')
-                    ->numeric(),
-                Forms\Components\TextInput::make('longitude')
-                    ->numeric(),
-                Forms\Components\TextInput::make('payment_type_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('order_status_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('comment')
-                    ->columnSpanFull(),
+                Forms\Components\Grid::make([
+                    Forms\Components\TextInput::make('receiver_name')
+                        ->label('Имя получателя')
+                        ->required(),
+                    Forms\Components\TextInput::make('receiver_phone')
+                        ->label('Телефон получателя')
+                        ->required(),
+                    Forms\Components\TextInput::make('receiver_address')
+                        ->label('Адрес получателя')
+                        ->required(),
+                    Forms\Components\Select::make('order_status_id')
+                        ->label('Статус заказа')
+                        ->options([
+                            1 => 'Новый', // Yangi
+                            2 => 'Ожидание оплаты', // To'lovni kutish
+                            3 => 'Оплачен', // To'landi
+                            4 => 'Отменен', // Bekor qilindi
+                        ])
+                        ->required(),
+                    Forms\Components\Grid::make([
+                        Forms\Components\TextInput::make('products.*.product_id')
+                            ->label('ID продукта')
+                            ->disabled(),
+                        Forms\Components\TextInput::make('products.*.product_name')
+                            ->label('Название продукта')
+                            ->disabled(),
+                        Forms\Components\TextInput::make('products.*.product_price')
+                            ->label('Цена продукта')
+                            ->disabled(),
+                        Forms\Components\TextInput::make('products.*.quantity')
+                            ->label('Количество')
+                            ->disabled(),
+                    ])->repeatable(),
+                ]),
             ]);
     }
 
@@ -90,7 +89,7 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('order_id')
+                Tables\Columns\TextColumn::make('id')
                     ->label('ID заказа')
                     ->searchable()
                     ->sortable(),
