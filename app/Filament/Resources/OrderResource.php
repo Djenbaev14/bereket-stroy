@@ -112,7 +112,7 @@ class OrderResource extends Resource
                     ->badge()
                     ->color(fn (Order $record) => match ($record->status->name['en']) {
                         'new' => 'primary',       // Yangi — Ko‘k
-                        'payment pending' => 'success', // Tugallangan — Yashil
+                        'payment pending' => 'info', // Tugallangan — Yashil
                         'paid' => 'success', // Tugallangan — Yashil
                         'cancelled' => 'danger',   // Bekor qilingan — Qizil
                         default => 'danger',
@@ -122,6 +122,7 @@ class OrderResource extends Resource
                     ->dateTime()
                     ->sortable(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([

@@ -28,7 +28,7 @@ class OrderResource extends JsonResource
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'total_amount' => $this->total_amount,
-            'status' => $this->status->getTranslations('name'),
+            'status' => $this->status->name,
         ];
     }
 }
