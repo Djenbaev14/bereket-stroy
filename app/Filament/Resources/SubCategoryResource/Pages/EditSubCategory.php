@@ -4,10 +4,12 @@ namespace App\Filament\Resources\SubCategoryResource\Pages;
 
 use App\Filament\Resources\SubCategoryResource;
 use Filament\Actions;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\EditRecord;
 
 class EditSubCategory extends EditRecord
 {
+    use Translatable;
     protected static string $resource = SubCategoryResource::class;
 
     protected function getHeaderActions(): array
@@ -15,5 +17,9 @@ class EditSubCategory extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }
