@@ -3,58 +3,36 @@
 namespace App\Filament\Resources;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
-use App\Filament\Imports\ProductImporter;
 use App\Filament\Resources\ProductResource\Pages;
-use App\Filament\Resources\ProductResource\RelationManagers;
-use App\Models\Attribute;
+use App\Imports\ProductImport;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Color;
 use App\Models\Country;
-use App\Models\DiscountType;
 use App\Models\Product;
-use App\Models\ProductPrice;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use App\Models\Unit;
-use Closure;
-use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Builder\Block;
+use EightyNine\ExcelImport\ExcelImportAction;
+use Filament\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\SpatieTagsInput;
-use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ImportAction;
-use Filament\Tables\Columns\CheckboxColumn;
-use Filament\Tables\Columns\Contracts\Editable;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
-use Livewire\Attributes\Layout;
-use Milon\Barcode\DNS1D;
-use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedBuilder;
-use Thiktak\FilamentNestedBuilderForm\Forms\Components\NestedSubBuilder;
+
 
 class ProductResource extends Resource
 {
@@ -165,70 +143,6 @@ class ProductResource extends Resource
                                     '1:1',
                                 ])
                                 ->columnSpan(12),
-                                // Repeater::make('attributes')
-                                // ->relationship('product_attribute')
-                                // ->label('Атрибуты')
-                                //     ->schema([
-                                //         Select::make('attribute_id')
-                                //         ->label('Атрибут')
-                                //         ->options(fn () => Attribute::pluck('name', 'id'))
-                                //         ->required()
-                                //         ->searchable(),
-         
-                                //     Select::make('color_id')
-                                //         ->label('Цвет')
-                                //         ->options(fn () => Color::all()->mapWithKeys(fn ($color) => [
-                                //                 $color->id => "<div style='display: flex; align-items: center;'>
-                                //                     <div style='width: 15px; height: 15px; background: {$color->hex}; margin-right: 8px; border-radius: 3px;'></div>
-                                //                     {$color->name}
-                                //                 </div>",
-                                //         ])->toArray()) // ✅ toArray() qo‘shildi
-                                //         ->required()
-                                //         ->searchable()
-                                //         ->allowHtml(),
-                                //     TextInput::make('value')
-                                //             ->label('Ценить')
-                                //             ->placeholder('Ценить')
-                                //             ->required(),
-                                //     TextInput::make('price')
-                                //         ->label('Прайс')
-                                //         ->placeholder('Прайс')
-                                //         ->required()
-                                //     ])
-                                // ->columnSpan(6),
-                                
-                                // Repeater::make('color_images')
-                                // ->relationship('product_color_photo')
-                                // ->label('Цветовые изображения')
-                                // ->schema([
-                                //     Select::make('color_id')
-                                //         ->label('Rang')
-                                //         ->options(fn () => Color::all()->mapWithKeys(fn ($color) => [
-                                //                 $color->id => "<div style='display: flex; align-items: center;'>
-                                //                     <div style='width: 15px; height: 15px; background: {$color->hex}; margin-right: 8px; border-radius: 3px;'></div>
-                                //                     {$color->name}
-                                //                 </div>",
-                                //         ])->toArray()) // ✅ toArray() qo‘shildi
-                                //         ->required()
-                                //         ->searchable()
-                                //         ->allowHtml(),
-
-                                //     JsonMediaGallery::make('photos')
-                                //         ->label('Загрузить дополнительное изображение')
-                                //         ->directory('product_color_photos')
-                                //         ->reorderable()
-                                //         ->preserveFilenames()
-                                //         ->acceptedFileTypes(['png','jpg','svg','jpeg'])
-                                //         ->maxSize(4 * 1024)
-                                //         ->maxFiles(3)
-                                //         ->minFiles(1)
-                                //         ->replaceNameByTitle() // If you want to show title (alt customProperties) against file name
-                                //         ->image() // only images by default , u need to choose one (images or document)
-                                //         ->downloadable()
-                                //         ->deletable()
-                                //         ->columnSpan(6),
-                                // ])
-                                // ->columnSpan(6),
                         ])->columnSpanFull()
                     ]),
                     
@@ -246,10 +160,6 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-        ->headerActions([
-            ImportAction::make()
-            ->importer(ProductImporter::class)
-        ])
             ->columns([
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable(),
@@ -322,8 +232,11 @@ class ProductResource extends Resource
                     ->preload(),
                     ], layout: FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\ViewAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -7,6 +7,7 @@ use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class ProductImporter extends Importer
 {
@@ -15,14 +16,14 @@ class ProductImporter extends Importer
     public static function getColumns(): array
     {
         return [
-            ImportColumn::make('category_id')
+            ImportColumn::make('cat_id')
                 ->requiredMapping()
                 ->rules(['required', 'exists:categories,id']),
 
-            ImportColumn::make('subcategory_id')
+            ImportColumn::make('subcat_id')
                 ->rules(['nullable', 'exists:subcategories,id']),
 
-            ImportColumn::make('subsubcategory_id')
+            ImportColumn::make('subsubcat_id')
                 ->rules(['nullable', 'exists:subsubcategories,id']),
 
             ImportColumn::make('price')
@@ -48,23 +49,23 @@ class ProductImporter extends Importer
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
                 
-            ImportColumn::make('description_uz')
+            ImportColumn::make('desc_uz')
                 ->label('description (Uzbek)')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
 
 
-                ImportColumn::make('description_ru')
+            ImportColumn::make('desc_ru')
                 ->label('description (Russian)')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
 
-            ImportColumn::make('description_en')
+            ImportColumn::make('desc_en')
                 ->label('description (English)')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
 
-            ImportColumn::make('description_qr')
+            ImportColumn::make('desc_qr')
                 ->label('description (QR)')
                 ->requiredMapping()
                 ->rules(['required']),
@@ -74,11 +75,11 @@ class ProductImporter extends Importer
 
     public function resolveRecord(): ?Product
     {
-
+        Log::info('Import qilinayotgan ma’lumot:', $this->data); // Log yozib tekshiramiz
         return Product::create([
-            'category_id' => $this->data['category_id'],
-            'subcategory_id' => $this->data['subcategory_id'] ?? null,
-            'subsubcategory_id' => $this->data['subsubcategory_id'] ?? null,
+            'category_id' => $this->data['cat_id'],
+            'subcategory_id' => $this->data['subcat_id'] ?? null,
+            'subsubcategory_id' => $this->data['subsubcat_id'] ?? null,
             'price' => $this->data['price'] ?? null,
             'name' => json_encode([
                 'uz' => $this->data['name_uz'],
@@ -87,10 +88,10 @@ class ProductImporter extends Importer
                 'qr' => $this->data['name_qr'],
             ]),
             'description' => json_encode([
-                'uz' => $this->data['description_uz'],
-                'ru' => $this->data['description_ru'],
-                'en' => $this->data['description_en'],
-                'qr' => $this->data['description_qr'],
+                'uz' => $this->data['desc_uz'],
+                'ru' => $this->data['desc_ru'],
+                'en' => $this->data['desc_en'],
+                'qr' => $this->data['desc_qr'],
             ]),
         ]);
     }
@@ -105,4 +106,5 @@ class ProductImporter extends Importer
 
         return $body;
     }
+    
 }

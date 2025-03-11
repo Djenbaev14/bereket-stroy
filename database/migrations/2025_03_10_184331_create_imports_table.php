@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('imports', function (Blueprint $table) {
             $table->id();
-            $table->json('branch_name');
-            $table->json('street');
-            $table->string('start_date')->nullable();
-            $table->string('end_date')->nullable();
-            $table->json('point_array')->nullable();
+            $table->string('user_id');
+            $table->string('file_name');
+            $table->string('file_path');
+            $table->string('importer');
+            $table->string('total_rows');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('imports');
     }
 };
