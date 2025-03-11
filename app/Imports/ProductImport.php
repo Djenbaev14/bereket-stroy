@@ -33,6 +33,9 @@ class ProductImport implements ToModel,WithHeadingRow
                 'en' => $row['desc_en'] ?? '',
                 'qr' => $row['desc_qr'] ?? '',
             ],
+            'brand_id'=>$row['brand_id'],
+            'country_id'=>$row['country_id'],
+            'unit_id'=>$row['unit_id']
         ]);
     }
     public function rules(): array

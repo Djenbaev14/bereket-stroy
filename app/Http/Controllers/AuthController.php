@@ -28,35 +28,39 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
-        $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
-        // return response()->json(['message'=>date('m-d-Y H:i:s', time()+(2 * 60))]);
-        if ($customer) {
-            
-                $url_login = "notify.eskiz.uz/api/auth/login";
-            
-                $auth = Http::post($url_login, [
-                    'email' => 'santexglobalnukus@gmail.com',
-                    'password' => 'rnbyQKHGOH6DQV05lNzqh32Itym9M2SKEUUuCtCH',
-                ]);
-                $auth = $auth->json();
-                if ($auth['message'] == 'token_generated') {
-                    $url = "notify.eskiz.uz/api/message/sms/send";
-                    $ran=random_int(10000,99999);
-                    $resposnse = Http::withHeaders([
-                        'Authorization' => 'Bearer ' . $auth['data']['token'],
-                        ])->post($url, [
-                            'mobile_phone' => '998'.$request->phone,
-                            "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
-                        ]);
-                        
-                    $resposnse = $resposnse->json();
-                    Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
-                    Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
-                    Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
-                }
+        if(Cache::has('phone_'.$request->phone) && Cache::has('verification_code_'.$request->phone) && Cache::has('expiresAt_'.$request->phone)){
+            return response()->json([
+                'message'=>'Sms yuborilgan'
+            ],200);
         }else{
-            return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
+            $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
+            // return response()->json(['message'=>date('m-d-Y H:i:s', time()+(2 * 60))]);
+            if ($customer) {
+                    $url_login = "notify.eskiz.uz/api/auth/login";
+                
+                    $auth = Http::post($url_login, [
+                        'email' => 'santexglobalnukus@gmail.com',
+                        'password' => 'rnbyQKHGOH6DQV05lNzqh32Itym9M2SKEUUuCtCH',
+                    ]);
+                    $auth = $auth->json();
+                    if ($auth['message'] == 'token_generated') {
+                        $url = "notify.eskiz.uz/api/message/sms/send";
+                        $ran=random_int(10000,99999);
+                        $resposnse = Http::withHeaders([
+                            'Authorization' => 'Bearer ' . $auth['data']['token'],
+                            ])->post($url, [
+                                'mobile_phone' => '998'.$request->phone,
+                                "message" => "bereket-stroy.uz saytına kiriw ushın tastıyıqlaw kodı:".' '.$ran,
+                            ]);
+                            
+                        $resposnse = $resposnse->json();
+                        Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
+                        Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
+                        Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
+                    }
+            }else{
+                return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
+            }
         }
         return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone],200);
     }
@@ -70,12 +74,18 @@ class AuthController extends Controller
             $rules['company_name'] = 'required';
             $rules['inn'] = 'required|unique:customers,inn,' . $request->inn;
         }
-    
+        
         $validator = Validator::make($request->all(), $rules);
     
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        if(Cache::has('phone_'.$request->phone) && Cache::has('verification_code_'.$request->phone) && Cache::has('expiresAt_'.$request->phone)){
+            return response()->json([
+                'message'=>'Sms yuborilgan'
+            ],200);
+        }else{
             $url_login = "notify.eskiz.uz/api/auth/login";
         
             $auth = Http::post($url_login, [
@@ -111,6 +121,7 @@ class AuthController extends Controller
                 );
                 
             }
+        }
 // ,'phone_cache'=>Cache::get('phone_'.$request->phone),'time_cache'=>Cache::get('expiresAt_'.$request->phone),'code_cache'=>Cache::get('verification_code_'.$request->phone)
         return response()->json(['message' => 'Tasdiqlash kodi yuborildi','response'=>$resposnse,'phone'=>$request->phone],200);
     }
