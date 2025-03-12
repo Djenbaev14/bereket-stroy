@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
             [
                 "category_id"=>1,
                 "sub_category_id"=>1,
-                "sub_sub_category_id"=>1,
+                "sub_sub_category_id"=>null,
                 "brand_id"=>4,
                 "country_id"=>1,
                 'name' => [
@@ -59,7 +59,7 @@ class ProductSeeder extends Seeder
             [
                 "category_id"=>1,
                 "sub_category_id"=>3,
-                "sub_sub_category_id"=>3,
+                "sub_sub_category_id"=>null,
                 "brand_id"=>3,
                 "country_id"=>1,
                 'name' => [
@@ -80,7 +80,7 @@ class ProductSeeder extends Seeder
             [
                 "category_id"=>1,
                 "sub_category_id"=>3,
-                "sub_sub_category_id"=>3,
+                "sub_sub_category_id"=>null,
                 "brand_id"=>1,
                 "country_id"=>2,
                 'name' => [

@@ -58,11 +58,11 @@ class ProductController extends Controller
         }
 
         // ✅ Ustunlar bo‘yicha tartiblash (default: `id desc`)
-        // if ($request->has('order_by')) {
-        //     $query->orderBy($request->input('order_by'), 'desc');
-        // } else {
-        //     $query->orderBy('id', 'desc');
-        // }
+        if ($request->has('order_by')) {
+            $query->orderBy($request->input('order_by'), 'desc');
+        } else {
+            $query->orderBy('id', 'desc');
+        }
         $products=$query->orderBy('id','desc')->paginate(12);
         
         return $this->responsePagination($products, ProductResource::collection($products));
@@ -82,52 +82,12 @@ class ProductController extends Controller
         }
 
         $products=$query->paginate(12);
-        
         return $this->responsePagination($products, ProductSearchResource::collection($products));
         
     }
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+    public function similarProducts($slug){
+        $product = Product::where('slug','=',$slug)->firstOrFail();
+        return $this->responsePagination($product->recommendedProducts(), ProductResource::collection($product->recommendedProducts()));
     }
 }

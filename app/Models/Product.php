@@ -30,7 +30,23 @@ class Product extends Model
     {
         return $this->hasMany(CommentProduct::class);
     }
-
+    public function recommendedProducts()
+    {
+        return Product::whereIn('sub_category_id', function ($query) {
+            $query->select('child_id')
+                ->from('recommended_sub_categories')
+                ->where('parent_id', $this->sub_category_id)
+                ->where('child_id','!=',$this->sub_category_id);
+        })
+        ->orderBy('id','desc')
+        ->limit(10)
+        ->get()
+        ->groupBy('sub_category_id') // Har bir sub_category bo‘yicha guruhlash
+        ->map(function ($products) {
+            return $products->take(2); // Har bir sub_category uchun faqat 2 tadan olish
+        })
+        ->collapse(); // Guruhlangan natijalarni tekis (flatten) qilish;
+    }
     public function getAverageRatingAttribute()
     {
         $rating= $this->commentProducts()->avg('rating') ?? 0;

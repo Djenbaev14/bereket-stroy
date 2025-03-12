@@ -55,6 +55,19 @@ class SubCategoryResource extends Resource
                         ->options(Category::all()->pluck('name', 'id'))
                         ->searchable()
                         ->columnSpan(6),
+                    Select::make('recommendedSubcategories')
+                        ->label('Рекомендуемые субкатегории')
+                        ->relationship('recommendedSubcategories', 'name->ru')
+                        ->multiple()
+                        ->preload()
+                        ->options(function ($context) {
+                            return Subcategory::where('id', '!=', $context->record->id ?? 0)
+                                ->get()
+                                ->mapWithKeys(function ($subcategory) {
+                                    return [$subcategory->id => $subcategory->name];
+                                });
+                        })
+                        ->columnSpan(6), // Avtomatik yuklash
                     TextInput::make('name')
                         ->label('Подкатегория')
                         ->required()

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Support\Str;
@@ -13,6 +14,17 @@ class SubCategory extends Model
     use HasFactory,HasTranslations,SoftDeletes;
 
     protected $guarded=['id'];
+    protected $table = 'sub_categories'; // Agar jadval nomi `subcategories` bo‘lmasa
+
+    public function recommendedSubcategories(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Subcategory::class,
+            'recommended_sub_categories',
+            'parent_id',
+            'child_id'
+        )->where('sub_categories.id', '!=', $this->id);
+    }
 
     public function category(){
         return $this->belongsTo(Category::class);

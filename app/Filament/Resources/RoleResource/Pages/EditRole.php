@@ -38,6 +38,10 @@ class EditRole extends EditRecord
 
         return Arr::only($data, ['name', 'guard_name']);
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 
     protected function afterSave(): void
     {

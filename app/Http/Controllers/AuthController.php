@@ -30,7 +30,12 @@ class AuthController extends Controller
         }
         if(Cache::has('phone_'.$request->phone) && Cache::has('verification_code_'.$request->phone) && Cache::has('expiresAt_'.$request->phone)){
             return response()->json([
-                'message'=>'Sms yuborilgan'
+                'message'=>[
+                    'uz'=>'Sms yuborilgan',
+                    'ru'=>'Отправлено Смс',
+                    'en'=>'Sms sent',
+                    'qr'=>'SMS jiberilgen'
+                ]
             ],200);
         }else{
             $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
@@ -83,7 +88,12 @@ class AuthController extends Controller
 
         if(Cache::has('phone_'.$request->phone) && Cache::has('verification_code_'.$request->phone) && Cache::has('expiresAt_'.$request->phone)){
             return response()->json([
-                'message'=>'Sms yuborilgan'
+                'message'=>[
+                    'uz'=>'Sms yuborilgan',
+                    'ru'=>'Отправлено Смс',
+                    'en'=>'Sms sent',
+                    'qr'=>'SMS jiberilgen'
+                ]
             ],200);
         }else{
             $url_login = "notify.eskiz.uz/api/auth/login";

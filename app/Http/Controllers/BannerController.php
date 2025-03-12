@@ -15,8 +15,4 @@ class BannerController extends Controller
         $top_banners = TopBanner::orderBy('id','desc')->get();
         return $this->responsePagination($top_banners, TopBannerResource::collection($top_banners));
     }
-    public function bottomBanner(){
-        $bottom_banners = BottomBanner::orderBy('id','desc')->get();
-        return $this->responsePagination($bottom_banners, BottomBannerResource::collection($bottom_banners));
-    }
 }

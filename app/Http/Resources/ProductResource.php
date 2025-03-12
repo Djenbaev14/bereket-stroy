@@ -33,6 +33,7 @@ class ProductResource extends JsonResource
             'avg_rating'=>$this->getAverageRatingAttribute(),
             'count_rating'=>$this->commentProducts->count(),
             'is_sale'=>$this->is_active ,
+            'sales_count'=>$this->sales_count ,
             'discounted_price' => $this->getDiscountedPriceAttribute(),
             'discount' => $this->activeDiscount->isNotEmpty() 
                 ? $this->activeDiscount->first()->discount_amount

@@ -50,6 +50,7 @@ Route::apiResources([
 ]);
 
 Route::get('/product-search', [ProductController::class, 'search']);
+Route::get('/similar-products/{slug}', [ProductController::class, 'similarProducts']);
 
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
@@ -60,7 +61,6 @@ Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth
 Route::get('/payment-types', [PaymentTypeController::class, 'index']);
 
 Route::get('/top-banner', [BannerController::class, 'topBanner']);
-Route::get('/bottom-banner', [BannerController::class, 'bottomBanner']);
 
 Route::get('/user/me', [UserController::class, 'index'])->middleware(['auth:sanctum']);
 

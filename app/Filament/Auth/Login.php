@@ -27,6 +27,7 @@ class Login extends BaseAuth
         return TextInput::make('login')
             ->label('Login')
             ->required()
+            ->placeholder('Логин')
             ->autocomplete()
             ->autofocus()
             ->extraInputAttributes(['tabindex' => 1]);
