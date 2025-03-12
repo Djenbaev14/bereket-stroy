@@ -6,6 +6,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
 use Filament\Pages\Auth\Login as BaseAuth;
 use MarcoGermani87\FilamentCaptcha\Forms\Components\CaptchaField;
+use Illuminate\Validation\ValidationException;
  
 class Login extends BaseAuth
 {
@@ -16,7 +17,7 @@ class Login extends BaseAuth
                 $this->getLoginFormComponent(), 
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),
-                // CaptchaField::make('captcha')
+                CaptchaField::make('captcha')
             ])
             ->statePath('data');
     }
@@ -32,11 +33,17 @@ class Login extends BaseAuth
     } 
     protected function getCredentialsFromFormData(array $data): array
     {
-        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL ) ? 'email' : 'name';
+        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL ) ? 'email' : 'username';
  
         return [
             $login_type => $data['login'],
             'password'  => $data['password'],
         ];
+    }
+    protected function throwFailureValidationException(): never
+    {
+        throw ValidationException::withMessages([
+            'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
+        ]);
     }
 }
