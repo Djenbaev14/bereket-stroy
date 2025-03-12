@@ -16,7 +16,7 @@ class Login extends BaseAuth
                 $this->getLoginFormComponent(), 
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),
-                CaptchaField::make('captcha')
+                // CaptchaField::make('captcha')
             ])
             ->statePath('data');
     }
