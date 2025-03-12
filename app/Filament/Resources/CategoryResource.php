@@ -84,6 +84,9 @@ class CategoryResource extends Resource
                 ImageColumn::make('photo')
                     ->label('Фото')
                     ->square(),
+                ImageColumn::make('icon')
+                    ->label('Icon')
+                    ->square(),
                 TextColumn::make('name')->label('Название')->searchable(),
                 TextColumn::make('priority')->label('Приоритет'),
                 TextColumn::make('created_at')
