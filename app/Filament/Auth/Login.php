@@ -30,4 +30,13 @@ class Login extends BaseAuth
             ->autofocus()
             ->extraInputAttributes(['tabindex' => 1]);
     } 
+    protected function getCredentialsFromFormData(array $data): array
+    {
+        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL ) ? 'email' : 'name';
+ 
+        return [
+            $login_type => $data['login'],
+            'password'  => $data['password'],
+        ];
+    }
 }
