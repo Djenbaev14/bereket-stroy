@@ -51,6 +51,19 @@ class CategoryResource extends Resource
                             '1:1',
                         ])
                         ->columnSpan(2),
+                    FileUpload::make('icon')
+                        ->image()
+                        ->label('Icon')
+                        ->disk('public') 
+                        ->directory('icon_categories') 
+                        ->required()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            '16:9',
+                            '4:3',
+                            '1:1',
+                        ])
+                        ->columnSpan(2),
                     TextInput::make('name')
                         ->label('Название Категория')
                         ->required(),

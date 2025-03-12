@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->integer('priority')->nullable();
             $table->string('photo')->nullable();
+            $table->string('icon')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
