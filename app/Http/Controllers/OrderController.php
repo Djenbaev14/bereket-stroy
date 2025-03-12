@@ -58,8 +58,7 @@ class OrderController extends Controller
                 'region' => $orderRequest->region,
                 'district' => $orderRequest->district,
                 'address' => $orderRequest->address,
-                'latitude' => $orderRequest->latitude,
-                'longitude' => $orderRequest->longitude,
+                'location' => [$orderRequest->latitude,$orderRequest->longitude],
         
                 'payment_type_id'=>PaymentType::where('key',$orderRequest->payment_type)->first()->id,
                 'order_status_id'=>1,

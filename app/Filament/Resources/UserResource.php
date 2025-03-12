@@ -27,6 +27,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->required()->label('Имя'),
+                TextInput::make('username')->required()->label('Логин')->unique(ignoreRecord: true),
                 TextInput::make('email')->required()->label('e-mail')->unique(ignoreRecord: true),
                 Password::make('password')->required()->label('Парол'),
                 Forms\Components\Select::make('roles')

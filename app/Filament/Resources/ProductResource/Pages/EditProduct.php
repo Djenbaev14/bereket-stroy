@@ -11,6 +11,7 @@ class EditProduct extends EditRecord
     
     use EditRecord\Concerns\Translatable;
     protected static string $resource = ProductResource::class;
+    
 
     protected function getHeaderActions(): array
     {
@@ -18,5 +19,9 @@ class EditProduct extends EditRecord
             Actions\LocaleSwitcher::make(),
             Actions\DeleteAction::make(),
         ];
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

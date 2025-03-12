@@ -33,8 +33,7 @@ return new class extends Migration
             $table->string('region')->nullable(); // Tuman yoki viloyat
             $table->string('district')->nullable(); // Rayon
             $table->string('address')->nullable(); // Uy manzili
-            $table->decimal('latitude', 10, 7)->nullable(); // Geografik kenglik
-            $table->decimal('longitude', 10, 7)->nullable(); // Geografik uzunlik
+            $table->json('location')->nullable();
             
             // payment
             $table->unsignedBigInteger('payment_type_id');

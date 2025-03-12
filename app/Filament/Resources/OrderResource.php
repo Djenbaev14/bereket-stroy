@@ -5,9 +5,18 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\Widgets\OrderWidget;
+use App\Models\Customer;
+use App\Models\DeliveryMethod;
 use App\Models\Order;
 use Carbon\Carbon;
 use Filament\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -19,6 +28,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
 
 class OrderResource extends Resource
 {
@@ -44,44 +54,112 @@ class OrderResource extends Resource
     // }
 
 
+    
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Grid::make([
-                    Forms\Components\TextInput::make('receiver_name')
-                        ->label('Имя получателя')
-                        ->required(),
-                    Forms\Components\TextInput::make('receiver_phone')
-                        ->label('Телефон получателя')
-                        ->required(),
-                    Forms\Components\TextInput::make('receiver_address')
-                        ->label('Адрес получателя')
-                        ->required(),
-                    Forms\Components\Select::make('order_status_id')
-                        ->label('Статус заказа')
-                        ->options([
-                            1 => 'Новый', // Yangi
-                            2 => 'Ожидание оплаты', // To'lovni kutish
-                            3 => 'Оплачен', // To'landi
-                            4 => 'Отменен', // Bekor qilindi
+                Grid::make(12)
+                ->schema([
+                    Section::make()
+                        ->columnSpan(9)
+                        ->columns(12)
+                        ->schema([
+                            Forms\Components\Select::make('customer_id')
+                                ->label('Клиент')
+                                ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord)
+                                ->options(function () {
+                                    return Customer::all()->pluck('first_name', 'id'); // JSON dan 'uz' tilini olish
+                                })
+                                ->columnSpan(4),
+                            Forms\Components\TextInput::make('receiver_name')
+                                ->label('Имя получателя')
+                                ->required()
+                                ->columnSpan(4),
+                            Forms\Components\TextInput::make('receiver_phone')
+                                ->label('Телефон получателя')
+                                ->required()
+                                ->columnSpan(4),
+                            Forms\Components\Select::make('delivery_method_id')
+                                ->label('Способ доставки')
+                                ->options(function () {
+                                    return DeliveryMethod::all()->pluck('name', 'id'); // JSON dan 'uz' tilini olish
+                                })
+                                // ->disabled(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord)
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1)
+                                ->columnSpan(12)
+                                ->reactive(), // O'zgarishni tinglaydi
+                            Forms\Components\Select::make('branch_id')
+                                ->label('Filial')
+                                ->relationship('branch', 'branch_name->ru')
+                                ->columnSpan(6)
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1)
+                                ->hidden(fn ($get) => $get('delivery_method_id') != 1),
+                            Forms\Components\TextInput::make('region')
+                                ->label('Регион')
+                                ->columnSpan(4)
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1)
+                                ->hidden(fn ($get) => $get('delivery_method_id') != 2), // Agar 2 bo‘lmasa, yashirin bo‘ladi
+                                
+                            Forms\Components\TextInput::make('district')
+                                ->label('Район')
+                                ->columnSpan(4)
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1)
+                                ->hidden(fn ($get) => $get('delivery_method_id') != 2),
+                                
+                            Forms\Components\TextInput::make('address')
+                                ->label('Адрес')
+                                ->columnSpan(4)
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1)
+                                ->hidden(fn ($get) => $get('delivery_method_id') != 2),
+                            MapInput::make('location')
+                                ->label('Локация')
+                                ->saveAsArray()
+                                ->placeholder('Choose your location')
+                                ->coordinates(59.6022910410232, 42.47038509576842) // start coordinates
+                                ->rows(10)
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1)
+                                ->hidden(fn ($get) => $get('delivery_method_id') != 2)
+                                ->columnSpan(12), // height of map
+                            Textarea::make('receiver_comment')
+                                ->label('Комментарий')
+                                ->columnSpan(12),
+                        ]),
+                        Section::make()
+                            ->columnSpan(3)
+                            ->schema([
+                                DateTimePicker::make('created_at')
+                                ->label('Дата создания')
+                                ->disabled(fn ($record) => $record && $record->order_status_id!=3 && $record->created_at->diffInHours(now()) >= 1),
+                            
+                            ]),
+                    Section::make()
+                        ->columnSpan(9)
+                        ->schema([
+                            TextInput::make('total_amount')
+                                ->label('Общая сумма')
+                                ->disabled(),
+                            Repeater::make('order_items')
+                                ->label('Заказать товары')
+                                ->relationship('OrderItems') // order_items jadvaliga bog'lash
+                                ->schema([
+                                    Select::make('product_id')
+                                        ->label('Продукт')
+                                        ->relationship('product', 'name->ru') // Product model bilan bog'lash
+                                        ->disabled(),
+
+                                    TextInput::make('price')
+                                        ->label('Цена')
+                                        ->numeric()
+                                        ->disabled(),
+
+                                    TextInput::make('quantity')
+                                        ->label('Количество')
+                                        ->numeric()
+                                        ->disabled(),
+                                ])->reactive(),
                         ])
-                        ->required(),
-                    Forms\Components\Grid::make([
-                        Forms\Components\TextInput::make('products.*.product_id')
-                            ->label('ID продукта')
-                            ->disabled(),
-                        Forms\Components\TextInput::make('products.*.product_name')
-                            ->label('Название продукта')
-                            ->disabled(),
-                        Forms\Components\TextInput::make('products.*.product_price')
-                            ->label('Цена продукта')
-                            ->disabled(),
-                        Forms\Components\TextInput::make('products.*.quantity')
-                            ->label('Количество')
-                            ->disabled(),
-                    ]),
-                ]),
+                ])
             ]);
     }
 

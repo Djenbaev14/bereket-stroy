@@ -11,6 +11,10 @@ class Order extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'location' => 'array', // Important for Array type
+    ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
