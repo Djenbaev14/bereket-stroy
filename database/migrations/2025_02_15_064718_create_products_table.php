@@ -32,6 +32,7 @@ return new class extends Migration
             $table->decimal('price',10,2);
             $table->integer('min_order_qty')->default(1);
             $table->integer('sales_count')->default(0);
+            $table->unsignedBigInteger('views')->default(0);
             $table->boolean('is_active')->default(true);
             $table->softDeletes();
             $table->timestamps();

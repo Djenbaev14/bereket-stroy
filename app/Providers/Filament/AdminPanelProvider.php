@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use A21ns1g4ts\FilamentShortUrl\FilamentShortUrlPlugin;
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Facades\Filament;
@@ -44,6 +45,9 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             ->plugins([
                 FilamentApexChartsPlugin::make()
+            ])
+            ->plugins([
+                FilamentShortUrlPlugin::make()
             ])
             ->navigationGroups([
                 NavigationGroup::make()

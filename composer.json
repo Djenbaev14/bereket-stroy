@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "a21ns1g4ts/filament-short-url": "^0.1.5",
         "amidesfahani/filament-tinyeditor": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
         "blade-ui-kit/blade-heroicons": "^2.6",
@@ -25,6 +26,7 @@
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "3.1",
         "livewire/livewire": "^3.5",
+        "mansoor/filament-unsplash-picker": "^1.0",
         "marcogermani87/filament-captcha": "^1.4",
         "milon/barcode": "^11.0",
         "owenvoke/blade-fontawesome": "^2.9",

@@ -13,6 +13,9 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'unsplash' => [
+        'client_id' => env('UNSPLASH_CLIENT_ID'),
+    ],
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),

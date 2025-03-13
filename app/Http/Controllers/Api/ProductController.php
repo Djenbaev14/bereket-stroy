@@ -42,6 +42,8 @@ class ProductController extends Controller
         // ✅ Name bo‘yicha izlash (3 tilda)
         if ($request->has('slug')) {
             $slug = $request->input('slug');
+            $product = Product::where('slug', $slug)->firstOrFail();
+            $product->increment('views');
             $query->where('slug', $slug);
         }
 
