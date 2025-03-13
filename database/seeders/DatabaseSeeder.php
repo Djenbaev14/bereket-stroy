@@ -14,22 +14,22 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            ColorSeeder::class,
-            CategorySeeder::class,
-            SubCategorySeeder::class,
-            SubSubCategorySeeder::class,
+            // ColorSeeder::class,
+            // CategorySeeder::class,
+            // SubCategorySeeder::class,
+            // SubSubCategorySeeder::class,
             CountrySeeder::class,
-            BrandSeeder::class,
+            // BrandSeeder::class,
             UnitSeeder::class,
-            ProductSeeder::class,
+            // ProductSeeder::class,
             LocaleSeeder::class,
             DiscountrTypeSeeder::class,
             UserSeeder::class,
             PaymentTypeSeeder::class,
             DeliveryMethodSeeder::class,
             DaySeeder::class,
-            OrderStatusSeeder::class,
-            BranchSeeder::class,
+            // OrderStatusSeeder::class,
+            // BranchSeeder::class,
         ]);
     }
 }
