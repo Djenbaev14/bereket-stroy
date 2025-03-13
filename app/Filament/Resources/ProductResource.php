@@ -14,6 +14,7 @@ use App\Models\SubSubCategory;
 use App\Models\Unit;
 use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
@@ -182,7 +183,23 @@ class ProductResource extends Resource
                     }
                     return 'Озини нархида'; 
                 }),
-                ToggleColumn::make('is_active')->label('В продаже'),
+                ToggleColumn::make('is_active')
+                ->label('В продаже')
+                ->afterStateUpdated(function ($record, $state) {
+                    if ($state) {
+                        Notification::make()
+                            ->title('Mahsulot yoqildi')
+                            ->success()
+                            ->body($record->name . ' savdoga qo\'yildi.')
+                            ->send();
+                    } else {
+                        Notification::make()
+                            ->title('Mahsulot o‘chirildi')
+                            ->danger()
+                            ->body($record->name . ' savdodan o‘chirildi.')
+                            ->send();
+                    }
+                }),
             ])
             ->defaultSort('id','desc')
             ->filters([
