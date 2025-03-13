@@ -23,6 +23,9 @@ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
+    
+    protected static ?string $navigationGroup = 'Заказы';
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 

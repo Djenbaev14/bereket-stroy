@@ -41,8 +41,23 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Yellow,
             ])
+            ->sidebarCollapsibleOnDesktop()
             ->plugins([
                 FilamentApexChartsPlugin::make()
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Продукты')
+                    ->icon('fas-list'),
+                NavigationGroup::make()
+                    ->label('Пользователи')
+                    ->icon('fas-user'),
+                NavigationGroup::make()
+                     ->label('Заказы')
+                     ->icon('fas-list-check'),
+                NavigationGroup::make()
+                     ->label('Настройки')
+                     ->icon('fas-sliders'),
             ])
             ->spa()
             ->plugin(
@@ -50,11 +65,11 @@ class AdminPanelProvider extends PanelProvider
                 ->defaultLocales(['ru', 'uz','qr', 'en'])
             )
             ->plugin(FilamentCaptcha::make())
-            ->navigationGroups([ // order of groups
-                'Настройки',
-                'Пользователи',
-                'Продукты'
-            ])
+            // ->navigationGroups([ // order of groups
+            //     'Настройки',
+            //     'Пользователи',
+            //     'Продукты'
+            // ])
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

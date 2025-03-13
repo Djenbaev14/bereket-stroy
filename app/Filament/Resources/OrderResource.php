@@ -33,10 +33,13 @@ use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
-    protected static ?int $navigationSort = 10;
+
+    protected static ?string $navigationGroup = 'Заказы';
+    protected static ?int $navigationSort = 2;
 
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+
     // public static function navigationBadge(): ?string
     // {
     //     $newOrders = Order::where('order_status_id', 1)->count(); // 1 - yangi zakaz statusi

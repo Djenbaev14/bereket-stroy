@@ -58,12 +58,20 @@ class ProductController extends Controller
         }
 
         // ✅ Ustunlar bo‘yicha tartiblash (default: `id desc`)
-        if ($request->has('order_by')) {
-            $query->orderBy($request->input('order_by'), 'desc');
+        if ($request->has('sort_by')) {
+            if($request->input('sort_by') == 'popular'){
+                $query->orderBy('sales_count', 'desc');
+            }else if($request->input('sort_by') == 'rating'){
+                $query->withAvg('commentProducts', 'rating')->orderBy('comment_products_avg_rating', 'desc');
+            }else if($request->input('sort_by') == 'price'){
+                $query->orderBy('price', 'asc');
+            }else if($request->input('sort_by') == '-price'){
+                $query->orderBy('price', 'desc');
+            }
         } else {
             $query->orderBy('id', 'desc');
         }
-        $products=$query->orderBy('id','desc')->paginate(12);
+        $products=$query->paginate(12);
         
         return $this->responsePagination($products, ProductResource::collection($products));
 
