@@ -72,7 +72,7 @@ class ProductImport implements ToModel,WithHeadingRow
                 'qr' => mb_convert_encoding($row['desc_qr'] ?? '', 'UTF-8', 'auto'),
             ],
             'brand_id'=>$brand->id,
-            'photos'=>[$row['photo']]
+            'photos'=>["products/01JP2KDVFTV0Y4GGJZ6KEHSPJ3.jpg"]
         ]);
     }
     public function rules(): array
