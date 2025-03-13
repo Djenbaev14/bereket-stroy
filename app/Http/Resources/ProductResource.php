@@ -29,6 +29,7 @@ class ProductResource extends JsonResource
             "photos"=>$this->photos ,
             "price"=>$this->price,
             'brand' => $this->brand->name,
+            'country' => $this->country->name,
             'status'=>$this->created_at->diffInDays(Carbon::now()) <= 7 ?'yangi':null,
             'avg_rating'=>$this->getAverageRatingAttribute(),
             'count_rating'=>$this->commentProducts->count(),

@@ -16,6 +16,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentSystemController;
 use App\Http\Controllers\PaymentTypeController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
 use App\Models\Country;
@@ -61,6 +62,7 @@ Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth
 Route::get('/payment-types', [PaymentTypeController::class, 'index']);
 
 Route::get('/top-banner', [BannerController::class, 'topBanner']);
+Route::get('/setting', [SettingController::class, 'index']);
 
 Route::get('/user/me', [UserController::class, 'index'])->middleware(['auth:sanctum']);
 
