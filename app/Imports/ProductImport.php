@@ -2,7 +2,10 @@
 
 namespace App\Imports;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -16,34 +19,68 @@ class ProductImport implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
+        
+        $categoryName = mb_convert_encoding($row['cat'], 'UTF-8', 'auto');
+
+        $category = Category::whereJsonContains('name->ru', $categoryName)->first();
+        if (!$category) {
+            $category = Category::create([
+                'name' => [
+                    'ru'=> $row['cat'] ?? '',
+                ]
+            ]);
+        }
+        
+        $subcategoryName = mb_convert_encoding($row['subcat'], 'UTF-8', 'auto');
+
+        $subcategory = SubCategory::whereJsonContains('name->ru', $subcategoryName)->first();
+        if (!$subcategory) {
+            $subcategory = SubCategory::create([
+                'category_id'=>$category->id,
+                'name' => [
+                    'ru'=> $row['subcat'] ?? '',
+                ]
+            ]);
+        }
+        
+        $brandName = mb_convert_encoding($row['brand'], 'UTF-8', 'auto');
+
+        $brand = Brand::whereJsonContains('name->ru', $brandName)->first();
+        if (!$brand) {
+            $brand = Brand::create([
+                'name' => [
+                    'ru'=> $row['brand'] ?? '',
+                ]
+            ]);
+        }
+
         return new Product([
+            'category_id'=>$category->id,
+            'sub_category_id'=>$subcategory->id,
             'price' => $row['price'] ,
-            'category_id' => $row['cat_id'] ,
-            'sub_category_id' => $row['subcat_id'] ,
-            'sub_subcategory_id' => $row['subsubcat_id'] ?? null,
+            // 'sub_subcategory_id' => $row['subsubcat_id'] ?? null,
             'name' => [
-                'uz' => $row['product_uz'] ?? '',
-                'ru' => $row['product_ru'] ?? '',
-                'en' => $row['product_en'] ?? '',
-                'qr' => $row['product_qr'] ?? '',
+                'uz' =>mb_convert_encoding($row['product_uz'] ?? '', 'UTF-8', 'auto'),
+                'ru' => mb_convert_encoding($row['product_ru'] ?? '', 'UTF-8', 'auto'),
+                'en' => mb_convert_encoding($row['product_en'] ?? '', 'UTF-8', 'auto'),
+                'qr' => mb_convert_encoding($row['product_qr'] ?? '', 'UTF-8', 'auto'),
             ],
             'description' => [
-                'uz' => $row['desc_uz'] ?? '',
-                'ru' => $row['desc_ru'] ?? '',
-                'en' => $row['desc_en'] ?? '',
-                'qr' => $row['desc_qr'] ?? '',
+                'uz' => mb_convert_encoding($row['desc_uz'] ?? '', 'UTF-8', 'auto'),
+                'ru' => mb_convert_encoding($row['desc_ru'] ?? '', 'UTF-8', 'auto'),
+                'en' => mb_convert_encoding($row['desc_en'] ?? '', 'UTF-8', 'auto'),
+                'qr' => mb_convert_encoding($row['desc_qr'] ?? '', 'UTF-8', 'auto'),
             ],
-            'brand_id'=>$row['brand_id'],
-            'country_id'=>$row['country_id'],
-            'unit_id'=>$row['unit_id']
+            'brand_id'=>$brand->id,
+            'photos'=>[$row['photo']]
         ]);
     }
     public function rules(): array
     {
         return [
-            'category_id' => ['required', 'exists:categories,id'],
-            'sub_category_id' => ['required', 'exists:sub_categories,id'],
-            'price' => ['nullable', 'numeric', 'min:0'],
+            // 'category_id' => ['required', 'exists:categories,id'],
+            // 'sub_category_id' => ['required', 'exists:sub_categories,id'],
+            // 'price' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 

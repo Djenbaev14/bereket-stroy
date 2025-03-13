@@ -14,21 +14,21 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('sub_category_id')->nullable();
-            $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
+            $table->foreign('sub_category_id')->references('id')->on('sub_categories');
             $table->unsignedBigInteger('sub_sub_category_id')->nullable();
-            $table->foreign('sub_sub_category_id')->references('id')->on('sub_sub_categories')->onDelete('cascade');
+            $table->foreign('sub_sub_category_id')->references('id')->on('sub_sub_categories');
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries');
             $table->json('name');
             $table->json('description')->nullable();
             $table->string('slug');
             $table->json('photos')->nullable();
             $table->unsignedBigInteger('unit_id')->nullable();
-            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
+            $table->foreign('unit_id')->references('id')->on('units');
             $table->decimal('price',10,2);
             $table->integer('min_order_qty')->default(1);
             $table->integer('sales_count')->default(0);
