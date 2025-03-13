@@ -16,10 +16,15 @@ class SuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->hasRole('super_admin')) {
-            return $next($request);
+        if (Auth::check()) {
+            if(Auth::user()->hasRole('super_admin')){
+                return $next($request);
+            }else{
+                abort(403, 'Sizda ushbu sahifaga kirish huquqi yo‘q.');
+            }
         }
+        return redirect('/admin/login');
 
-        abort(403, 'Sizda ushbu sahifaga kirish huquqi yo‘q.');
+        
     }
 }

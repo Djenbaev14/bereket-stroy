@@ -65,9 +65,9 @@ class AdminPanelProvider extends PanelProvider
             // ->topNavigation()
             ->brandLogo(asset('images/LOGO.png'))
             ->brandLogoHeight(100)
-            ->darkModeBrandLogo(asset('images/LOGO.png'))
+            ->darkModeBrandLogo(asset('images/darkmode.png'))
             ->brandName('Bereket Stroy')
-            // ->font('Inter', provider: GoogleFontProvider::class)
+            ->font('Inter', provider: GoogleFontProvider::class)
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
             ])

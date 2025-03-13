@@ -240,7 +240,7 @@ class OrderResource extends Resource
             ])
             ->groups([
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Order Date')
+                    ->label('Дата заказа')
                     ->date()
                     ->collapsible(),
             ])
