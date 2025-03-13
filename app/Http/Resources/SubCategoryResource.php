@@ -21,6 +21,7 @@ class SubCategoryResource extends JsonResource
             "photo"=>$this->photo ,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'sub_sub_category' => SubSubCategoryResource::collection($this->whenLoaded('sub_sub_category')),
+            'products_count'=>$this->getProductsCountAttribute(),
             'product' => ProductResource::collection($this->whenLoaded('product')),
         ];
     }

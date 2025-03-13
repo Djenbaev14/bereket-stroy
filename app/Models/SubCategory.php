@@ -35,6 +35,10 @@ class SubCategory extends Model
     public function product(){
         return $this->hasMany(Product::class,'sub_category_id','id');
     }
+    public function getProductsCountAttribute()
+    {
+        return $this->product()->count();
+    }
     public $translatable = ['name'];
     protected $casts = [
         'name' => 'array',

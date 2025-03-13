@@ -20,6 +20,7 @@ class Category extends Model
     protected $casts = [
         'name' => 'array',
     ];
+    
     protected static function boot()
     {
         parent::boot();
@@ -42,6 +43,10 @@ class Category extends Model
     // category_translatable relationship
     public function products(){
         return $this->hasMany(Product::class);
+    }
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->count();
     }
     public function sub_category(){
         return $this->hasMany(SubCategory::class);

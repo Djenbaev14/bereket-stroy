@@ -18,6 +18,7 @@ class SubSubCategoryResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             "slug"=>$this->slug,
+            'products_count'=>$this->getProductsCountAttribute(),
             "photo"=>$this->photo ,
         ];
     }

@@ -20,6 +20,7 @@ class CategoryResource extends JsonResource
             "slug"=>$this->slug,
             "photo"=>$this->photo,
             "icon"=>$this->icon,
+            'products_count'=>$this->getProductsCountAttribute(),
             'sub_category' => SubCategoryResource::collection($this->whenLoaded('sub_category')),
         ];
     }
