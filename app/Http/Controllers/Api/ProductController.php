@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         // Mahsulotlarni olish va filtrlash
-        $query = Product::with(['brand','activeDiscount']);
+        $query = Product::with(['brand','activeDiscount','country']);
 
         if($request->has('category_slug')){
             $category_slug= $request->category_slug;
@@ -55,11 +55,13 @@ class ProductController extends Controller
             $query->where('price', '<=', $request->input('max_price'));
         }
         // ✅ Brend bo‘yicha filtrlash
-        if ($request->has('brand_id')) {
-            $query->where('brand_id', $request->input('brand_id'));
+        if ($request->has('brand_ids')) {
+            $brandIds = $request->input('brand_ids'); // Array formatda kelishi kerak
+            $query->whereIn('brand_id', $brandIds);
         }
-        if ($request->has('country_id')) {
-            $query->where('country_id', $request->input('country_id'));
+        if ($request->has('country_ids')) {
+            $countryIds = $request->input('country_ids'); // Array formatda kelishi kerak
+            $query->whereIn('country_id', $countryIds);
         }
 
         // ✅ Ustunlar bo‘yicha tartiblash (default: `id desc`)
