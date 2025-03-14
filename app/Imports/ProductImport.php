@@ -53,8 +53,8 @@ class ProductImport implements ToModel,WithHeadingRow
             $brand = Brand::create([
                 'name' => [
                     'ru'=> $row['brand'] ?? '',
-                    'photo'=>$row['brand_photo']??null
-                ]
+                ],
+                'icon'=>$row['brand_photo']??null
             ]);
         }
         
