@@ -28,7 +28,8 @@ class ProductImport implements ToModel,WithHeadingRow
             $category = Category::create([
                 'name' => [
                     'ru'=> $row['cat'] ?? '',
-                ]
+                ],
+                'photo'=>$row['cat_photo']
             ]);
         }
         
@@ -40,7 +41,8 @@ class ProductImport implements ToModel,WithHeadingRow
                 'category_id'=>$category->id,
                 'name' => [
                     'ru'=> $row['subcat'] ?? '',
-                ]
+                ],
+                'photo'=>$row['sub_cat_photo']
             ]);
         }
         
@@ -51,6 +53,7 @@ class ProductImport implements ToModel,WithHeadingRow
             $brand = Brand::create([
                 'name' => [
                     'ru'=> $row['brand'] ?? '',
+                    'photo'=>$row['brand_photo']
                 ]
             ]);
         }
@@ -84,7 +87,8 @@ class ProductImport implements ToModel,WithHeadingRow
             ],
             'brand_id'=>$brand->id,
             'country_id'=>$country->id,
-            'photos'=>["products/01JP2KDVFTV0Y4GGJZ6KEHSPJ3.jpg"]
+            'photos'=>[$row['photo']]
+            // 'photos'=>["products/01JP2KDVFTV0Y4GGJZ6KEHSPJ3.jpg"]
         ]);
     }
     public function rules(): array
