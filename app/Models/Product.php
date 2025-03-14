@@ -99,6 +99,7 @@ class Product extends Model
 
         return $this->price;
     }
+    
 
     public function getDiscountPercentageAttribute()
     {

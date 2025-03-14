@@ -14,6 +14,7 @@ use App\Models\SubSubCategory;
 use App\Models\Unit;
 use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Builder;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\FileUpload;
@@ -162,13 +163,13 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('photos')->circular()->stacked(),
-                TextColumn::make('name')->label('Название')->searchable(),
-                TextColumn::make('category.name')->label('Название категория')->searchable(),
-                TextColumn::make('sub_category.name')->label('Название подкатегория')->searchable(),
+                TextColumn::make('name')->label('Название')->searchable()->sortable(),
+                TextColumn::make('category.name')->label('Название категория')->searchable()->sortable(),
+                TextColumn::make('sub_category.name')->label('Название подкатегория')->searchable()->sortable(),
                 TextColumn::make('price')->label('Цена')
                 ->formatStateUsing(function ($state) {
                     return number_format($state, 0, '.', ' ') . " сум";  // Masalan, 1000.50 ni 1,000.50 formatida
-                })->searchable(),
+                })->searchable()->sortable(),
                 TextColumn::make('discounted_price')
                 ->label('Цена со скидкой')
                 ->getStateUsing(function (Product $record) {
@@ -202,7 +203,6 @@ class ProductResource extends Resource
             ])
             ->defaultSort('id','desc')
             ->filters([
-
                 // **Brand bo‘yicha filter**
                 SelectFilter::make('brand_id')
                     ->label('Бренд')
@@ -216,23 +216,35 @@ class ProductResource extends Resource
                     ->searchable()
                     ->options(fn () => Category::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
                     ->preload(),
-
-            Filter::make('price_range')
-                ->form([
-                    TextInput::make('min')
-                        ->numeric()
-                        ->label('Минимальная цена')
-                        ->placeholder('100000'),
-                    TextInput::make('max')
-                        ->numeric()
-                        ->label('Максимальная цена')
-                        ->placeholder('500000'),
-                ])
-                ->query(function ($query, array $data) {
-                    return $query
-                        ->when($data['min'] ?? null, fn ($q, $min) => $q->where('price', '>=', $min))
-                        ->when($data['max'] ?? null, fn ($q, $max) => $q->where('price', '<=', $max));
-                }),
+                    
+                SelectFilter::make('sub_category_id')
+                    ->label('Подкатегория')
+                    ->searchable()
+                    ->options(fn ($get) => 
+                        $get('category_id')
+                            ? SubCategory::where('category_id', $get('category_id'))
+                                ->pluck('name', 'id')
+                                ->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name)
+                            : []
+                    )
+                    ->hidden(fn ($get) => !$get('category_id'))
+                    ->preload(),
+                Filter::make('price_range')
+                    ->form([
+                        TextInput::make('min')
+                            ->numeric()
+                            ->label('Минимальная цена')
+                            ->placeholder('100000'),
+                        TextInput::make('max')
+                            ->numeric()
+                            ->label('Максимальная цена')
+                            ->placeholder('500000'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['min'] ?? null, fn ($q, $min) => $q->where('price', '>=', $min))
+                            ->when($data['max'] ?? null, fn ($q, $max) => $q->where('price', '<=', $max));
+                    }),
                 // **Subcategory bo‘yicha filter**
                 SelectFilter::make('sub_category_id')
                 ->label('Подкатегория')
@@ -246,6 +258,10 @@ class ProductResource extends Resource
                             '0' => 'Неактивный', // false
                     ])
                     ->preload(),
+                Filter::make('discounted')
+                    ->label('Только товары со скидкой')
+                    ->columnSpan('full')
+                    ->query(fn ($query) => $query->whereHas('activeDiscount'))
                     ], layout: FiltersLayout::AboveContent)
             ->actions([
                 ActionGroup::make([

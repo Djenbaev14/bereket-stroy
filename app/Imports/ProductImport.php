@@ -29,7 +29,7 @@ class ProductImport implements ToModel,WithHeadingRow
                 'name' => [
                     'ru'=> $row['cat'] ?? '',
                 ],
-                'photo'=>$row['cat_photo']
+                'photo'=>$row['cat_photo']??null
             ]);
         }
         
@@ -42,7 +42,7 @@ class ProductImport implements ToModel,WithHeadingRow
                 'name' => [
                     'ru'=> $row['subcat'] ?? '',
                 ],
-                'photo'=>$row['sub_cat_photo']
+                'photo'=>$row['sub_cat_photo']??null
             ]);
         }
         
@@ -53,7 +53,7 @@ class ProductImport implements ToModel,WithHeadingRow
             $brand = Brand::create([
                 'name' => [
                     'ru'=> $row['brand'] ?? '',
-                    'photo'=>$row['brand_photo']
+                    'photo'=>$row['brand_photo']??null
                 ]
             ]);
         }
