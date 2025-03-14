@@ -12,6 +12,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CustomerAddressController;
 use App\Http\Controllers\DeliveyMethodController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PaymentSystemController;
@@ -52,6 +53,11 @@ Route::apiResources([
 
 Route::get('/product-search', [ProductController::class, 'search']);
 Route::get('/similar-products/{slug}', [ProductController::class, 'similarProducts']);
+Route::get('/best-offers', [ProductController::class, 'bestOffers']);
+
+Route::get('/discounts', [DiscountController::class, 'discounts']);
+Route::get('/discount-products', [DiscountController::class, 'discountProducts']);
+
 
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);

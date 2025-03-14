@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Log;
@@ -53,6 +54,16 @@ class ProductImport implements ToModel,WithHeadingRow
                 ]
             ]);
         }
+        
+        $countryName = mb_convert_encoding($row['country'], 'UTF-8', 'auto');
+        $country = Country::whereJsonContains('name->ru', $countryName)->first();
+        if (!$country) {
+            $country = Country::create([
+                'name' => [
+                    'ru'=> $row['country'] ?? '',
+                ]
+            ]);
+        }
 
         return new Product([
             'category_id'=>$category->id,
@@ -72,6 +83,7 @@ class ProductImport implements ToModel,WithHeadingRow
                 'qr' => mb_convert_encoding($row['desc_qr'] ?? '', 'UTF-8', 'auto'),
             ],
             'brand_id'=>$brand->id,
+            'country_id'=>$country->id,
             'photos'=>["products/01JP2KDVFTV0Y4GGJZ6KEHSPJ3.jpg"]
         ]);
     }

@@ -91,7 +91,7 @@ class ProductController extends Controller
             });
         }
 
-        $products=$query->paginate(12);
+        $products=$query->take(10)->get();
         return $this->responsePagination($products, ProductSearchResource::collection($products));
         
     }
@@ -99,5 +99,24 @@ class ProductController extends Controller
     public function similarProducts($slug){
         $product = Product::where('slug','=',$slug)->firstOrFail();
         return $this->responsePagination($product->recommendedProducts(), ProductResource::collection($product->recommendedProducts()));
+    }
+
+    public function bestOffers(){
+        $products = Product::with(['brand','activeDiscount']) // Eager load qilish
+            ->where('is_active', true)
+            ->get();
+            
+            
+        $bestOffers = $products->sortByDesc(function ($product) {
+            $discount = $product->discount_percentage; // Discountni olish
+            $rating = $product->average_rating; // O'rtacha reytingni olish
+
+            return ($product->sales_count * 2) + 
+                ($product->views * 1.5) + 
+                ($discount * 3) + 
+                ($rating * 5);
+        })->take(20);
+        
+        return $this->responsePagination($bestOffers, ProductResource::collection($bestOffers));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class ProductSearchResource extends JsonResource
 {
@@ -15,14 +16,13 @@ class ProductSearchResource extends JsonResource
     public function toArray(Request $request): array
     {
         
-        $search = $request->input('name');
-        $locales = ['uz', 'qr', 'ru', 'en'];
+        $search = mb_strtolower($request->input('name'));
         $name = null;
 
         if ($search) {
             foreach (config('app.available_locales') as $locale) {
-                $translatedName = $this->getTranslation('name', $locale);
-                if (str_contains(strtolower($translatedName), strtolower($search))) {
+                $translatedName = mb_strtolower($this->getTranslation('name', $locale));
+                if (str_contains(strtolower($translatedName), $search)) {
                     $name = $translatedName;
                     break;
                 }

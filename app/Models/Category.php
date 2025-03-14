@@ -40,6 +40,7 @@ class Category extends Model
         });
     }
 
+    
     // category_translatable relationship
     public function products(){
         return $this->hasMany(Product::class);

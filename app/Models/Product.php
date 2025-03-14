@@ -100,6 +100,25 @@ class Product extends Model
         return $this->price;
     }
 
+    public function getDiscountPercentageAttribute()
+    {
+        $discount = $this->activeDiscount->first();
+
+        if (!$discount) {
+            return 0; // Agar chegirma yo‘q bo‘lsa, 0%
+        }
+
+        if ($discount->discount_type_id == 1) {
+            return $discount->discount_amount; // Agar foiz bo‘lsa, to‘g‘ridan-to‘g‘ri qaytaramiz
+        }
+
+        if ($discount->discount_type_id == 2 && $this->price > 0) {
+            return ($discount->discount_amount / $this->price) * 100; // Fiksatsiyalangan chegirmani foizga aylantiramiz
+        }
+
+        return 0; // Aks holda 0 qaytaramiz
+    }
+
 
     public function discounts()
     {

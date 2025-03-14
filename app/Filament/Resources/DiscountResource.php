@@ -135,18 +135,18 @@ class DiscountResource extends Resource
             //
         ];
     }
-    public static function canCreate(): bool
-    {
-        // Bazadagi eng oxirgi discountni tekshiramiz
-        $latestDiscount = Discount::latest('id')->first();
+    // public static function canCreate(): bool
+    // {
+    //     // Bazadagi eng oxirgi discountni tekshiramiz
+    //     $latestDiscount = Discount::latest('id')->first();
 
-        // Agar deadline mavjud bo‘lsa va muddati o‘tmagan bo‘lsa, create tugma chiqmasin
-        if ($latestDiscount && $latestDiscount->deadline > now()) {
-            return false;
-        }
+    //     // Agar deadline mavjud bo‘lsa va muddati o‘tmagan bo‘lsa, create tugma chiqmasin
+    //     if ($latestDiscount && $latestDiscount->deadline > now()) {
+    //         return false;
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
     public static function getNavigationLabel(): string
     {
         return 'Скидки'; // Rus tilidagi nom

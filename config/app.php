@@ -101,7 +101,7 @@ return [
     | the language folders that are provided through your application.
     |
     */
-    'available_locales' => ['en', 'uz', 'ru', 'qr'],
+    'available_locales' => ['ru', 'uz', 'en', 'qr'],
     'fallback_locale' => 'en',
 
     /*
