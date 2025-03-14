@@ -8,12 +8,14 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Mansoor\UnsplashPicker\Actions\UnsplashPickerAction;
 
 class CategoryResource extends Resource
 {
@@ -30,6 +32,27 @@ class CategoryResource extends Resource
             ->schema([
                 Section::make()
                 ->schema([
+                    TextInput::make('name')
+                        ->label('Название Категория')
+                        ->placeholder('Название Категория')
+                        ->required(),
+                    TextInput::make('priority')
+                        ->type('number')
+                        ->label('Приоритет')
+                        ->placeholder('Приоритет')
+                        ->required()
+                        ->columnSpan(1),
+                    // FileUpload::make('featured_image')
+                    //     ->image()
+                    //     ->imageResizeMode(400)
+                    //     ->hintAction(
+                    // UnsplashPickerAction::make()
+                    //             ->label('Выбрать из Unsplash')
+                    //             ->defaultSearch(fn (Get $get) => $get('name'))
+                    //             ->after(function ($state, callable $set) {
+                    //                 dd($state); // Kelayotgan ma'lumotni tekshirish
+                    //             })
+                    //     )->columnSpan(2),
                     FileUpload::make('photo')
                         ->image()
                         ->label('Фото')
@@ -42,7 +65,7 @@ class CategoryResource extends Resource
                             '4:3',
                             '1:1',
                         ])
-                        ->columnSpan(2),
+                        ->columnSpan(1),
                     FileUpload::make('icon')
                         ->image()
                         ->label('Icon')
@@ -55,14 +78,6 @@ class CategoryResource extends Resource
                             '4:3',
                             '1:1',
                         ])
-                        ->columnSpan(2),
-                    TextInput::make('name')
-                        ->label('Название Категория')
-                        ->required(),
-                    TextInput::make('priority')
-                        ->type('number')
-                        ->label('Приоритет')
-                        ->required()
                         ->columnSpan(1),
                 ])->columns(2)
             ]);

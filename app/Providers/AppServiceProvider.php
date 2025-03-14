@@ -20,6 +20,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // View::replaceNamespace('pay-uz', resource_path('views/vendor/pay-uz'));
     }
 }

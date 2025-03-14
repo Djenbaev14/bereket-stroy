@@ -34,7 +34,6 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 
-
 class ProductResource extends Resource
 {
     use Translatable;

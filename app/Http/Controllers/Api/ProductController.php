@@ -58,6 +58,9 @@ class ProductController extends Controller
         if ($request->has('brand_id')) {
             $query->where('brand_id', $request->input('brand_id'));
         }
+        if ($request->has('country_id')) {
+            $query->where('country_id', $request->input('country_id'));
+        }
 
         // ✅ Ustunlar bo‘yicha tartiblash (default: `id desc`)
         if ($request->has('sort_by')) {

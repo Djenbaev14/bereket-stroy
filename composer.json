@@ -26,6 +26,7 @@
         "laravel/tinker": "^2.8",
         "leandrocfe/filament-apex-charts": "3.1",
         "livewire/livewire": "^3.5",
+        "mansoor/filament-unsplash-picker": "^1.0",
         "marcogermani87/filament-captcha": "^1.4",
         "milon/barcode": "^11.0",
         "owenvoke/blade-fontawesome": "^2.9",

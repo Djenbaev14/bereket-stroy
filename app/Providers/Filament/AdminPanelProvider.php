@@ -11,15 +11,12 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Colors\Color;
-use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -44,10 +41,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->sidebarCollapsibleOnDesktop()
             ->plugins([
-                FilamentApexChartsPlugin::make()
-            ])
-            ->plugins([
-                FilamentShortUrlPlugin::make()
+                FilamentApexChartsPlugin::make(),
+                FilamentShortUrlPlugin::make(),
+                SpatieLaravelTranslatablePlugin::make()
+                ->defaultLocales(['ru', 'uz','qr', 'en']),
+                FilamentCaptcha::make(),
             ])
             ->navigationGroups([
                 NavigationGroup::make()
@@ -64,16 +62,6 @@ class AdminPanelProvider extends PanelProvider
                      ->icon('fas-sliders'),
             ])
             ->spa()
-            ->plugin(
-                SpatieLaravelTranslatablePlugin::make()
-                ->defaultLocales(['ru', 'uz','qr', 'en'])
-            )
-            ->plugin(FilamentCaptcha::make())
-            // ->navigationGroups([ // order of groups
-            //     'Настройки',
-            //     'Пользователи',
-            //     'Продукты'
-            // ])
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
