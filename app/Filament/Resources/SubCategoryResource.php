@@ -41,7 +41,7 @@ class SubCategoryResource extends Resource
                         ->image()
                         ->label('Фото')
                         ->disk('public') 
-                        ->directory('categories') 
+                        ->directory('sub_categories') 
                         ->required()
                         ->imageEditor()
                         ->imageEditorAspectRatios([
