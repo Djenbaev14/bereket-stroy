@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             // CategorySeeder::class,
             // SubCategorySeeder::class,
             // SubSubCategorySeeder::class,
-            CountrySeeder::class,
+            // CountrySeeder::class,
             // BrandSeeder::class,
             UnitSeeder::class,
             // ProductSeeder::class,
