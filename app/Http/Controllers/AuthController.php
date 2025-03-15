@@ -28,15 +28,16 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        if(Cache::has('phone_'.$request->phone) && Cache::has('verification_code_'.$request->phone) && Cache::has('expiresAt_'.$request->phone)){
+        if(Cache::has('device_' . $request->ip())){
+            $remainingTime = Cache::get('expiresAt_'.'_device'.$request->ip())->diffInSeconds(now());
             return response()->json([
                 'message'=>[
-                    'uz'=>'Sms yuborilgan',
-                    'ru'=>'Отправлено Смс',
-                    'en'=>'Sms sent',
-                    'qr'=>'SMS jiberilgen'
+                    'uz' => "Siz allaqachon kod oldingiz. Qayta so‘rash uchun $remainingTime soniya kuting.",
+                    'ru'=>"Вы уже получили код. Пожалуйста, подождите $remainingTime секунд, чтобы запросить ещё раз.",
+                    'en'=>"You have already received the code. Wait $remainingTime seconds to request again.",
+                    'qr'=>"Siz álleqashan kod aldıńız. Qayta soraw ushin $remainingTime sekund kútiń."
                 ]
-            ],200);
+            ],429);
         }else{
             $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
             // return response()->json(['message'=>date('m-d-Y H:i:s', time()+(2 * 60))]);
@@ -61,7 +62,9 @@ class AuthController extends Controller
                         $resposnse = $resposnse->json();
                         Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
                         Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
-                        Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
+                        // Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
+                        Cache::put('expiresAt_'.'_device'.$request->ip(), now()->addMinutes(2),now()->addMinutes(2));
+                        Cache::put('device_' . $request->ip(), true, now()->addMinutes(2)); // Qurilma uchun cheklov
                     }
             }else{
                 return response()->json(['error' => 'Foydalanuvchi topilmadi'], 404);
@@ -85,16 +88,17 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
-        if(Cache::has('phone_'.$request->phone) && Cache::has('verification_code_'.$request->phone) && Cache::has('expiresAt_'.$request->phone)){
+        
+        if(Cache::has('device_' . $request->ip())){
+            $remainingTime = Cache::get('expiresAt_'.'_device'.$request->ip())->diffInSeconds(now());
             return response()->json([
                 'message'=>[
-                    'uz'=>'Sms yuborilgan',
-                    'ru'=>'Отправлено Смс',
-                    'en'=>'Sms sent',
-                    'qr'=>'SMS jiberilgen'
+                    'uz' => "Siz allaqachon kod oldingiz. Qayta so‘rash uchun $remainingTime soniya kuting.",
+                    'ru'=>"Вы уже получили код. Пожалуйста, подождите $remainingTime секунд, чтобы запросить ещё раз.",
+                    'en'=>"You have already received the code. Wait $remainingTime seconds to request again.",
+                    'qr'=>"Siz álleqashan kod aldıńız. Qayta soraw ushin $remainingTime sekund kútiń."
                 ]
-            ],200);
+            ],429);
         }else{
             $url_login = "notify.eskiz.uz/api/auth/login";
         
@@ -117,8 +121,9 @@ class AuthController extends Controller
 
                 Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
                 Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
-                Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
-
+                // Cache::put('expiresAt_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
+                Cache::put('expiresAt_'.'_device'.$request->ip(), now()->addMinutes(2),now()->addMinutes(2));
+                Cache::put('device_' . $request->ip(), true, now()->addMinutes(2)); // Qurilma uchun cheklov
                 
                 $customer = Customer::updateOrCreate(
                     ['phone' => $request->phone, 'is_verified' => false],
@@ -144,7 +149,7 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $now = time();
-            if(Cache::has('expiresAt_'.$request->phone) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.$request->phone)){
+            if(Cache::has('expiresAt_'.'_device'.$request->ip()) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.'_device'.$request->ip())){
                 if(Cache::has('verification_code_'.$request->phone) && $request->code == Cache::get('verification_code_'.$request->phone) && $request->phone == Cache::get('phone_'.$request->phone) )    {
                     $customer=Customer::where('phone', $request->phone)->first();
                     if (!$customer) {
@@ -153,7 +158,7 @@ class AuthController extends Controller
                     $token = $customer->createToken('auth_token')->plainTextToken;
 
                     Cache::forget('verification_code_'.$request->phone);
-                    Cache::forget('expiresAt_'.$request->phone);
+                    Cache::forget('expiresAt_'.'_device'.$request->ip());
                     Cache::forget('phone_'.$request->phone);
                     DB::commit();
                 }else{
@@ -183,7 +188,7 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $now = time();
-            if(Cache::has('expiresAt_'.$request->phone) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.$request->phone)){
+            if(Cache::has('expiresAt_'.'_device'.$request->ip()) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.'_device'.$request->ip())){
                 if(Cache::has('verification_code_'.$request->phone) && $request->code == Cache::get('verification_code_'.$request->phone) && $request->phone == Cache::get('phone_'.$request->phone))    {
                     $customer=Customer::where('phone', $request->phone)->first();
                     if (!$customer) {
@@ -193,7 +198,7 @@ class AuthController extends Controller
                     $token = $customer->createToken('auth_token')->plainTextToken;
 
                     Cache::forget('verification_code_'.$request->phone);
-                    Cache::forget('expiresAt_'.$request->phone);
+                    Cache::forget('expiresAt_'.'_device'.$request->ip());
                     Cache::forget('phone_'.$request->phone);
                     DB::commit();
                 }else{

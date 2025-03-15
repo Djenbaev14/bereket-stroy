@@ -106,9 +106,8 @@ class Product extends Model
     {
         $activeDiscount = $this->activeDiscount()->first(); // Funksiya chaqirish kerak
         if ($activeDiscount) {
-            $discountType = $activeDiscount->discount_type; // Agar discount_type bog‘langan model bo‘lsa
+            $discountType = $activeDiscount->discount_type;
             $discountAmount = $activeDiscount->discount_amount;
-
             if ($discountType && $discountType->discount_type == 'UZS') {
                 return $this->price - $discountAmount;
             } else {
