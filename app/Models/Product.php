@@ -38,14 +38,14 @@ class Product extends Model
                 ->where('parent_id', $this->sub_category_id)
                 ->where('child_id','!=',$this->sub_category_id);
         })
-        ->orderBy('id','desc')
-        ->limit(10)
+        ->orderBy('views','desc')
         ->get()
         ->groupBy('sub_category_id') // Har bir sub_category bo‘yicha guruhlash
         ->map(function ($products) {
             return $products->take(2); // Har bir sub_category uchun faqat 2 tadan olish
         })
-        ->collapse(); // Guruhlangan natijalarni tekis (flatten) qilish;
+        ->collapse()
+        ->take(10); // Guruhlangan natijalarni tekis (flatten) qilish;
     }
     public function getAverageRatingAttribute()
     {
