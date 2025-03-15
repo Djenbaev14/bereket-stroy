@@ -14,7 +14,7 @@ class Card extends Model
     protected $guarded=['id'];
     public $translatable = ['name'];
 
-    public $casts=[
+    protected $casts=[
         'name'=>'array'
     ];
     public function products()

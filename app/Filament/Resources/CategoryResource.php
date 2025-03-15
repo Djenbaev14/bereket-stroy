@@ -94,10 +94,11 @@ class CategoryResource extends Resource
                 ImageColumn::make('icon')
                     ->label('Icon')
                     ->square(),
-                TextColumn::make('name')->label('Название')->searchable(),
-                TextColumn::make('priority')->label('Приоритет'),
+                TextColumn::make('name')->label('Название')->searchable()->sortable(),
+                TextColumn::make('priority')->label('Приоритет')->searchable()->sortable(),
                 TextColumn::make('created_at')
                 ->label('Дата')
+                ->sortable()
                 ->formatStateUsing(function ($state) {
                     return \Carbon\Carbon::parse($state)->format('d/m/Y'); // Sana formatini o‘zgartirish
                 })

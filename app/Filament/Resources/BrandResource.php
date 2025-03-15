@@ -53,7 +53,7 @@ class BrandResource extends Resource
             ->columns([
                 TextColumn::make('id')->label('Ид'),
                 ImageColumn::make('icon')->label('Фото'),
-                TextColumn::make('name')->label('Название'),
+                TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('created_at')->dateTime()
             ])
             ->defaultSort('id','desc')

@@ -14,6 +14,7 @@ class SubCategory extends Model
     use HasFactory,HasTranslations,SoftDeletes;
 
     protected $guarded=['id'];
+    public $translatable = ['name'];
     protected $table = 'sub_categories'; // Agar jadval nomi `subcategories` bo‘lmasa
 
     public function recommendedSubcategories(): BelongsToMany
@@ -39,7 +40,6 @@ class SubCategory extends Model
     {
         return $this->product()->count();
     }
-    public $translatable = ['name'];
     protected $casts = [
         'name' => 'array',
     ];

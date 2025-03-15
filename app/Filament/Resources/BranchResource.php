@@ -78,9 +78,9 @@ class BranchResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->label('Ид'),
-                TextColumn::make('branch_name')->label('Название филиала'),
-                TextColumn::make('street')->label('Название улицы')
+                TextColumn::make('id')->label('Ид')->sortable(),
+                TextColumn::make('branch_name')->label('Название филиала')->searchable()->sortable(),
+                TextColumn::make('street')->label('Название улицы')->searchable()->sortable()
             ])
             ->filters([
                 //

@@ -86,10 +86,10 @@ class SubCategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->label('Ид'),
-                TextColumn::make('name')->label('Название')->searchable(),
-                TextColumn::make('category.name')->label('Категория')->searchable(),
-                TextColumn::make('priority')->label('Приоритет'),
-                TextColumn::make('created_at')
+                TextColumn::make('name')->label('Название')->searchable()->sortable(),
+                TextColumn::make('category.name')->label('Категория')->searchable()->sortable(),
+                TextColumn::make('priority')->label('Приоритет')->sortable(),
+                TextColumn::make('created_at')->sortable()
                 ->label('Дата')
                 ->formatStateUsing(function ($state) {
                     return \Carbon\Carbon::parse($state)->format('d/m/Y'); // Sana formatini o‘zgartirish
