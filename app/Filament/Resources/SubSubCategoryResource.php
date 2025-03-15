@@ -73,7 +73,6 @@ class SubSubCategoryResource extends Resource
                     TextInput::make('priority')
                         ->type('number')
                         ->label('Приоритет')
-                        ->required()
                         ->columnSpan(6),
                 ])->columns(12)
             ]);

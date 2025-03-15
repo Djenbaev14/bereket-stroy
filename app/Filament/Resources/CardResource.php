@@ -38,7 +38,7 @@ class CardResource extends Resource
                 Section::make()
                 ->schema([
                     TextInput::make('name')->label('Название')->unique()->required()->columnSpan(6),
-                    TextInput::make('priority')->label('Приоритет')->required()->columnSpan(6),
+                    TextInput::make('priority')->label('Приоритет')->columnSpan(6),
                     Select::make('products')
                         ->relationship('products', 'name') // O‘zbek tilida chiqarish
                         ->multiple()

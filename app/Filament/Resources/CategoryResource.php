@@ -40,7 +40,6 @@ class CategoryResource extends Resource
                         ->type('number')
                         ->label('Приоритет')
                         ->placeholder('Приоритет')
-                        ->required()
                         ->columnSpan(1),
                     // FileUpload::make('featured_image')
                     //     ->image()
