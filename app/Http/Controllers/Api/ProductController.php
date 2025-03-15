@@ -78,7 +78,14 @@ class ProductController extends Controller
         } else {
             $query->orderBy('id', 'desc');
         }
-        $products=$query->paginate(12);
+
+        
+        if ($request->has('page')) {
+            $page = $request->input('page'); // Array formatda kelishi kerak
+            $products=$query->paginate($page);
+        }else{
+            $products=$query->paginate(12);
+        }
         
         return $this->responsePagination($products, ProductResource::collection($products));
 
