@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\ProductController;
@@ -58,6 +59,7 @@ Route::get('/best-offers', [ProductController::class, 'bestOffers']);
 Route::get('/discounts', [DiscountController::class, 'discounts']);
 Route::get('/discount-products', [DiscountController::class, 'discountProducts']);
 
+Route::get('/cards', [CardController::class, 'index']);
 
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);

@@ -17,7 +17,6 @@ class BranchImport implements ToModel
     */
     public function model(array $row)
     {
-        Log::info('branches',$row);
         return new Branch([
             'id' => $row[0] ,
             'branch_name' => [

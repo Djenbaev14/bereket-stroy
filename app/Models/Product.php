@@ -125,6 +125,10 @@ class Product extends Model
     {
         return $this->belongsToMany(Discount::class, 'discount_products', 'products_id', 'discount_id');
     }
+    public function cards()
+    {
+        return $this->belongsToMany(Card::class, 'card_products', 'product_id', 'card_id');
+    }
 
     public function sub_category()
     {

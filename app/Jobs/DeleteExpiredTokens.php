@@ -17,6 +17,11 @@ class DeleteExpiredTokens implements ShouldQueue
     /**
      * Create a new job instance.
      */
+    public function handle()
+    {
+        // Hozirgi vaqtdan eski bo‘lgan tokenlarni o‘chirish
+        PersonalAccessToken::where('expires_at', '<', Carbon::now()->subMinutes(30))->delete();
+    }
     public function __construct()
     {
         //
@@ -25,9 +30,4 @@ class DeleteExpiredTokens implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
-    {
-        $deleted = PersonalAccessToken::where('created_at', '<', Carbon::now()->subMinutes(2))->delete();
-
-    }
 }

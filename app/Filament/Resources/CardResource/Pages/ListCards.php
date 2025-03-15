@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\DiscountResource\Pages;
+namespace App\Filament\Resources\CardResource\Pages;
 
-use App\Filament\Resources\DiscountResource;
+use App\Filament\Resources\CardResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListDiscounts extends ListRecords
+class ListCards extends ListRecords
 {
+    
     use ListRecords\Concerns\Translatable;
-    protected static string $resource = DiscountResource::class;
+    protected static string $resource = CardResource::class;
 
     protected function getHeaderActions(): array
     {

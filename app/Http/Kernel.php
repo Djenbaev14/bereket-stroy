@@ -2,8 +2,10 @@
 
 namespace App\Http;
 
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends HttpKernel
 {
@@ -49,10 +51,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\SetLocale::class,
         ],
     ];
-    // protected function schedule(\Illuminate\Console\Scheduling\Schedule $schedule)
-    // {
-    //     $schedule->job(new \App\Jobs\DeleteExpiredTokens())->everyThirtyMinutes();
-    // }
+    protected function schedule(Schedule $schedule)
+    {
+        Log::info(Carbon::now()->subMinutes(30));
+        $schedule->command('app:delete-expired-tokens-command')->everyMinute();
+    }
 
 
     /**

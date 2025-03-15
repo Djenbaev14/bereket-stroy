@@ -75,7 +75,6 @@ class ProductImporter extends Importer
 
     public function resolveRecord(): ?Product
     {
-        Log::info('Import qilinayotgan ma’lumot:', $this->data); // Log yozib tekshiramiz
         return Product::create([
             'category_id' => $this->data['cat_id'],
             'subcategory_id' => $this->data['subcat_id'] ?? null,
