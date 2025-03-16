@@ -29,7 +29,7 @@ class ProductImport implements ToModel,WithHeadingRow
                 'name' => [
                     'ru'=> $row['cat'] ?? '',
                 ],
-                'photo'=>$row['cat_photo']??null
+                // 'photo'=>$row['cat_photo']??null
             ]);
         }
         
@@ -42,7 +42,7 @@ class ProductImport implements ToModel,WithHeadingRow
                 'name' => [
                     'ru'=> $row['subcat'] ?? '',
                 ],
-                'photo'=>$row['sub_cat_photo']??null
+                // 'photo'=>$row['sub_cat_photo']??null
             ]);
         }
         
@@ -94,7 +94,7 @@ class ProductImport implements ToModel,WithHeadingRow
             ],
             'brand_id'=>$brand->id,
             'country_id'=>$country->id,
-            'photos'=>[$row['photo']]
+            // 'photos'=>[$row['photo']]
             // 'photos'=>["products/01JP2KDVFTV0Y4GGJZ6KEHSPJ3.jpg"]
         ]);
     }

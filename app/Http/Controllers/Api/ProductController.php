@@ -76,7 +76,7 @@ class ProductController extends Controller
                 $query->orderBy('price', 'desc');
             }
         } else {
-            $query->orderBy('id', 'desc');
+            // $query->orderBy('id', 'desc');
         }
 
         

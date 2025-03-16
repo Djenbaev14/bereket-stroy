@@ -35,13 +35,11 @@ class ProductResource extends JsonResource
             'count_rating'=>$this->commentProducts->count(),
             'is_sale'=>$this->is_active ,
             'sales_count'=>$this->sales_count ,
-            'discounted_price' => $this->getDiscountedPriceAttribute(),
-            'discount' => $this->activeDiscount->isNotEmpty() 
-                ? $this->activeDiscount->first()->discount_amount
-                : 0,
-            'discount_type' => $this->activeDiscount->isNotEmpty() 
-                ? $this->activeDiscount->first()->discount_type->discount_type
-                : null,
+            'discounted_price' => $this->discounted_price,
+            'discount' => $this->discount
+            // 'discount_type' => $this->activeDiscount->isNotEmpty() 
+            //     ? $this->activeDiscount->first()->discount_type->discount_type
+            //     : null,
         ];
     }
 }

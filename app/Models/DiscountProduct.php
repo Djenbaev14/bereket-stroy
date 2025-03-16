@@ -10,14 +10,19 @@ class DiscountProduct extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $guarded=['id'];
+    protected $fillable = [
+        'discount_id',
+        'product_id',
+        'price',
+        'discounted_price',
+    ];
 
     public function product()
     {
-        return $this->belongsTo(Product::class,'products_id');
+        return $this->belongsTo(Product::class);
     }
     public function discount()
     {
-        return $this->belongsTo(Discount::class,'discount_id');
+        return $this->belongsTo(Discount::class);
     }
 }

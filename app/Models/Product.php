@@ -30,7 +30,11 @@ class Product extends Model
     }
     public function discounts()
     {
-        return $this->belongsToMany(Discount::class, 'discount_products', 'products_id', 'discount_id');
+        return $this->belongsToMany(Discount::class, 'discount_products', 'product_id', 'discount_id');
+    }
+    public function discountProducts()
+    {
+        return $this->hasMany(DiscountProduct::class);
     }
     public function cards()
     {
@@ -89,48 +93,39 @@ class Product extends Model
                 $slug = $baseSlug . '-' . $count;
                 $count++;
             }
-
             $product->slug = $slug;
+                if (!$product->photos) {
+                    $product->photos = ["products/01JPCZEH4R94QK6JB5TAMTQBWG.png"]; // Standart rasm URL
+                }
         });
     }
     public function activeDiscount()
     {
-        return $this->belongsToMany(Discount::class, 'discount_products', 'products_id', 'discount_id')
-            ->where('deadline', '>', now());
-    }
-    public function discounted_price()
-    {
-        return $this->hasOne(Discount::class);
+        return $this->hasOne(DiscountProduct::class, 'product_id', 'id')
+            ->whereHas('discount', function ($query) {
+                $query->where('deadline', '>=', now()); // ⏳ Muddati o‘tmagan
+            });
     }
     public function getDiscountedPriceAttribute()
     {
-        $activeDiscount = $this->activeDiscount()->first(); // Funksiya chaqirish kerak
-        if ($activeDiscount) {
-            $discountType = $activeDiscount->discount_type;
-            $discountAmount = $activeDiscount->discount_amount;
-            if ($discountType && $discountType->discount_type == 'UZS') {
-                return $this->price - $discountAmount;
-            } else {
-                return round((100 - $discountAmount) * $this->price / 100);
-            }
+        if ($this->activeDiscount) {
+            return $this->activeDiscount->discounted_price;
         }
         return $this->price;
     }
+    public function getDiscountAttribute()
+    {
+        if ($this->activeDiscount) {
+            return $this->price-$this->activeDiscount->discounted_price;
+        }
+        return 0;
+    }
     public function getDiscountPercentageAttribute()
     {
-        $discount = $this->activeDiscount->first();
-
-        if (!$discount) {
-            return 0; // Agar chegirma yo‘q bo‘lsa, 0%
+        if ($this->activeDiscount) {
+            return ($this->price - $this->activeDiscount->discounted_price / $this->price) * 100; 
         }
-
-        if ($discount->discount_type_id == 1) {
-            return $discount->discount_amount; // Agar foiz bo‘lsa, to‘g‘ridan-to‘g‘ri qaytaramiz
-        }
-
-        if ($discount->discount_type_id == 2 && $this->price > 0) {
-            return ($discount->discount_amount / $this->price) * 100; // Fiksatsiyalangan chegirmani foizga aylantiramiz
-        }
-        return 0; // Aks holda 0 qaytaramiz
+        return 0;
+        
     }
 }

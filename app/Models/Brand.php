@@ -19,4 +19,15 @@ class Brand extends Model
     protected $casts = [
         'name' => 'array',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($brand) {
+            if (!$brand->icon) {
+                $brand->icon = "brands/01JPFKK1C314Y32YPBHRWR555D.jpg"; // Standart rasm URL
+            }
+        });
+    }
 }

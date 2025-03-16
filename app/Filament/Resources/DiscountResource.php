@@ -6,15 +6,18 @@ use App\Filament\Resources\DiscountResource\Pages;
 use App\Filament\Resources\DiscountResource\RelationManagers;
 use App\Models\Category;
 use App\Models\Discount;
+use App\Models\DiscountProduct;
 use App\Models\DiscountType;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -52,42 +55,73 @@ class DiscountResource extends Resource
                             '4:3',
                             '1:1',
                     ])->columnSpan(12),
-                    TextInput::make('name')->label('Название')->unique()->required()->columnSpan(12),
-                    Select::make('discount_type_id')
-                        ->label('Тип скидки')
-                        ->options(DiscountType::pluck('name', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->reactive()
-                        ->columnSpan(6), // Tanlangan qiymatga qarab boshqa inputlarni o'zgartirish uchun
+                    TextInput::make('name')->label('Название')->placeholder('Название')->unique()->required()->columnSpan(12),
+                    // Select::make('discount_type_id')
+                    //     ->label('Тип скидки')
+                    //     ->options(DiscountType::pluck('name', 'id'))
+                    //     ->searchable()
+                    //     ->preload()
+                    //     ->reactive()
+                    //     ->columnSpan(6), // Tanlangan qiymatga qarab boshqa inputlarni o'zgartirish uchun
 
-                    TextInput::make('discount_amount')
-                        ->label(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
-                        ->placeholder(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
-                        ->suffix(fn ($get) =>DiscountType::find($get('discount_type_id'))?->discount_type)
-                        ->numeric()
-                        ->reactive()
-                        ->rules([
-                            fn ($get) => \Illuminate\Validation\Rule::when(
-                                DiscountType::find($get('name'))?->discount_type === 'Процент',
-                                ['max:100'] // Foiz chegirma 100% dan oshmasligi kerak
-                            ),
-                            fn ($get) => \Illuminate\Validation\Rule::when(
-                                DiscountType::find($get('name'))?->discount_type === 'Фиксированная скидка',
-                                ['lte:' . $get('price')] // Fiks chegirma mahsulot narxidan katta bo‘lmasligi kerak
-                            ),
-                        ])
-                        ->disabled(fn ($get) => !$get('discount_type_id'))
-                        ->columnSpan(6), // Chegirma turi tanlanmaguncha yashirin bo'ladi
+                    // TextInput::make('discount_amount')
+                    //     ->label(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
+                    //     ->placeholder(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
+                    //     ->suffix(fn ($get) =>DiscountType::find($get('discount_type_id'))?->discount_type)
+                    //     ->numeric()
+                    //     ->reactive()
+                    //     ->rules([
+                    //         fn ($get) => \Illuminate\Validation\Rule::when(
+                    //             DiscountType::find($get('name'))?->discount_type === 'Процент',
+                    //             ['max:100'] // Foiz chegirma 100% dan oshmasligi kerak
+                    //         ),
+                    //         fn ($get) => \Illuminate\Validation\Rule::when(
+                    //             DiscountType::find($get('name'))?->discount_type === 'Фиксированная скидка',
+                    //             ['lte:' . $get('price')] // Fiks chegirma mahsulot narxidan katta bo‘lmasligi kerak
+                    //         ),
+                    //     ])
+                    //     ->disabled(fn ($get) => !$get('discount_type_id'))
+                    //     ->columnSpan(6), // Chegirma turi tanlanmaguncha yashirin bo'ladi
                         
-                        Select::make('products')
-                        ->relationship('products', 'name') // O‘zbek tilida chiqarish
-                        ->multiple()
-                        ->label('Продукты')
-                        ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
-                        // ->options(fn () => Product::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
-                        ->columnSpan(6)
-                        ->preload(),
+                        // Select::make('products')
+                        // ->relationship('products', 'name') // O‘zbek tilida chiqarish
+                        // ->multiple()
+                        // ->label('Продукты')
+                        // ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                        // // ->options(fn () => Product::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                        // ->columnSpan(6)
+                        // ->preload(),
+                        
+                        Repeater::make('Продукты')
+                            ->relationship('discountProducts')// Relationshipni bog‘lash
+                            ->schema([
+                                Select::make('product_id')
+                                    ->relationship('product', 'name') // O‘zbek tilida chiqarish
+                                    ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                                    ->required()
+                                    ->unique(ignoreRecord: true)
+                                    ->searchable()
+                                    ->reactive() // Tanlanganida qiymatni olish uchun
+                                    ->afterStateUpdated(fn (Get $get, callable $set) => 
+                                        $set('price', Product::find($get('product_id'))?->price ?? null)
+                                    )
+                                    ->columnSpan(6),
+                                    
+                                TextInput::make('price')
+                                    ->placeholder('Цена')
+                                    ->label('Цена')
+                                    ->required()
+                                    ->readOnly()
+                                    ->columnSpan(3),
+                                TextInput::make('discounted_price')
+                                    ->placeholder('Цена со скидкой')
+                                    ->label('Цена со скидкой')
+                                    ->required()
+                                    ->numeric()
+                                    ->columnSpan(3),
+                            ])
+                        ->columns(12)
+                        ->columnSpan(12),
                         DateTimePicker::make('deadline')->minDate(now())->required()->columnSpan(6),
 
 
@@ -102,15 +136,6 @@ class DiscountResource extends Resource
             ->columns([
                 ImageColumn::make('photo'),
                 TextColumn::make('name')->label('Название')->searchable(),
-                // Select::make('products')
-                //     ->label('Продукты')
-                //     // ->relationship('products', 'name->ru') // O‘zbek tilida chiqarish
-                //     ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id'))
-                //     ->multiple() // Bir nechta mahsulot tanlash uchun
-                //     ->preload(),
-                TextColumn::make('formatted_discount')
-                    ->label('Сумма скидки')
-                    ->state(fn ($record) => "{$record->discount_amount} " . ($record->discount_type->discount_type)),
                 TextColumn::make('deadline')
                     ->label('Скидка заканчивается')
                     ->formatStateUsing(fn ($state) => $state ? Carbon::parse($state)->format('d-m-Y H:i:s') : 'Noma’lum')

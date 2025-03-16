@@ -11,7 +11,7 @@ use Spatie\Translatable\HasTranslations;
 class Discount extends Model
 {
     use HasFactory,HasTranslations,SoftDeletes;
-    protected $guarded=['id'];
+    protected $fillable = ['name', 'photo', 'deadline'];
     public $translatable = ['name'];
 
     protected $casts = [
@@ -19,7 +19,7 @@ class Discount extends Model
     ];
 
     // discountr_product
-    public function discount_product()
+    public function discountProducts()
     {
         return $this->hasMany(DiscountProduct::class);
     }
@@ -29,13 +29,9 @@ class Discount extends Model
         return $query->where('deadline', '>', now()); // Deadline muddati o'tmagan chegirmalar
     }
     
-    public function discount_type()
-    {
-        return $this->belongsTo(DiscountType::class, 'discount_type_id');
-    }
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'discount_products', 'discount_id', 'products_id');
+        return $this->belongsToMany(Product::class, 'discount_products', 'discount_id', 'product_id');
     }
     protected static function boot()
     {

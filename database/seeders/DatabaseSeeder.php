@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             PaymentTypeSeeder::class,
             DeliveryMethodSeeder::class,
             DaySeeder::class,
-            // OrderStatusSeeder::class,
+            OrderStatusSeeder::class,
             // BranchSeeder::class,
         ]);
     }

@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedBigInteger('discount_type_id')->nullable();
-            $table->foreign('discount_type_id')->references('id')->on('discount_types')->onDelete('cascade');
-            $table->decimal('discount_amount',10,2)->default(0);
             $table->string('photo');
             $table->dateTime('deadline');
             $table->softDeletes();

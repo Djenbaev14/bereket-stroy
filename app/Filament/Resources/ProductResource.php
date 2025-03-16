@@ -131,7 +131,6 @@ class ProductResource extends Resource
                                 ->label('Фото')
                                 ->disk('public') 
                                 ->directory('products') 
-                                ->required()
                                 ->multiple()
                                 ->imageEditor()
                                 ->reorderable()
@@ -162,6 +161,7 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('category.name')->label('Название категория')->searchable()->sortable(),
@@ -173,13 +173,8 @@ class ProductResource extends Resource
                 TextColumn::make('discounted_price')
                 ->label('Цена со скидкой')
                 ->getStateUsing(function (Product $record) {
-                    if ($record->activeDiscount->isNotEmpty()) {
-                        $discount = $record->activeDiscount->first();
-                        if ($discount->discount_type === 'UZS') {
-                            return number_format($record->price - $discount->discount_amount, 0, ',', ' ') . ' сум';
-                        } else {
-                            return number_format(round((100 - $discount->discount_amount) * $record->price / 100), 0, ',', ' ').  ' сум';
-                        }
+                    if ($record->activeDiscount) {
+                        return number_format($record->activeDiscount->discounted_price, 0, ',', ' ') . ' сум';
                     }
                     return 'Озини нархида'; 
                 }),

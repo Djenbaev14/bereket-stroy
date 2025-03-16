@@ -37,6 +37,10 @@ class Category extends Model
             }
 
             $category->slug = $slug;
+            
+            if (!$category->photo) {
+                $category->photo = "categories/01JPFKGV7A6021BBTWQK7GPQHP.jpg"; // Standart rasm URL
+            }
         });
     }
 

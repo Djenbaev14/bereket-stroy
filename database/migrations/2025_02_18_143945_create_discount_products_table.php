@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('discount_id');
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
-            $table->unsignedBigInteger('products_id');
-            $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->decimal('price',10,2);
+            $table->decimal('discounted_price',10,2);
             $table->softDeletes();
             $table->timestamps();
         });

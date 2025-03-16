@@ -59,6 +59,10 @@ class SubCategory extends Model
             }
 
             $sub_category->slug = $slug;
+            
+            if (!$sub_category->photo) {
+                $sub_category->photo = "sub_categories/01JPCQ124Y54N1N4RMGQS21P8W.jpg"; // Standart rasm URL
+            }
         });
     }
 }
