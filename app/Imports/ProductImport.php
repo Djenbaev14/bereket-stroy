@@ -94,6 +94,7 @@ class ProductImport implements ToModel,WithHeadingRow
             ],
             'brand_id'=>$brand->id,
             'country_id'=>$country->id,
+            'unit_id'=>1,
             // 'photos'=>[$row['photo']]
             // 'photos'=>["products/01JP2KDVFTV0Y4GGJZ6KEHSPJ3.jpg"]
         ]);
