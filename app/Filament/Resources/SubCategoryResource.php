@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -85,6 +86,9 @@ class SubCategoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->label('Ид'),
+                ImageColumn::make('photo')
+                    ->label('Фото')
+                    ->square(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('category.name')->label('Категория')->searchable()->sortable(),
                 TextColumn::make('priority')->label('Приоритет')->sortable(),
