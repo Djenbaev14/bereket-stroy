@@ -117,7 +117,7 @@ class OrderController extends Controller
     }
 
     public function orderStatus()  {
-        $orderStatuses = OrderStatus::orderBy("id","desc")->get();
+        $orderStatuses = OrderStatus::get();
         
         return $this->responsePagination($orderStatuses, OrderStatusResource::collection($orderStatuses));
     }
