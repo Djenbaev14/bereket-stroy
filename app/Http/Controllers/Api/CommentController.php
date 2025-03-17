@@ -15,7 +15,7 @@ class CommentController extends Controller
         if($request->has("product_id")){
             $comments->where("product_id", $request->input("product_id"));
         }
-        $comments=$comments->get();         
+        $comments=$comments->orderBy('created_at','desc')->get();         
         return $this->responsePagination($comments, CommentResource::collection($comments));
     }
 
