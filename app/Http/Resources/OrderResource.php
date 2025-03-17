@@ -22,7 +22,7 @@ class OrderResource extends JsonResource
             'receiver_phone' => $this->receiver_phone,
             'receiver_comment' => $this->receiver_comment,
             'delivery_method' => $this->delivery_method->name,
-            'branch_id'=>$this->branch_id ? $this->branch->name : null,
+            'branch'=>$this->branch_id ? $this->branch->branch_name : null,
             'region' => $this->region,
             'district' => $this->district,
             'address' => $this->address,
