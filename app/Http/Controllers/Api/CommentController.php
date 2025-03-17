@@ -24,8 +24,11 @@ class CommentController extends Controller
             'product_id' => 'required|exists:products,id',
             'comment' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
+        ]);
+        if($request->has('photo')){$request->validate([
             'photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
+        }
         $user = auth()->user();
         $photoPath = null;
 
