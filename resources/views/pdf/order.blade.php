@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заказ #{{ $order->id }}</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        /* body { font-family: Arial, sans-serif; margin: 20px; } */
         h1 { text-align: center; }
         .section { margin-bottom: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
         .section-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
@@ -13,7 +13,7 @@
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f4f4f4; }
-        { font-family: "DejaVu Sans", sans-serif; }
+        /* { font-family: "DejaVu Sans", sans-serif; margin: 20px;} */
     </style>
 </head>
 <body>

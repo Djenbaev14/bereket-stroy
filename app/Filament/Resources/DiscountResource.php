@@ -96,7 +96,7 @@ class DiscountResource extends Resource
                             ->relationship('discountProducts')// Relationshipni bog‘lash
                             ->schema([
                                 Select::make('product_id')
-                                    ->relationship('product', 'name') // O‘zbek tilida chiqarish
+                                    // ->relationship('product', 'name->ru') // O‘zbek tilida chiqarish
                                     ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
                                     ->required()
                                     ->unique(ignoreRecord: true)

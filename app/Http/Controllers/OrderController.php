@@ -121,4 +121,11 @@ class OrderController extends Controller
         
         return $this->responsePagination($orderStatuses, OrderStatusResource::collection($orderStatuses));
     }
+
+    public function orderCancelled(Request $request,$id){
+        $order = Order::find($id);
+        if (!$order) {
+            return response()->json(['message' => 'Buyurtma topilmadi'], 404);
+        }
+    }
 }
