@@ -13,8 +13,6 @@ class Category extends Model
     use HasFactory,HasTranslations,SoftDeletes;
 
     protected $guarded=['id'];
-
-    
     public $translatable = ['name'];
 
     protected $casts = [

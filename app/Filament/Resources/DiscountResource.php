@@ -93,11 +93,18 @@ class DiscountResource extends Resource
                         // ->preload(),
                         
                         Repeater::make('Продукты')
+                            ->label('Продукты')
                             ->relationship('discountProducts')// Relationshipni bog‘lash
                             ->schema([
                                 Select::make('product_id')
-                                    // ->relationship('product', 'name->ru') // O‘zbek tilida chiqarish
-                                    ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                                    // ->relationship('product', 'name') // O‘zbek tilida chiqarish
+                                    // ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                                    ->options(
+                                        Product::whereDoesntHave('activeDiscount')
+                                            ->get()
+                                            ->pluck('name', 'id') // Pluck ichida id va name ni to‘g‘ri tartibda yozish kerak
+                                    )
+                                    ->getOptionLabelFromRecordUsing(fn ($record) => json_decode($record->name, true)[app()->getLocale()] ?? $record->name)
                                     ->required()
                                     ->unique(ignoreRecord: true)
                                     ->searchable()
@@ -106,7 +113,6 @@ class DiscountResource extends Resource
                                         $set('price', Product::find($get('product_id'))?->price ?? null)
                                     )
                                     ->columnSpan(6),
-                                    
                                 TextInput::make('price')
                                     ->placeholder('Цена')
                                     ->label('Цена')
