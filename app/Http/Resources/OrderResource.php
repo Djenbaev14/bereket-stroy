@@ -31,6 +31,7 @@ class OrderResource extends JsonResource
             'total_amount' => $this->total_amount,
             'status' => $this->status->name,
             'products_count'=>$this->OrderItems->count(),
+            'order_status_id'=>$this->order_status_id,
             'products'=>OrderItemResource::collection(OrderItem::where('order_id',$this->id)->get()),
             'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
         ];

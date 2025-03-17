@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderStatusResource;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderStatus;
 use App\Models\PaymentType;
 use App\Models\Product;
 use DB;
@@ -15,9 +17,12 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
 
-    public function index(){
-        $orders = Order::where('customer_id',auth()->user()->id)->orderBy("created_at","desc")->paginate(10);
-        
+    public function index(Request $request){
+        $query=Order::where('customer_id',auth()->user()->id);
+        if($request->has('order_status_id')){
+            $query=$query->where('order_status_id',$request->order_status_id);
+        }
+        $orders=$query->paginate(10);
         return $this->responsePagination($orders, OrderResource::collection($orders));
     }
     public function store(Request $orderRequest){
@@ -109,5 +114,11 @@ class OrderController extends Controller
             ], 500);
         }
 
+    }
+
+    public function orderStatus()  {
+        $orderStatuses = OrderStatus::orderBy("id","desc")->get();
+        
+        return $this->responsePagination($orderStatuses, OrderStatusResource::collection($orderStatuses));
     }
 }

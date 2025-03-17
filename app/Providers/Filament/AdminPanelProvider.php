@@ -47,6 +47,7 @@ class AdminPanelProvider extends PanelProvider
                 ->defaultLocales(['ru', 'uz','qr', 'en']),
                 FilamentCaptcha::make(),
             ])
+            ->favicon(asset('images/favicon.svg'))
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Продукты')

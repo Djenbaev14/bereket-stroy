@@ -63,6 +63,7 @@ Route::get('/cards', [CardController::class, 'index']);
 
 Route::get('/orders', [OrderController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/orders', [OrderController::class, 'store'])->middleware(['auth:sanctum']);
+Route::post('/order-status-list', [OrderController::class, 'orderStatus'])->middleware(['auth:sanctum']);
 
 Route::get('/comments', [CommentController::class, 'index']);
 Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth:sanctum']);
