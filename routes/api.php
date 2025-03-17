@@ -69,7 +69,8 @@ Route::post('/comments', [CommentController::class, 'store'])->middleware(['auth
 
 Route::get('/payment-types', [PaymentTypeController::class, 'index']);
 
-Route::get('/top-banner', [BannerController::class, 'topBanner']);
+Route::get('/big-banner', [BannerController::class, 'bigBanner']);
+Route::get('/small-banner', [BannerController::class, 'smallBanner']);
 Route::get('/setting', [SettingController::class, 'index']);
 
 Route::get('/user/me', [UserController::class, 'index'])->middleware(['auth:sanctum']);

@@ -65,6 +65,15 @@ class TopBannerResource extends Resource
                         ->placeholder('Текстовый абзац')
                         ->required()
                         ->columnSpan(6),
+                    Select::make('banner_type')
+                        ->label('Тип баннера')
+                        ->required()
+                        ->options([
+                            'big_banner'=>'Большой баннер',
+                            'small_banner'=>'Маленький баннер',
+                        ])
+                        ->searchable()
+                        ->columnSpan(6),
                 ])->columns(12)
             ]);
     }
@@ -76,8 +85,9 @@ class TopBannerResource extends Resource
                 TextColumn::make('id')->label('Ид'),
                 ImageColumn::make('photo')->label('Фото'),
                 TextColumn::make('url')->label('Ссылка'),
+                TextColumn::make('banner_type')->label('Тип баннера')
+                ->formatStateUsing(fn ($state) => $state == 'big_banner' ? 'Большой баннер' : 'Маленький баннер'),
                 TextColumn::make('header')->label('Текст заголовка'),
-                TextColumn::make('text')->label('Текстовый абзац'),
                 TextColumn::make('created_at')
                 ->label('Дата')
                 ->formatStateUsing(function ($state) {

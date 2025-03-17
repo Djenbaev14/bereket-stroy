@@ -16,6 +16,7 @@ class TopBannerResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'banner_type'=>$this->banner_type,
             'url' => $this->url,
             'photo' => $this->photo,
             'header' => $this->header,

@@ -17,7 +17,6 @@ class OrderStatusSeeder extends Seeder
         // ['pending', 'processing', 'shipped', 'completed', 'cancelled']
         $statuses= [
             [
-                
                 "name"=>[
                     "uz"=>"yangi",
                     "en"=>"new",
@@ -26,7 +25,6 @@ class OrderStatusSeeder extends Seeder
                 ],
             ],
             [
-                
                 "name"=>[
                     "uz"=>"tolov kutilmoqda",
                     "en"=>"payment pending",
