@@ -4,12 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\Translatable\HasTranslations;
 
 class OrderStatusResource extends JsonResource
 {
-    
-    use HasTranslations;
     /**
      * Transform the resource into an array.
      *
