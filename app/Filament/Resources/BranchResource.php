@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
 
-class BranchResource extends Resource
+class BranchResource extends Resource 
 {
     
     use Translatable;
@@ -28,7 +28,7 @@ class BranchResource extends Resource
     protected static ?string $navigationGroup = 'Настройки';
 
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
-
+    
     public static function form(Form $form): Form
     {
         return $form
