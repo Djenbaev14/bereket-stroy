@@ -39,11 +39,12 @@ class AuthController extends Controller
                 ]
             ],429);
         }else{
-            $customer = Customer::where('phone', $request->phone)->where('is_verified', true)->exists();
-            // return response()->json(['message'=>date('m-d-Y H:i:s', time()+(2 * 60))]);
+            $customer = Customer::withTrashed()->where('phone', $request->phone)->where('is_verified', true)->first();
             if ($customer) {
+                if ($customer->trashed()) {
+                    $customer->restore(); // deleted_at ni null qilib qaytarish
+                }   
                     $url_login = "notify.eskiz.uz/api/auth/login";
-                
                     $auth = Http::post($url_login, [
                         'email' => 'santexglobalnukus@gmail.com',
                         'password' => 'rnbyQKHGOH6DQV05lNzqh32Itym9M2SKEUUuCtCH',

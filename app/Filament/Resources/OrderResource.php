@@ -17,6 +17,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -25,7 +27,10 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Table;
+use Icetalker\FilamentTableRepeatableEntry\Infolists\Components\TableRepeatableEntry;
+use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
@@ -137,12 +142,12 @@ class OrderResource extends Resource
                             
                             ]),
                     Section::make()
-                        ->columnSpan(9)
+                        ->columnSpan(12)
                         ->schema([
                             TextInput::make('total_amount')
                                 ->label('Общая сумма')
                                 ->disabled(),
-                            Repeater::make('order_items')
+                            TableRepeater::make('order_items')
                                 ->label('Заказать товары')
                                 ->relationship('OrderItems') // order_items jadvaliga bog'lash
                                 ->schema([
@@ -163,7 +168,7 @@ class OrderResource extends Resource
                                 ])->reactive(),
                         ])
                 ])
-            ]);
+                                ]);
     }
 
     public static function table(Table $table): Table
@@ -253,6 +258,60 @@ class OrderResource extends Resource
                 ]),
             ]);
             
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                
+        \Filament\Infolists\Components\Grid::make(12)
+        ->schema([
+                \Filament\Infolists\Components\Section::make('Информация о клиенте')
+                    ->schema([
+                        TextEntry::make('customer.first_name')
+                        ->getStateUsing(fn ($record) => "ФИО: {$record->customer->first_name} {$record->customer->last_name}")
+                        ->label(''),
+                        TextEntry::make('customer.phone')
+                        ->getStateUsing(fn ($record) => "Тел номер: {$record->customer->phone}")
+                        ->label(''),
+                    ])->columnSpan(6),
+
+                \Filament\Infolists\Components\Section::make('Информация о продаже')
+                    ->schema([
+                        TextEntry::make('id')
+                        ->getStateUsing(fn ($record) => "Заказ ид: {$record->id}")
+                        ->label(''),
+                        TextEntry::make('created_at')
+                            ->getStateUsing(fn ($record) => "Дата: {$record->created_at}")
+                            // ->dateTime('d.m.Y H:i')
+                            ->label(''),
+                            TextEntry::make('id')
+                            ->getStateUsing(fn ($record) => "Общая сумма: ". number_format($record->total_amount) . ' сум')
+                            ->label(''),
+                        TextEntry::make('order_status_id')
+                            ->label('')
+                            ->formatStateUsing(fn ($record) => 
+                                "Статус: <span style='color: " . ($record->order_status_id == 1 ? 'red' : 'red') . "'>
+                                {$record->status->name['ru']}
+                                </span>"
+                                )
+                            ->html()
+                    ])->columnSpan(6),
+            ]),
+                TableRepeatableEntry::make('OrderItems')
+                    ->schema([
+                        TextEntry::make('product.name')->label('Название'),
+                        TextEntry::make('quantity')->label('Кол'),
+                        TextEntry::make('price')->label('Цена')
+                        ->formatStateUsing(fn ($record) => number_format($record->price, 2, '.', ' ') . ' сум'),
+                        TextEntry::make('summa')
+                        ->label('Сумма')     
+                        ->getStateUsing(fn ($record) => number_format($record->price * $record->quantity, 2, '.', ' ') . ' сум')
+                    ])
+                    ->striped()
+                    ->columnSpan(2),
+            ]);
     }
     
     public static function getNavigationLabel(): string

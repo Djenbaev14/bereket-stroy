@@ -21,6 +21,8 @@
         "flowframe/laravel-trend": "^0.1.5",
         "goodoneuz/pay-uz": "^2.2",
         "guzzlehttp/guzzle": "^7.2",
+        "icetalker/filament-table-repeatable-entry": "^1.0",
+        "icetalker/filament-table-repeater": "^1.4",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
