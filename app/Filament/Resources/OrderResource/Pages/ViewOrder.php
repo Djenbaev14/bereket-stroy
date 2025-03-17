@@ -3,14 +3,9 @@
 namespace App\Filament\Resources\OrderResource\Pages;
 
 use App\Filament\Resources\OrderResource;
-use Filament\Actions;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 
 class ViewOrder extends ViewRecord
 {
@@ -18,12 +13,28 @@ class ViewOrder extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            // Action::make('Download PDF')
-                // ->icon
+            Action::make('pdf')
+            ->label('Export PDF')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->action(fn ($record) => self::generatePdf($record)),
         ];
     }
+    public static function generatePdf($record)
+    {
+        $pdf = Pdf::loadView('pdf.order', ['order' => $record])
+        ->setPaper('A4')
+        ->setOptions([
+            'defaultFont' => 'DejaVu Sans', // UTF-8 uchun
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ]);
 
-
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            "order-{$record->id}.pdf"
+        );
+    }
+    
     // protected function getFormSchema(): array
     // {
     //     return [

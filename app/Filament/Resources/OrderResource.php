@@ -9,6 +9,7 @@ use App\Filament\Resources\OrderResource\Widgets\OrderWidget;
 use App\Models\Customer;
 use App\Models\DeliveryMethod;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
@@ -34,6 +35,7 @@ use Icetalker\FilamentTableRepeatableEntry\Infolists\Components\TableRepeatableE
 use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Blade;
 use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
 
 class OrderResource extends Resource
@@ -244,7 +246,11 @@ class OrderResource extends Resource
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                    // Action::make('exportPdf')
+                    //     ->label('Export PDF')
+                    //     ->icon('heroicon-o-arrow-down-tray')
+                    //     ->action(fn ($record) => self::generatePdf($record)),
+                    // Tables\Actions\DeleteAction::make(),
                 ]),
             ])
             ->groups([
@@ -294,7 +300,7 @@ class OrderResource extends Resource
                             ->label('')
                             ->formatStateUsing(fn ($record) => 
                                 "Статус: <span style='color: " . ($record->order_status_id == 1 ? 'red' : 'red') . "'>
-                                {$record->status->name['ru']}
+                                {$record->status->name}
                                 </span>"
                                 )
                             ->html()
@@ -312,9 +318,8 @@ class OrderResource extends Resource
                     ])
                     ->striped()
                     ->columnSpan(2),
-            ]);
+        ]);
     }
-    
     public static function getNavigationLabel(): string
     {
         return 'Заказы'; // Rus tilidagi nom

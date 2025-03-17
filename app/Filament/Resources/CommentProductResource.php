@@ -48,10 +48,10 @@ class CommentProductResource extends Resource
                 ImageColumn::make('photo')
                     ->label('Фото')
                     ->square(),
-                Tables\Columns\TextColumn::make('customer_id')
+                Tables\Columns\TextColumn::make('customer.first_name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product_id')
+                Tables\Columns\TextColumn::make('product.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('rating')

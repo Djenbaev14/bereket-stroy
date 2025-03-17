@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PdfController;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -42,3 +43,4 @@ Route::any('/pay/{paysys}/{key}/{amount}',function($paysys, $key, $amount){
     	->driver($paysys)
     	->redirect($model, $amount, 860, $url);
 });
+
