@@ -4,6 +4,7 @@ namespace App\Filament\Resources\OrderResource\Pages;
 
 use App\Filament\Resources\OrderResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -17,6 +18,8 @@ class ViewOrder extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            // Action::make('Download PDF')
+                // ->icon
         ];
     }
 

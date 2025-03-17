@@ -21,6 +21,7 @@ class CommentResource extends JsonResource
             "comment"=>$this->comment,
             "rating"=>$this->rating,
             "photo"=>$this->photo,
+            'created_at'=>$this->created_at
         ];
     }
 }
