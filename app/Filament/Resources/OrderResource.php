@@ -330,6 +330,7 @@ class OrderResource extends Resource
                     ])->columnSpan(6),
             ]),
                 TableRepeatableEntry::make('OrderItems')
+                    ->label('Товары в заказе')
                     ->schema([
                         TextEntry::make('product.name')->label('Название'),
                         TextEntry::make('quantity')->label('Кол'),
