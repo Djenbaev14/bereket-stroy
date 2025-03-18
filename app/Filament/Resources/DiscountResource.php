@@ -99,6 +99,7 @@ class DiscountResource extends Resource
                                 Select::make('product_id')
                                     // ->relationship('product', 'name') // O‘zbek tilida chiqarish
                                     // ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                                    ->label('Название')
                                     ->options(
                                         Product::whereDoesntHave('activeDiscount')
                                             ->get()
