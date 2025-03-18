@@ -22,12 +22,12 @@ class ViewOrder extends ViewRecord
     public static function generatePdf($record)
     {
         $pdf = Pdf::loadView('pdf.order', ['order' => $record])
-        ->setPaper('A4')
-        ->setOptions([
-            'defaultFont' => 'DejaVu Sans', // UTF-8 uchun
-            'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true,
-        ]);
+        ->setPaper('A4');
+        // ->setOptions([
+        //     'defaultFont' => 'DejaVu Sans', // UTF-8 uchun
+        //     'isHtml5ParserEnabled' => true,
+        //     'isRemoteEnabled' => true,
+        // ]);
 
         return response()->streamDownload(
             fn () => print($pdf->output()),

@@ -104,6 +104,7 @@ return [
     'available_locales' => ['ru', 'uz', 'en', 'qr'],
     'fallback_locale' => 'en',
 
+    'charset' => 'UTF-8',
     /*
     |--------------------------------------------------------------------------
     | Faker Locale

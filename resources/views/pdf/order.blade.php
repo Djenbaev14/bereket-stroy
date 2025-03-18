@@ -16,7 +16,7 @@
         /* { font-family: "DejaVu Sans", sans-serif; margin: 20px;} */
     </style>
 </head>
-<body>
+<body style="font-family: 'DejaVu Sans', sans-serif;">
 
     <h1>Заказ #{{ $order->id }}</h1>
 
@@ -33,8 +33,13 @@
         <p class="info"><strong>Заказ ID:</strong> {{ $order->id }}</p>
         <p class="info"><strong>Дата:</strong> {{ $order->created_at->format('d.m.Y H:i') }}</p>
         <p class="info"><strong>Общая сумма:</strong> {{ number_format($order->total_amount, 2, '.', ' ') }} сум</p>
+        <p class="info"><strong>Статус оплаты:</strong> 
+            <span style="padding:3px 5px;border-radius:5px;color:#fff;background: {{ $order->payment_status_id == 1 || $order->payment_status_id == 5 ? 'rgb(209, 26, 29)' : '#22bb33' }};">
+                {{ $order->payment_status->name }}
+            </span>
+        </p>
         <p class="info"><strong>Статус:</strong> 
-            <span style="color: {{ $order->order_status_id == 1 ? 'red' : 'blue' }};">
+            <span style="padding:3px 5px;border-radius:5px;color:#fff;background: {{ $order->order_status_id == 1 || $order->order_status_id == 1 ? 'rgb(209, 26, 29)' : '#22bb33' }};">
                 {{ $order->status->name }}
             </span>
         </p>
