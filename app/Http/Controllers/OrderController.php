@@ -126,8 +126,34 @@ class OrderController extends Controller
 
     public function orderCancelled(Request $request,$id){
         $order = Order::find($id);
-        if (!$order) {
-            return response()->json(['message' => 'Buyurtma topilmadi'], 404);
+        if ($order) {
+            if($order->order_status_id==1){
+                $order->update([
+                    'order_status_id'=>6,
+                    'payment_status_id'=>4,
+                ]);
+
+                return response()->json(['message' => [
+                    'uz'=>'№'.$order->id.' buyurtma bekor qilindi',
+                    'en'=>'Orde №'.$order->id.' canceled',
+                    'ru'=>'Заказ №'.$order->id.' отменен',
+                    'qr'=>'№'.$order->id.' buyırtpa biykarlandı'
+                ]], 200);
+            }else{
+                return response()->json(['message' => [
+                    'en'=>'Cannot cancel order',
+                    'uz'=>'Buyurtmani bekor qilish imkonsiz',
+                    'ru'=>'Невозможно отменить заказ',
+                    'qr'=>'Buyırtpanı biykarlawǵa bolmaydı'
+                ]], 404);
+            }
         }
+        
+        return response()->json(['message' => [
+            'en'=>'Order not found',
+            'uz'=>'Buyurtma topilmadi',
+            'ru'=>'Заказ не найден',
+            'qr'=>'Buyırtpa tabılmadı'
+        ]], 404);
     }
 }
