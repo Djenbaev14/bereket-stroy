@@ -56,6 +56,7 @@ class DiscountResource extends Resource
                             '1:1',
                     ])->columnSpan(12),
                     TextInput::make('name')->label('Название')->placeholder('Название')->unique()->required()->columnSpan(12),
+                    TextInput::make('text')->label('Текст')->placeholder('Текст')->columnSpan(12),
                     // Select::make('discount_type_id')
                     //     ->label('Тип скидки')
                     //     ->options(DiscountType::pluck('name', 'id'))
