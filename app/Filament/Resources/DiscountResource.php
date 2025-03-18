@@ -16,6 +16,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ViewField;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Concerns\Translatable;
@@ -112,14 +113,13 @@ class DiscountResource extends Resource
                                     ->searchable()
                                     ->reactive() // Tanlanganida qiymatni olish uchun
                                     ->afterStateUpdated(fn (Get $get, callable $set) => 
-                                        $set('price', Product::find($get('product_id'))?->price ?? null)
+                                        $set('price',Product::find($get('product_id'))?->price ?? null)
                                     )
                                     ->columnSpan(6),
                                 TextInput::make('price')
                                     ->placeholder('Цена')
                                     ->label('Цена')
-                                    ->required()
-                                    ->readOnly()
+                                    // ->readOnly()
                                     ->columnSpan(3),
                                 TextInput::make('discounted_price')
                                     ->placeholder('Цена со скидкой')

@@ -58,12 +58,10 @@ class TopBannerResource extends Resource
                     TextInput::make('header')
                         ->label('Текст заголовка')
                         ->placeholder('Текст заголовка')
-                        ->required()
                         ->columnSpan(6),
                     TextInput::make('text')
                         ->label('Текстовый абзац')
                         ->placeholder('Текстовый абзац')
-                        ->required()
                         ->columnSpan(6),
                     Select::make('banner_type')
                         ->label('Тип баннера')
