@@ -26,11 +26,11 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required()->label('Имя'),
-                TextInput::make('username')->required()->label('Логин')->unique(ignoreRecord: true),
-                TextInput::make('email')->required()->label('e-mail')->unique(ignoreRecord: true),
-                Password::make('password')->required()->label('Парол'),
+                TextInput::make('name')->required()->label('Имя')->placeholder('Имя'),
+                TextInput::make('username')->required()->label('Логин')->placeholder('Логин')->unique(ignoreRecord: true),
+                Password::make('password')->required()->label('Парол')->placeholder('Парол'),
                 Forms\Components\Select::make('roles')
+                    ->label('Роли')
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->preload()
@@ -43,7 +43,6 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('email'),
                 TextColumn::make('roles.name')
             ])
             ->filters([

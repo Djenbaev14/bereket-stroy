@@ -13,40 +13,59 @@ class OrderStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        // statuses 3 languages (en, ru, uz)
-        // ['pending', 'processing', 'shipped', 'completed', 'cancelled']
         $statuses= [
             [
+                'status'=>'pending',
                 "name"=>[
-                    "uz"=>"yangi",
-                    "en"=>"new",
-                    "ru"=>"новый",
-                    "qr"=>"jańa",
+                    "uz"=>"buyurtma qabul qilindi",
+                    "en"=>"order received",
+                    "ru"=>"заказ принят",
+                    "qr"=>"buyırtpa qabıl etildi",
                 ],
             ],
             [
+                'status'=>'confirmed',
                 "name"=>[
-                    "uz"=>"tolov kutilmoqda",
-                    "en"=>"payment pending",
-                    "ru"=>"ожидание оплаты",
-                    "qr"=>"to'lem kutilip atir",
+                    "uz"=>"buyurtma tasdiqlandi",
+                    "en"=>"order approved",
+                    "ru"=>"заказ одобрен",
+                    "qr"=>"buyırtpa tastıyıqlandı",
                 ],
             ],
             [
-               "name"=>[
-                'en'=>"paid",
-                'uz'=>"to'landi",
-                'ru'=>"оплачено",
-                'qr'=>"to'lendi",
+                'status'=>'processing',
+                "name"=>[
+                    'en'=>"preparing order",
+                    'uz'=>"buyurtma tayyorlanmoqda",
+                    'ru'=>"подготовка заказа",
+                    'qr'=>"buyırtpa tayarlanıp",
                ] 
             ],
             [
-                
+                'status'=>'delivered',
                 "name"=>[
-                    "en"=>"cancelled",
-                    "uz"=>"bekor qilingan",
-                    "ru"=>"отменено",
-                    "qr"=>"biykar etilgen",
+                    "en"=>"order delivered to customer",
+                    "uz"=>"buyurtma mijozga yetkazildi",
+                    "ru"=>"заказ доставлен клиенту",
+                    "qr"=>"buyırtpa klientke jetkerildi",
+                ],
+            ],
+            [
+                'status'=>'picked_up',
+                "name"=>[
+                    "en"=>"customer picked up the order",
+                    "uz"=>"mijoz buyurtmani olib ketdi",
+                    "ru"=>"клиент забрал заказ",
+                    "qr"=>"klient buyırtpanı alıp ketti",
+                ],
+            ],
+            [
+                'status'=>'cancelled',
+                "name"=>[
+                    "en"=>"order canceled",
+                    "uz"=>"buyurtma bekor qilindi",
+                    "ru"=>"заказ отменён",
+                    "qr"=>"buyırtpa biykarlandı",
                 ],
             ]
         ];

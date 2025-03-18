@@ -14,20 +14,19 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers');
             
-            $table->string('order_id')->unique(); // Custom Order ID
             // qabul qiluvchi
             $table->string('receiver_name');
             $table->string('receiver_phone');
             $table->string('receiver_comment')->nullable();
             
             $table->unsignedBigInteger('delivery_method_id');
-            $table->foreign('delivery_method_id')->references('id')->on('delivery_methods')->onDelete('cascade');
+            $table->foreign('delivery_method_id')->references('id')->on('delivery_methods');
             
             // olib ketish
             $table->unsignedBigInteger('branch_id')->nullable();
-            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches');
             
             // yetkazib berish
             $table->string('region')->nullable(); // Tuman yoki viloyat
@@ -37,11 +36,13 @@ return new class extends Migration
             
             // payment
             $table->unsignedBigInteger('payment_type_id');
-            $table->foreign('payment_type_id')->references('id')->on('payment_types')->onDelete('cascade');
+            $table->foreign('payment_type_id')->references('id')->on('payment_types');
             
             $table->decimal('total_amount', 10, 2);
+            $table->unsignedBigInteger('payment_status_id');
+            $table->foreign('payment_status_id')->references('id')->on('payment_statuses');
             $table->unsignedBigInteger('order_status_id');
-            $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
+            $table->foreign('order_status_id')->references('id')->on('order_statuses');
             $table->longText('comment')->nullable(); 
             $table->softDeletes();
             $table->timestamps();

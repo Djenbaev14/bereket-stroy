@@ -17,7 +17,6 @@ class OrderResource extends JsonResource
     {
         return [ 
             'id' => $this->id,
-            'order_id'=>$this->order_id,
             'receiver_name' => $this->receiver_name,
             'receiver_phone' => $this->receiver_phone,
             'receiver_comment' => $this->receiver_comment,
@@ -30,6 +29,7 @@ class OrderResource extends JsonResource
             'longitude' => $this->location[1],
             'total_amount' => $this->total_amount,
             'status' => $this->status->name,
+            'payment_status' => $this->payment_status->name,
             'products_count'=>$this->OrderItems->count(),
             'order_status_id'=>$this->order_status_id,
             'products'=>OrderItemResource::collection(OrderItem::where('order_id',$this->id)->get()),

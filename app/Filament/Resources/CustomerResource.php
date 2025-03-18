@@ -89,7 +89,8 @@ class CustomerResource extends Resource
     }),
                 TextColumn::make('created_at')->dateTime()
             ])
-            ->defaultSort('id', 'desc')
+            ->defaultPaginationPageOption(50)
+            ->defaultSort('id','desc')
             ->filters([
                 //
             ])

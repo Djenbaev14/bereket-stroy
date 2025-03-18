@@ -36,6 +36,5 @@ class LocaleSeeder extends Seeder
             'is_default'=>false,
             'is_active'=>true,
         ]);
-        
     }
 }

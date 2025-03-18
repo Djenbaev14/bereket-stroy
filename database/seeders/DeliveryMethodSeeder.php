@@ -16,6 +16,7 @@ class DeliveryMethodSeeder extends Seeder
     {
         $methods = [
             [
+                'type'=>'pickup',
                 'name' => [
                     'uz'=>'Olib ketish',
                     'ru'=>'Еда на вынос',
@@ -24,6 +25,7 @@ class DeliveryMethodSeeder extends Seeder
                 ],
             ],
             [
+                'type'=>'courier',
                 'name' => [
                     'uz'=>'Yetkazib berish',
                     'ru'=>'Доставка',

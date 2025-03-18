@@ -102,7 +102,8 @@ class CategoryResource extends Resource
                     return \Carbon\Carbon::parse($state)->format('d/m/Y'); // Sana formatini o‘zgartirish
                 })
             ])
-            ->defaultSort('id', 'desc') // Default tartibni sozlash
+            ->defaultPaginationPageOption(50)
+            ->defaultSort('id','desc')
             ->filters([
                 //
             ])

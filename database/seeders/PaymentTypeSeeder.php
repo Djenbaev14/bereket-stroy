@@ -17,6 +17,7 @@ class PaymentTypeSeeder extends Seeder
         
         $payment_types = [
             [
+                'payment_method_id'=>3,
                 'key'=>'term_payment',
                 'name' => [
                     "uz" => "Muddatli to'lov",
@@ -33,6 +34,7 @@ class PaymentTypeSeeder extends Seeder
                 'photo'=>'images/payments/muddatli.png',
             ],
             [
+                'payment_method_id'=>1,
                 'key'=>'cash',
                 'name' => [
                     "uz" => "Naqd pul",
@@ -49,22 +51,7 @@ class PaymentTypeSeeder extends Seeder
                 ]
             ],
             [
-                'key'=>'uzum_bank',
-                'name' => [
-                    "uz" => "Uzum bank",
-                    "ru" => "Uzum bank",
-                    "en" => "Uzum bank",
-                    "qr" => "Uzum bank",
-                ],
-                'photo'=>'images/payments/uzum.png',
-                'text'=>[
-                    'uz'=>'Sizni Uzum bank ilovasiga yo‘naltiramiz, u yerda buyurtma uchun to‘lovni amalga oshirishingiz mumkin.',
-                    'ru'=>'Мы перенаправим вас в приложение Uzum bank, где вы сможете оплатить заказ.',
-                    'en'=>'We will redirect you to the Uzum bank, where you can pay for the order.',
-                    'qr'=>'Sizdi Uzum bank qosımshasına jiberemiz, ol jerde buyırtpa ushın tólemdi ámelge asırıwıńız múmkin.',
-                ]
-            ],
-            [
+                'payment_method_id'=>2,
                 'key'=>'payme',
                 'name' => [
                     "uz" => "Payme",
@@ -80,6 +67,7 @@ class PaymentTypeSeeder extends Seeder
                 ]
             ],
             [
+                'payment_method_id'=>2,
                 'key'=>'click',
                 'name' => [
                     "uz" => "Click",

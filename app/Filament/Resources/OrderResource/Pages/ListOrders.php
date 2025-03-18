@@ -26,9 +26,11 @@ class ListOrders extends ListRecords
         return [
             null => Tab::make('Все'),
             'Новый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '1')),
-            'Ожидание оплаты' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '2')),
-            'Оплачено' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '3')),
-            'отменено' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '4')),
+            'Додтверждённый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '2')),
+            'Обработка' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '3')),
+            'Доставленный' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '4')),
+            'Вывезенный' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '5')),
+            'Отменённый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '6')),
         ];
     }
 }

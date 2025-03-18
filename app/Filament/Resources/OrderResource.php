@@ -194,15 +194,28 @@ class OrderResource extends Resource
                         ->label('Общая сумма')
                         ->money('UZS'),
                 ]),
-                Tables\Columns\TextColumn::make('status.name.ru')
+                Tables\Columns\TextColumn::make('status.name')
                     ->label('Статус')
                     ->formatStateUsing(fn (string $state) => ucfirst($state))
                     ->badge()
-                    ->color(fn (Order $record) => match ($record->status->name['en']) {
-                        'new' => 'primary',       // Yangi — Ko‘k
-                        'payment pending' => 'info', // Tugallangan — Yashil
-                        'paid' => 'success', // Tugallangan — Yashil
+                    ->color(fn (Order $record) => match ($record->status->status) {
+                        'pending' => 'primary',       // Yangi — Ko‘k
+                        'confirmed' => 'info', // Tugallangan — Yashil
+                        'processing' => 'info', // Tugallangan — Yashil
+                        'delivered' => 'success',   // Bekor qilingan — Qizil
+                        'picked_up' => 'success',   // Bekor qilingan — Qizil
                         'cancelled' => 'danger',   // Bekor qilingan — Qizil
+                        default => 'danger',
+                    }),
+                Tables\Columns\TextColumn::make('payment_status.name')
+                    ->label('Статус оплаты')
+                    ->formatStateUsing(fn (string $state) => ucfirst($state))
+                    ->badge()
+                    ->color(fn (Order $record) => match ($record->payment_status->type) {
+                        'unpaid' => 'primary',       // Yangi — Ko‘k
+                        'processing' => 'info', // Tugallangan — Yashil
+                        'paid' => 'success', // Tugallangan — Yashil
+                        'refunded' => 'danger',   // Bekor qilingan — Qizil
                         default => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('created_at')
@@ -242,6 +255,8 @@ class OrderResource extends Resource
                         return $indicators;
                     }),
             ])
+            ->defaultPaginationPageOption(50)
+            ->defaultSort('id','desc')
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
@@ -296,10 +311,18 @@ class OrderResource extends Resource
                             TextEntry::make('id')
                             ->getStateUsing(fn ($record) => "Общая сумма: ". number_format($record->total_amount) . ' сум')
                             ->label(''),
+                        TextEntry::make('payment_status_id')
+                            ->label('')
+                            ->formatStateUsing(fn ($record) => 
+                                "Статус оплаты: <span style='padding:3px 5px;border-radius:5px;color:#fff;background: " . (($record->payment_status_id == 1 || $record->payment_status_id == 5) ? 'rgb(209, 26, 29)' : '#22bb33') . "'>
+                                {$record->payment_status->name}
+                                </span>"
+                                )
+                            ->html(),
                         TextEntry::make('order_status_id')
                             ->label('')
                             ->formatStateUsing(fn ($record) => 
-                                "Статус: <span style='color: " . ($record->order_status_id == 1 ? 'red' : 'red') . "'>
+                                "Статус: <span style='padding:3px 5px;border-radius:5px;color:#fff;background: " . (($record->order_status_id == 1 ||$record->order_status_id == 6) ? 'rgb(209, 26, 29)' : '#22bb33') . "'>
                                 {$record->status->name}
                                 </span>"
                                 )

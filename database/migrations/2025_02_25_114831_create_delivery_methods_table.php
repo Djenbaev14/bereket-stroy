@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('delivery_methods', function (Blueprint $table) {
             $table->id();
+            $table->string('type'); 
             $table->json('name');
             $table->timestamps();
         });

@@ -196,6 +196,7 @@ class ProductResource extends Resource
                     }
                 }),
             ])
+            ->defaultPaginationPageOption(50)
             ->defaultSort('id','desc')
             ->filters([
                 // **Brand bo‘yicha filter**

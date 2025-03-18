@@ -39,6 +39,10 @@ class Order extends Model
     {
         return $this->belongsTo(OrderStatus::class, 'order_status_id');
     }
+    public function payment_status()
+    {
+        return $this->belongsTo(PaymentStatus::class, 'payment_status_id');
+    }
     public function OrderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
@@ -49,14 +53,14 @@ class Order extends Model
             return $OrderItem->quantity * $OrderItem->price;
         });
     }
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($order) {
-            $latestOrder = Order::latest()->first();
-            $nextId = $latestOrder ? intval(substr($latestOrder->order_id, -6)) + 1 : 1;
-            $order->order_id = str_pad($nextId, 6, '0', STR_PAD_LEFT);
-        });
-    }
+    //     static::creating(function ($order) {
+    //         $latestOrder = Order::latest()->first();
+    //         $nextId = $latestOrder ? intval(substr($latestOrder->order_id, -6)) + 1 : 1;
+    //         $order->order_id = str_pad($nextId, 6, '0', STR_PAD_LEFT);
+    //     });
+    // }
 }
