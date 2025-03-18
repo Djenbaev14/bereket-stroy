@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
     public function login(Request $request){
         $rules = [
-            'phone' => ['required', 'numeric',],
+            'phone' => ['required', 'numeric','digits:9'],
         ];
         
         $validator = Validator::make($request->all(), $rules);
@@ -24,8 +24,8 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        if(Cache::has('device_' . $request->ip())){
-            $remainingTime = Cache::get('expiresAt_'.'_device'.$request->ip())->diffInSeconds(now());
+        if(Cache::has('phone_' . $request->phone)){
+            $remainingTime = Cache::get('expiresAt_phone_'.$request->phone)->diffInSeconds(now());
             return response()->json([
                 'message'=>[
                     'uz' => "Siz allaqachon kod oldingiz. Qayta so‘rash uchun $remainingTime soniya kuting.",
@@ -46,7 +46,7 @@ class AuthController extends Controller
                     'phone'=>$request->phone,
                 ]);
             }
-            $url_login = "notify.eskiz.uz/api/auth/login";
+                    $url_login = "notify.eskiz.uz/api/auth/login";
                     $auth = Http::post($url_login, [
                         'email' => 'santexglobalnukus@gmail.com',
                         'password' => 'rnbyQKHGOH6DQV05lNzqh32Itym9M2SKEUUuCtCH',
@@ -65,8 +65,8 @@ class AuthController extends Controller
                         $resposnse = $resposnse->json();
                         Cache::put('phone_'.$request->phone, $request->phone, now()->addMinutes(2));
                         Cache::put('verification_code_'.$request->phone, $ran, now()->addMinutes(2));
-                        Cache::put('expiresAt_'.'_device'.$request->ip(), now()->addMinutes(2),now()->addMinutes(2));
-                        Cache::put('device_' . $request->ip(), true, now()->addMinutes(2)); // Qurilma uchun cheklov
+                        Cache::put('expiresAt_phone_'.$request->phone, now()->addMinutes(2),now()->addMinutes(2));
+                        // Cache::put('device_' . $request->ip(), true, now()->addMinutes(2)); // Qurilma uchun cheklov
                     }
             return response()->json(['message' => 'Tasdiqlash kodi yuborildi','resposnse'=>$resposnse,'phone'=>$request->phone],200);
         }
@@ -149,7 +149,7 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $now = time();
-            if(Cache::has('expiresAt_'.'_device'.$request->ip()) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_'.'_device'.$request->ip())){
+            if(Cache::has('expiresAt_phone_'.$request->phone) &&  date('m-d-Y H:i:s', $now) <= Cache::get('expiresAt_phone_'.$request->phone)){
                 if(Cache::has('verification_code_'.$request->phone) && $request->code == Cache::get('verification_code_'.$request->phone) && $request->phone == Cache::get('phone_'.$request->phone) )    {
                     $customer=Customer::where('phone', $request->phone)->first();
                     if (!$customer) {
@@ -163,7 +163,7 @@ class AuthController extends Controller
                     $token = $customer->createToken('auth_token')->plainTextToken;
 
                     Cache::forget('verification_code_'.$request->phone);
-                    Cache::forget('expiresAt_'.'_device'.$request->ip());
+                    Cache::forget('expiresAt_phone_'.$request->phone);
                     Cache::forget('phone_'.$request->phone);
                     DB::commit();
                 }else{

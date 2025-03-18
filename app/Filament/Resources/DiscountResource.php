@@ -100,12 +100,12 @@ class DiscountResource extends Resource
                             ->schema([
                                 Select::make('product_id')
                                     // ->relationship('product', 'name') // O‘zbek tilida chiqarish
-                                    // ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
                                     ->label('Название')
                                     ->options(
                                         Product::whereDoesntHave('activeDiscount')
                                             ->get()
                                             ->pluck('name', 'id') // Pluck ichida id va name ni to‘g‘ri tartibda yozish kerak
+                                            // ->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name)
                                     )
                                     ->getOptionLabelFromRecordUsing(fn ($record) => json_decode($record->name, true)[app()->getLocale()] ?? $record->name)
                                     ->required()
@@ -136,7 +136,6 @@ class DiscountResource extends Resource
                 ])->columns(12)
             ]);
     }
-    
 
     public static function table(Table $table): Table
     {
