@@ -20,6 +20,7 @@ class PaymentTypeResource extends JsonResource
             'name'=>$this->name,
             'text'=>$this->text,
             'photo'=>$this->photo,
+            'is_active'=>$this->is_active,
         ];
     }
 }

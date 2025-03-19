@@ -27,6 +27,17 @@
         <p class="info"><strong>Тел номер:</strong> {{ $order->customer->phone }}</p>
     </div>
 
+    <div class="section">
+        <div class="section-title">Информация о доставке</div>
+        @if ($order->delivery_method->type == 'pickup')
+            <p class="info"><strong>Филиал:</strong> {{ $order->branch->branch_name }}</p>
+        @else
+            <p class="info"><strong>Регион:</strong> {{ $order->region }}</p>
+            <p class="info"><strong>Район:</strong> {{ $order->district }}</p>
+            <p class="info"><strong>Адрес:</strong> {{ $order->address }}</p>
+        @endif
+    </div>
+
     <!-- Информация о продаже -->
     <div class="section">
         <div class="section-title">Информация о продаже</div>

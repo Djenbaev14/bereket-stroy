@@ -31,6 +31,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Table;
+use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
 use Icetalker\FilamentTableRepeatableEntry\Infolists\Components\TableRepeatableEntry;
 use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,7 +45,6 @@ class OrderResource extends Resource
 
     protected static ?string $navigationGroup = 'Заказы';
     protected static ?int $navigationSort = 2;
-
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
@@ -222,7 +222,8 @@ class OrderResource extends Resource
                     ->label('Дата заказа')
                     ->dateTime()
                     ->sortable(),
-            ])
+                ],
+                )
             ->defaultSort('id', 'desc')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
@@ -289,15 +290,38 @@ class OrderResource extends Resource
                 
         \Filament\Infolists\Components\Grid::make(12)
         ->schema([
-                \Filament\Infolists\Components\Section::make('Информация о клиенте')
+            \Filament\Infolists\Components\Section::make('Информация о клиенте')
+                ->schema([
+                    TextEntry::make('customer.first_name')
+                    ->getStateUsing(fn ($record) => "ФИО: {$record->customer->first_name} {$record->customer->last_name}")
+                    ->label(''),
+                    TextEntry::make('customer.phone')
+                    ->getStateUsing(fn ($record) => "Тел номер: {$record->customer->phone}")
+                    ->label(''),
+                ])->columnSpan(4),
+                
+                \Filament\Infolists\Components\Section::make('Информация о доставке')
                     ->schema([
-                        TextEntry::make('customer.first_name')
-                        ->getStateUsing(fn ($record) => "ФИО: {$record->customer->first_name} {$record->customer->last_name}")
-                        ->label(''),
-                        TextEntry::make('customer.phone')
-                        ->getStateUsing(fn ($record) => "Тел номер: {$record->customer->phone}")
-                        ->label(''),
-                    ])->columnSpan(6),
+                        TextEntry::make('order.branch.name')
+                        ->label('')
+                        ->getStateUsing(fn ($record) => "Филиал: {$record->branch->branch_name}")
+                        ->hidden(fn ($record) => $record->delivery_method->type !== 'pickup'), // ❌ Pickup bo‘lmasa ko‘rinmaydi
+
+                        TextEntry::make('order.region')
+                            ->label('')
+                            ->getStateUsing(fn ($record) => "Регион: {$record->region}")
+                            ->hidden(fn ($record) => $record->delivery_method->type !== 'courier'), // ❌ Courier bo‘lmasa ko‘rinmaydi
+
+                        TextEntry::make('order.district')
+                            ->label('')
+                            ->getStateUsing(fn ($record) => "Район: {$record->district}")
+                            ->hidden(fn ($record) => $record->delivery_method->type !== 'courier'),
+
+                        TextEntry::make('order.address')
+                            ->label('')
+                            ->getStateUsing(fn ($record) => "Адрес: {$record->address}")
+                            ->hidden(fn ($record) => $record->delivery_method->type !== 'courier'),
+                    ])->columnSpan(4),
 
                 \Filament\Infolists\Components\Section::make('Информация о продаже')
                     ->schema([
@@ -327,7 +351,7 @@ class OrderResource extends Resource
                                 </span>"
                                 )
                             ->html()
-                    ])->columnSpan(6),
+                    ])->columnSpan(4),
             ]),
                 TableRepeatableEntry::make('OrderItems')
                     ->label('Товары в заказе')

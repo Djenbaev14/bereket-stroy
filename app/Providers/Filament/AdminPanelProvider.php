@@ -17,6 +17,8 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
+use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -47,6 +49,11 @@ class AdminPanelProvider extends PanelProvider
                 ->defaultLocales(['ru', 'uz','qr', 'en']),
                 FilamentCaptcha::make(),
             ])
+            ->renderHook(
+                // PanelsRenderHook::BODY_END,
+                PanelsRenderHook::FOOTER,
+                fn() => view('footer')
+            )
             ->favicon(asset('images/favicon.svg'))
             ->navigationGroups([
                 NavigationGroup::make()

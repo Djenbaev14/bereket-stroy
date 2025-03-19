@@ -15,6 +15,7 @@ use App\Models\Unit;
 use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\RichEditor;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\FileUpload;
@@ -56,11 +57,7 @@ class ProductResource extends Resource
                             ->required()
                             ->label('Название'),
                             TextInput::make('slug')->required()->label('Название')->hidden(),
-                            TinyEditor::make('description')
-                                ->fileAttachmentsDisk('public')
-                                ->fileAttachmentsVisibility('public')
-                                ->fileAttachmentsDirectory('uploads')
-                                ->profile('default|simple|full|minimal|none|custom')
+                            RichEditor::make('description')
                                 ->label('Описание')
                                 ->columnSpan('full')
                         ]),
@@ -97,13 +94,11 @@ class ProductResource extends Resource
                                     Select::make('brand_id')
                                         ->label('Бренд')
                                         ->options(Brand::all()->pluck('name', 'id'))
-                                        ->required()
                                         ->searchable()
                                         ->columnSpan(1),
                                     Select::make('country_id')
                                         ->label('Страна')
                                         ->options(Country::all()->pluck('name', 'id'))
-                                        ->required()
                                         ->searchable()
                                         ->columnSpan(1),
                                     Select::make('unit_id')

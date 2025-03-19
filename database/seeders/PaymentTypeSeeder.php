@@ -21,8 +21,8 @@ class PaymentTypeSeeder extends Seeder
                 'key'=>'term_payment',
                 'name' => [
                     "uz" => "Muddatli to'lov",
-                    "ru"=>"Отсроченный платеж",
-                    "en"=>"Deferred payment",
+                    "ru"=>"рассрочка",
+                    "en"=>"installment plan",
                     "qr"=>"Múddetli tólem"
                 ],
                 'text'=>[

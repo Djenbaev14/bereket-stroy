@@ -36,14 +36,14 @@ class OrderController extends Controller
                 'products'=>'required|array',
                 'products.*.product_id'=>'required|exists:products,id',
                 'products.*.quantity'=>'required|integer',
+                'delivery_method_id'=>'required|exists:delivery_methods,id',
             ]);
-            if($orderRequest->has('branch_id')){
+            if($orderRequest->has('delivery_method_id') && $orderRequest->delivery_method_id == 1){
                 $orderRequest->validate([
                     'branch_id'=>'required|exists:branches,id'
                 ]);
-            }else if($orderRequest->has('delivery_method_id')){
+            }else if($orderRequest->has('delivery_method_id') && $orderRequest->delivery_method_id == 2){
                 $orderRequest->validate([
-                    'delivery_method_id'=>'required|exists:delivery_methods,id',
                     'region'=>'required|string',
                     'district'=>'required|string',
                     'address'=>'required|string',
