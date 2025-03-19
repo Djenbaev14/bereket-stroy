@@ -37,7 +37,7 @@ return [
             // 'view_any',
             'create',
             'update',
-            'restore',
+            // 'restore',
             // 'restore_any',
             // 'replicate',
             // 'reorder',
