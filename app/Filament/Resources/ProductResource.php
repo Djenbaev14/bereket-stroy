@@ -155,10 +155,15 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(
+                Product::query()
+                    ->withAvg('commentProducts', 'rating') // 🔥 `avg_rating` ni hisoblaymiz
+            )
             ->columns([
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
+                TextColumn::make('comment_products_avg_rating')->label('Рейтинг')->sortable(),
                 TextColumn::make('category.name')->label('Название категория')->searchable()->sortable(),
                 TextColumn::make('sub_category.name')->label('Название подкатегория')->searchable()->sortable(),
                 TextColumn::make('price')->label('Цена')
