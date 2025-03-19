@@ -97,6 +97,16 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->plugin(
+                \Hasnayeen\Themes\ThemesPlugin::make()
+            )
+            ->middleware([
+                \Hasnayeen\Themes\Http\Middleware\SetTheme::class
+            ])
+            // or in `tenantMiddleware` if you're using multi-tenancy
+            ->tenantMiddleware([
+                \Hasnayeen\Themes\Http\Middleware\SetTheme::class
+            ])
             ->plugins([
                 FilamentShieldPlugin::make()
                     ->gridColumns([
