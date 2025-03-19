@@ -100,6 +100,10 @@ class AdminPanelProvider extends PanelProvider
             ->plugin(
                 \Hasnayeen\Themes\ThemesPlugin::make()
             )
+            ->plugin(
+                \Hasnayeen\Themes\ThemesPlugin::make()
+                    ->canViewThemesPage(fn () => auth()->user()?->super_admin)
+            )
             ->middleware([
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
