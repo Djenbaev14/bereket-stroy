@@ -57,6 +57,10 @@ class Product extends Model
     {
         return $this->belongsTo(Country::class);
     }
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class); // OrderItem modeliga moslashtiring
+    }
     public function recommendedProducts()
     {
         return Product::whereIn('sub_category_id', function ($query) {

@@ -30,6 +30,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
 use Icetalker\FilamentTableRepeatableEntry\Infolists\Components\TableRepeatableEntry;
@@ -194,6 +195,9 @@ class OrderResource extends Resource
                         ->label('Общая сумма')
                         ->money('UZS'),
                 ]),
+                TextColumn::make('items_count')
+                    ->label('Кол Продуктов')
+                    ->counts('items'), // Order_items bilan bog‘langan bo‘lsa
                 Tables\Columns\TextColumn::make('status.name')
                     ->label('Статус')
                     ->formatStateUsing(fn (string $state) => ucfirst($state))
