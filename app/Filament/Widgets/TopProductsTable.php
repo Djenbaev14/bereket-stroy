@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class TopProductsTable extends BaseWidget
 {
-    protected static ?string $heading = 'Eng Ko‘p Sotilgan Mahsulotlar';
+    protected static ?string $heading = 'Самые продаваемые продукты';
     protected static ?int $sort = 4; // Tartibda to‘rtinchi bo‘lishi uchun
     protected int | string | array $columnSpan = 'full';
     public function table(Table $table): Table
@@ -27,16 +27,16 @@ class TopProductsTable extends BaseWidget
         )
         ->columns([
             Tables\Columns\TextColumn::make('name')
-                ->label('Mahsulot Nomi')
+                ->label('Название')
                 ->searchable(),
             Tables\Columns\TextColumn::make('price')
                 ->label('Narxi')
                 ->money('UZS', true), // UZS formatida
             Tables\Columns\TextColumn::make('total_sold')
-                ->label('Sotilgan Miqdor'),
+                ->label('Проданное количество'),
                 // ->getStateUsing(fn ($record) => $record->orderItems()->sum('quantity')),
             Tables\Columns\TextColumn::make('total_revenue')
-                ->label('Umumiy Daromad')
+                ->label('Валовая прибыль')
                 // ->getStateUsing(fn ($record) => $record->orderItems()->sum(DB::raw('quantity * price')))
                 ->money('UZS', true),
         ]);
