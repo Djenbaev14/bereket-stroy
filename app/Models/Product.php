@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use GalleryJsonMedia\JsonMedia\Concerns\InteractWithMedia;
 use GalleryJsonMedia\JsonMedia\Contracts\HasMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\App;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Support\Str;
 
@@ -83,6 +85,25 @@ class Product extends Model
         $rating= $this->commentProducts()->avg('rating') ?? 0;
         return round($rating,1);
     } 
+    protected $appends = ['status'];
+
+    public function getStatusAttribute()
+    {
+        $isNew = $this->created_at->diffInDays(Carbon::now()) <= 7;
+        if (!$isNew) {
+            return null;
+        }
+
+        $locale = App::getLocale(); // Joriy tilni olish
+        $translations = [
+            'uz' => 'yangi',
+            'en' => 'new',
+            'ru' => 'новый',
+            'qr' => 'jańa',
+        ];
+
+        return $translations[$locale] ?? $translations['ru']; // Agar til topilmasa, 'en' qaytadi
+    }
     protected static function boot()
     {
         parent::boot();
