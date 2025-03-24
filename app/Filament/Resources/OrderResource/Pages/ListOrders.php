@@ -17,20 +17,36 @@ class ListOrders extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
-    // protected function getHeaderWidgets(): array
-    // {
-    //     return OrderResource::getWidgets();
-    // }
+    protected function getHeaderWidgets(): array
+    {
+        return OrderResource::getWidgets();
+    }
     public function getTabs(): array
     {
+        $query = $this->getTableQuery();
+        $allCount = $query->count();
+        $acceptedCount = $query->clone()->where('order_status_id', 1)->count();
+        $approvedCount = $query->clone()->where('order_status_id', 2)->count();
+        $deliveredCount = $query->clone()->where('order_status_id', 3)->count();
+        $canceledCount = $query->clone()->where('order_status_id', 4)->count();
         return [
-            null => Tab::make('Все'),
-            'Новый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '1')),
-            'Додтверждённый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '2')),
-            'Обработка' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '3')),
-            'Доставленный' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '4')),
-            'Вывезенный' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '5')),
-            'Отменённый' => Tab::make()->query(fn ($query) => $query->where('order_status_id', '6')),
+            null => Tab::make('Все')->badge($allCount),
+            'Заказ принят' => Tab::make()
+                ->label('Заказ принят')
+                ->badge($acceptedCount)
+                ->query(fn ($query) => $query->where('order_status_id', 1)),
+            'Заказ одобрен' => Tab::make()
+                ->label('Заказ одобрен')
+                ->badge($approvedCount)
+                ->query(fn ($query) => $query->where('order_status_id', 2)),
+            'Заказ доставлен клиенту' => Tab::make()
+                ->label('Заказ доставлен клиенту')
+                ->badge($deliveredCount)
+                ->query(fn ($query) => $query->where('order_status_id', 3)),
+            'Заказ отменён' => Tab::make()
+                ->label('Заказ отменён')
+                ->badge($canceledCount)
+                ->query(fn ($query) => $query->where('order_status_id', 4)),
         ];
     }
 }

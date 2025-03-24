@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Log;
 
 class Order extends Model
 {
@@ -53,14 +54,29 @@ class Order extends Model
             return $OrderItem->quantity * $OrderItem->price;
         });
     }
-    // protected static function boot()
-    // {
-    //     parent::boot();
+    // Statuslarni enum sifatida belgilash (ixtiyoriy)
+    public function getNextStatusId(): ?int
+    {
+        $statusOrder = [
+            1 => 2, // pending -> confirmed
+            2 => 3, // confirmed -> delivered
+            3 => null, // delivered -> oxirgi status
+            4 => null, // cancelled -> oxirgi status
+        ];
 
-    //     static::creating(function ($order) {
-    //         $latestOrder = Order::latest()->first();
-    //         $nextId = $latestOrder ? intval(substr($latestOrder->order_id, -6)) + 1 : 1;
-    //         $order->order_id = str_pad($nextId, 6, '0', STR_PAD_LEFT);
-    //     });
-    // }
+        return $statusOrder[$this->order_status_id] ?? null;
+    }
+    public function getNextPaymentStatusId(): ?int
+    {
+        $statusPayment = [
+            1 => 3, 
+            2 => 3, 
+            3 => null, // paid -> oxirgi status
+            4 => null, // failed -> oxirgi status
+            5 => null, // refunded -> oxirgi status
+        ];
+
+        return $statusPayment[$this->payment_status_id] ?? null;
+    }
+    
 }

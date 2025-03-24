@@ -9,9 +9,10 @@ use App\Filament\Resources\OrderResource\Widgets\OrderWidget;
 use App\Models\Customer;
 use App\Models\DeliveryMethod;
 use App\Models\Order;
+use App\Models\User;
+use App\Notifications\OrderStatusUpdated;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
@@ -21,6 +22,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -30,6 +32,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
@@ -39,6 +42,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
 use Traineratwot\FilamentOpenStreetMap\Forms\Components\MapInput;
+use Filament\Notifications\Notification;
 
 class OrderResource extends Resource
 {
@@ -179,26 +183,27 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->label('ID заказа')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('receiver_name')
+                TextColumn::make('receiver_name')
                     ->label('Имя получателя')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('total_amount')
+                TextColumn::make('total_amount')
                 ->label('Общая сумма')
                 ->getStateUsing(fn (Order $record) => number_format($record->calculateTotalAmount()) . ' UZS')
                 ->sortable()
                 ->summarize([
-                    Tables\Columns\Summarizers\Sum::make()
+                    Sum::make()
                         ->label('Общая сумма')
                         ->money('UZS'),
                 ]),
-                TextColumn::make('items_count')
-                    ->label('Кол Продуктов')
-                    ->counts('items'), // Order_items bilan bog‘langan bo‘lsa
-                Tables\Columns\TextColumn::make('status.name')
+                TextColumn::make('payment_type.name')
+                    ->label('Способ оплаты'),
+                TextColumn::make('delivery_method.name')
+                        ->label('Тип доставки'),
+                TextColumn::make('status.name')
                     ->label('Статус')
                     ->formatStateUsing(fn (string $state) => ucfirst($state))
                     ->badge()
@@ -211,7 +216,7 @@ class OrderResource extends Resource
                         'cancelled' => 'danger',   // Bekor qilingan — Qizil
                         default => 'danger',
                     }),
-                Tables\Columns\TextColumn::make('payment_status.name')
+                TextColumn::make('payment_status.name')
                     ->label('Статус оплаты')
                     ->formatStateUsing(fn (string $state) => ucfirst($state))
                     ->badge()
@@ -222,9 +227,11 @@ class OrderResource extends Resource
                         'refunded' => 'danger',   // Bekor qilingan — Qizil
                         default => 'danger',
                     }),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Дата заказа')
-                    ->dateTime()
+                    ->formatStateUsing(function ($state) {
+                        return Carbon::parse($state)->format('H:i:s d/m/y'); // Sana formatini o‘zgartirish
+                    })
                     ->sortable(),
                 ],
                 )
@@ -263,15 +270,51 @@ class OrderResource extends Resource
             ->defaultPaginationPageOption(50)
             ->defaultSort('id','desc')
             ->actions([
-                ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
+                Action::make('ready')
+                    ->label('Готово')
+                    ->color('success')
+                    ->icon('heroicon-o-check')
+                    ->action(function (Order $record) {
+                        $nextStatusId = $record->getNextStatusId();
+                        if ($nextStatusId) {
+                            if($record->payment_status && $record->payment_status->type === 'paid'){
+                                $record->update(['order_status_id' => $nextStatusId]);
+                                    // Ekranda bildirishnoma ko‘rsatish
+                                    Notification::make()
+                                    ->title('Buyurtma holati yangilandi')
+                                    // ->body("№{$record->id} Buyurtma holati {$record->status->name} ga o‘zgartirildi.")
+                                    ->success()
+                                    ->send();
+                            }else{
+                                Notification::make()
+                                ->title("Buyurtmaga to'lov qilinmagan")
+                                ->warning()
+                                // ->body("№{$record->id} Buyurtma tolov holati {$record->status->name} ga o‘zgartirildi.")
+                                // ->success()
+                                ->send();
+                            }
+                        }
+                    })
+                    ->visible(fn (Order $record): bool => $record->getNextStatusId() !== null),
+                Action::make('payment_ready')
+                    ->label('Оплата')
+                    ->color('success')
+                    ->icon('heroicon-o-check')
+                    ->action(function (Order $record) {
+                        $nextStatusId = $record->getNextPaymentStatusId();
+                        if ($nextStatusId) {
+                            $record->update(['payment_status_id' => $nextStatusId]);
+                                // Ekranda bildirishnoma ko‘rsatish
+                                Notification::make()
+                                    ->title("Buyurtma to'lov holati yangilandi")
+                                    // ->body("№{$record->id} Buyurtma to'lov holati {$record->payment_status->name} ga o‘zgartirildi.")
+                                    ->success()
+                                    ->send();
+                        }
+                    })
+                    ->visible(fn (Order $record): bool => $record->getNextPaymentStatusId() !== null && $record->payment_type->payment_method->name!='payment'),
                     Tables\Actions\EditAction::make(),
-                    // Action::make('exportPdf')
-                    //     ->label('Export PDF')
-                    //     ->icon('heroicon-o-arrow-down-tray')
-                    //     ->action(fn ($record) => self::generatePdf($record)),
-                    // Tables\Actions\DeleteAction::make(),
-                ]),
+                    Tables\Actions\ViewAction::make(),
             ])
             ->groups([
                 Tables\Grouping\Group::make('created_at')

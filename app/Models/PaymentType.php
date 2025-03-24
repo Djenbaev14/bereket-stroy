@@ -17,4 +17,8 @@ class PaymentType extends Model
         'name' => 'array',
         'text' => 'array',
     ];
+    public function payment_method()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
 }
