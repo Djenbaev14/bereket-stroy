@@ -319,7 +319,7 @@ class OrderResource extends Resource
                                     ->send();
                         }
                     })
-                    ->visible(fn (Order $record): bool => $record->getNextPaymentStatusId() !== null && $record->payment_type->payment_method->name!='payment'),
+                    ->visible(fn (Order $record): bool => $record->getNextPaymentStatusId() !== null),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\ViewAction::make(),
             ])
