@@ -301,6 +301,13 @@ class OrderResource extends Resource
                     ->color('success')
                     ->icon('heroicon-o-check')
                     ->action(function (Order $record) {
+                        if (in_array($record->payment_type->key, ['payme'])) {
+                            $paymentUrl = $record->getPaymentUrl();
+                            if ($paymentUrl) {
+                                return redirect()->away($paymentUrl);
+                            }
+                        }
+
                         $nextStatusId = $record->getNextPaymentStatusId();
                         if ($nextStatusId) {
                             $record->update(['payment_status_id' => $nextStatusId]);

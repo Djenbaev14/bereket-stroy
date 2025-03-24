@@ -78,5 +78,38 @@ class Order extends Model
 
         return $statusPayment[$this->payment_status_id] ?? null;
     }
+    public function getPaymentUrl(): ?string
+    {
+        if (!$this->payment_type) {
+            return null;
+        }
+
+        $amount = $this->total_amount;
+        $orderId = $this->id;
+
+        return match ($this->payment_type->key) {
+            'payme' => $this->generatePaymeUrl($amount, $orderId),
+            // 'click' => $this->generateClickUrl($amount, $orderId),
+            default => null,
+        };
+    }
+
+    // Payme uchun URL generatsiya (soddalashtirilgan misol)
+    private function generatePaymeUrl($amount, $orderId): string
+    {
+        $paymeUrl = "https://bereket.webclub.uz/pay/payme/{$orderId}/{$amount}";
+
+        return $paymeUrl;
+    }
+
+    // Click uchun URL generatsiya (soddalashtirilgan misol)
+    // private function generateClickUrl($amount, $orderId): string
+    // {
+    //     $merchantId = 'your-click-merchant-id'; // Click merchant ID
+    //     $returnUrl = route('payment.callback', ['order_id' => $orderId]);
+    //     $clickUrl = "https://my.click.uz/services/pay?service_id={$merchantId}&amount={$amount}&transaction_id={$orderId}&return_url=" . urlencode($returnUrl);
+
+    //     return $clickUrl;
+    // }
     
 }
