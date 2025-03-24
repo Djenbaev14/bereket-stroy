@@ -287,7 +287,7 @@ class OrderResource extends Resource
                                     ->send();
                             }else{
                                 Notification::make()
-                                ->title("Buyurtmaga to'lov qilinmagan")
+                                ->title("To'lov qilinmagan")
                                 ->warning()
                                 // ->body("№{$record->id} Buyurtma tolov holati {$record->status->name} ga o‘zgartirildi.")
                                 // ->success()
@@ -306,7 +306,7 @@ class OrderResource extends Resource
                             $record->update(['payment_status_id' => $nextStatusId]);
                                 // Ekranda bildirishnoma ko‘rsatish
                                 Notification::make()
-                                    ->title("Buyurtma to'lov holati yangilandi")
+                                    ->title("To'lov holati yangilandi")
                                     // ->body("№{$record->id} Buyurtma to'lov holati {$record->payment_status->name} ga o‘zgartirildi.")
                                     ->success()
                                     ->send();
