@@ -304,7 +304,7 @@ class OrderResource extends Resource
                         if (in_array($record->payment_type->key, ['payme', 'click'])) {
                             $paymentUrl = $record->getPaymentUrl();
                             if ($paymentUrl) {
-                                return $this->redirect($paymentUrl, navigate: false);
+                                return redirect()->away($paymentUrl);
                             }
                         }
 
@@ -319,6 +319,7 @@ class OrderResource extends Resource
                                     ->send();
                         }
                     })
+                    ->openUrlInNewTab(fn (Order $record): bool => in_array($record->payment_type->key, ['payme', 'click'])) // Yangi oynada ochish
                     ->visible(fn (Order $record): bool => $record->getNextPaymentStatusId() !== null),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\ViewAction::make(),
