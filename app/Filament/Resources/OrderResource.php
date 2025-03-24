@@ -304,7 +304,7 @@ class OrderResource extends Resource
                         if (in_array($record->payment_type->key, ['payme', 'click'])) {
                             $paymentUrl = $record->getPaymentUrl();
                             if ($paymentUrl) {
-                                return redirect()->away($paymentUrl);
+                                return $this->redirect($paymentUrl, navigate: false);
                             }
                         }
 
