@@ -32,15 +32,15 @@ class OrderStatusSeeder extends Seeder
                     "qr"=>"buyırtpa tastıyıqlandı",
                 ],
             ],
-            [
-                'status'=>'processing',
-                "name"=>[
-                    'en'=>"preparing order",
-                    'uz'=>"buyurtma tayyorlanmoqda",
-                    'ru'=>"подготовка заказа",
-                    'qr'=>"buyırtpa tayarlanıp",
-               ] 
-            ],
+            // [
+            //     'status'=>'processing',
+            //     "name"=>[
+            //         'en'=>"preparing order",
+            //         'uz'=>"buyurtma tayyorlanmoqda",
+            //         'ru'=>"подготовка заказа",
+            //         'qr'=>"buyırtpa tayarlanıp",
+            //    ] 
+            // ],
             [
                 'status'=>'delivered',
                 "name"=>[
@@ -50,15 +50,15 @@ class OrderStatusSeeder extends Seeder
                     "qr"=>"buyırtpa klientke jetkerildi",
                 ],
             ],
-            [
-                'status'=>'picked_up',
-                "name"=>[
-                    "en"=>"customer picked up the order",
-                    "uz"=>"mijoz buyurtmani olib ketdi",
-                    "ru"=>"клиент забрал заказ",
-                    "qr"=>"klient buyırtpanı alıp ketti",
-                ],
-            ],
+            // [
+            //     'status'=>'picked_up',
+            //     "name"=>[
+            //         "en"=>"customer picked up the order",
+            //         "uz"=>"mijoz buyurtmani olib ketdi",
+            //         "ru"=>"клиент забрал заказ",
+            //         "qr"=>"klient buyırtpanı alıp ketti",
+            //     ],
+            // ],
             [
                 'status'=>'cancelled',
                 "name"=>[

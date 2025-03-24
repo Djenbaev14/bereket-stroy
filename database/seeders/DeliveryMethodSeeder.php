@@ -19,7 +19,7 @@ class DeliveryMethodSeeder extends Seeder
                 'type'=>'pickup',
                 'name' => [
                     'uz'=>'Olib ketish',
-                    'ru'=>'Еда на вынос',
+                    'ru'=>'Самовывоз',
                     'en'=>'Take away',
                     'qr'=>'Alıp ketiw',
                 ],

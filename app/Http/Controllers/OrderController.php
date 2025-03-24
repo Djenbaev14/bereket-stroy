@@ -8,6 +8,7 @@ use App\Http\Resources\OrderStatusResource;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
+use App\Models\PaymentStatus;
 use App\Models\PaymentType;
 use App\Models\Product;
 use DB;
@@ -129,8 +130,8 @@ class OrderController extends Controller
         if ($order) {
             if($order->order_status_id==1){
                 $order->update([
-                    'order_status_id'=>6,
-                    'payment_status_id'=>4,
+                    'order_status_id'=>Order::where('status','=','cancelled')->first()->id,
+                    'payment_status_id'=>PaymentStatus::where('type','=','failed')->first()->id,
                 ]);
 
                 return response()->json(['message' => [
