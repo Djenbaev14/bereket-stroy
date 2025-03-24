@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
+use App\Filament\Resources\CategoryResource\RelationManagers\SubcategoriesRelationManager;
 use App\Models\Category;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
@@ -41,17 +42,20 @@ class CategoryResource extends Resource
                         ->label('Приоритет')
                         ->placeholder('Приоритет')
                         ->columnSpan(1),
-                    // FileUpload::make('featured_image')
-                    //     ->image()
-                    //     ->imageResizeMode(400)
-                    //     ->hintAction(
-                    // UnsplashPickerAction::make()
-                    //             ->label('Выбрать из Unsplash')
-                    //             ->defaultSearch(fn (Get $get) => $get('name'))
-                    //             ->after(function ($state, callable $set) {
-                    //                 dd($state); // Kelayotgan ma'lumotni tekshirish
-                    //             })
-                    //     )->columnSpan(2),
+                    FileUpload::make('featured_image')
+                        ->image()
+                        // ->imageResizeMode(400)
+                        ->hintAction(
+                    UnsplashPickerAction::make()
+                                ->label('Выбрать из Unsplash')
+                                ->size('small')
+                                ->thumbnail()
+                                ->perPage(20)
+                                ->defaultSearch(fn (Get $get) => $get('name'))
+                                ->after(function ($state, callable $set) {
+                                    dd($state); // Kelayotgan ma'lumotni tekshirish
+                                })
+                        )->columnSpan(2),
                     FileUpload::make('photo')
                         ->image()
                         ->label('Фото')
@@ -90,11 +94,11 @@ class CategoryResource extends Resource
                 ImageColumn::make('photo')
                     ->label('Фото')
                     ->square(),
-                ImageColumn::make('icon')
-                    ->label('Icon')
-                    ->square(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
-                TextColumn::make('priority')->label('Приоритет')->searchable()->sortable(),
+                TextColumn::make('sub_category_count')->counts('sub_category')->label('Под категории')
+                ->badge()
+                ->color('primary')->sortable(),
+                TextColumn::make('products_count')->counts('products')->label('Продукты')->badge()->color('success')->sortable(),
                 TextColumn::make('created_at')
                 ->label('Дата')
                 ->sortable()
@@ -127,12 +131,6 @@ class CategoryResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return 'Категории'; // Rus tilidagi ko'plik shakli
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-        ];
     }
 
     public static function getPages(): array

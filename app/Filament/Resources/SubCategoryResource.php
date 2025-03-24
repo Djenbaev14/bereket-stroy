@@ -91,7 +91,7 @@ class SubCategoryResource extends Resource
                     ->square(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('category.name')->label('Категория')->searchable()->sortable(),
-                TextColumn::make('priority')->label('Приоритет')->sortable(),
+                TextColumn::make('products_count')->counts('product')->label('Продукты')->badge()->color('primary')->sortable(),
                 TextColumn::make('created_at')->sortable()
                 ->label('Дата')
                 ->formatStateUsing(function ($state) {

@@ -160,7 +160,8 @@ class AuthController extends Controller
                             'is_verified'=>1
                         ]);
                     }
-                    $token = $customer->createToken('auth_token')->plainTextToken;
+                    $token = $customer->createToken('auth_token');
+                    $token->expires_at = now()->addMinutes(30);
 
                     Cache::forget('verification_code_'.$request->phone);
                     Cache::forget('expiresAt_phone_'.$request->phone);
@@ -181,7 +182,7 @@ class AuthController extends Controller
         return response()->json([
                 'message' => 'Foydalanuvchi tasdiqlandi.',
                 'customer' => $customer,
-                'token' => $token
+                'token' => $token->plainTextToken
             ],200);
     }
     // public static function registerVerifyCode(Request $request)

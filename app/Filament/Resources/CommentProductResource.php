@@ -5,7 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CommentProductResource\Pages;
 use App\Filament\Resources\CommentProductResource\RelationManagers;
 use App\Models\CommentProduct;
+use App\Models\Customer;
+use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -13,6 +18,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use PhpOffice\PhpSpreadsheet\RichText\RichText;
 
 class CommentProductResource extends Resource
 {
@@ -26,21 +32,39 @@ class CommentProductResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('customer_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('product_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('comment')
+                Select::make('customer_id')
+                ->label('Клиенты')
+                ->options(Customer::all()->pluck('first_name', 'id'))
+                ->required()
+                ->searchable()
+                ->columnSpan(1),
+                Select::make('product_id')
+                ->label('Продукты')
+                ->options(Product::all()->pluck('name', 'id'))
+                ->required()
+                ->searchable()
+                ->columnSpan(1),
+                Textarea::make('comment')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('rating')
+                    Select::make('rating')
+                    ->label('Рейтин')
+                    ->options([
+                        '1'=>'1',
+                        '2'=>'2',
+                        '3'=>'3',
+                        '4'=>'4',
+                        '5'=>'5',
+                    ])
                     ->required()
-                    ->numeric(),
+                    ->searchable()
+                    ->columnSpan(1),
             ]);
     }
-
+    public static function canCreate(): bool
+    {
+        return false; // Create tugmasini o'chiradi
+    }
     public static function table(Table $table): Table
     {
         return $table
@@ -49,10 +73,10 @@ class CommentProductResource extends Resource
                     ->label('Фото')
                     ->square(),
                 Tables\Columns\TextColumn::make('customer.first_name')
-                    ->numeric()
+                    ->label('Клиент')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
-                    ->numeric()
+                    ->label('Продукти')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('rating')
                     ->numeric()

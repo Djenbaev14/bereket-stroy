@@ -16,7 +16,7 @@ class SalesAndCustomerStats extends BaseWidget
             Stat::make('Общая торговля', number_format(Order::sum('total_amount')) . ' сум')
                 ->description('Все время')
                 ->color('success'),
-            Stat::make('Сегодняшняя торговля', Order::whereDate('created_at', today())->sum('total_amount') . ' сум')
+            Stat::make('Сегодняшняя торговля', number_format(Order::whereDate('created_at', today())->sum('total_amount')) . ' сум')
                 ->description('Только сегодня')
                 ->color('primary'),
             Stat::make('Количество заказов', Order::count())
