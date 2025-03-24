@@ -27,7 +27,7 @@ class SalesAndCustomerStats extends BaseWidget
             Stat::make('Всего клиентов', Customer::where('is_verified',1)->count())
                 ->description('Клиенты в системе')
                 ->color('success'),
-            Stat::make('Новые клиенты', Customer::where('created_at', '>=', now()->subDays(30))->count())
+            Stat::make('Новые клиенты', Customer::where('is_verified',1)->where('created_at', '>=', now()->subDays(30))->count())
                 ->description('Последние 30 дней')
                 ->color('primary'),
             Stat::make('Активные клиенты', Customer::has('orders', '>=', 1)->count())
