@@ -89,7 +89,7 @@ class Order extends Model
 
         return match ($this->payment_type->key) {
             'payme' => $this->generatePaymeUrl($amount, $orderId),
-            // 'click' => $this->generateClickUrl($amount, $orderId),
+            'click' => $this->generateClickUrl($amount, $orderId),
             default => null,
         };
     }
@@ -103,13 +103,11 @@ class Order extends Model
     }
 
     // Click uchun URL generatsiya (soddalashtirilgan misol)
-    // private function generateClickUrl($amount, $orderId): string
-    // {
-    //     $merchantId = 'your-click-merchant-id'; // Click merchant ID
-    //     $returnUrl = route('payment.callback', ['order_id' => $orderId]);
-    //     $clickUrl = "https://my.click.uz/services/pay?service_id={$merchantId}&amount={$amount}&transaction_id={$orderId}&return_url=" . urlencode($returnUrl);
+    private function generateClickUrl($amount, $orderId): string
+    {
+        $clickUrl = "https://bereket.webclub.uz/pay/click/{$orderId}/{$amount}";
 
-    //     return $clickUrl;
-    // }
+        return $clickUrl;
+    }
     
 }
