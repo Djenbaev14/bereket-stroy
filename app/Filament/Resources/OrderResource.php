@@ -9,6 +9,7 @@ use App\Filament\Resources\OrderResource\Widgets\OrderWidget;
 use App\Models\Customer;
 use App\Models\DeliveryMethod;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use App\Notifications\OrderStatusUpdated;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -311,6 +312,12 @@ class OrderResource extends Resource
                         $nextStatusId = $record->getNextPaymentStatusId();
                         if ($nextStatusId) {
                             $record->update(['payment_status_id' => $nextStatusId]);
+                            foreach ($record->items as $item) {
+                                $product = Product::find($item->product_id);
+                                if ($product) {
+                                    $product->increment('sales_count', $item->quantity);
+                                }
+                            }
                                 // Ekranda bildirishnoma ko‘rsatish
                                 Notification::make()
                                     ->title("To'lov holati yangilandi")

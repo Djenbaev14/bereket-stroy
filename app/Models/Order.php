@@ -109,5 +109,4 @@ class Order extends Model
 
         return $clickUrl;
     }
-    
 }
