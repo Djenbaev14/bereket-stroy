@@ -13,8 +13,14 @@ class OrderResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    
     public function toArray(Request $request): array
     {
+        if (in_array($this->payment_type->key, ['payme', 'click'])) {
+            $paymentUrl = $this->getPaymentUrl();
+        }else{
+            $paymentUrl = null;
+        }
         return [ 
             'id' => $this->id,
             'receiver_name' => $this->receiver_name,
@@ -29,10 +35,10 @@ class OrderResource extends JsonResource
             'longitude' => $this->location[1],
             'total_amount' => $this->total_amount,
             'status' => $this->status->name,
-            'payment_status' => $this->payment_status->name,
             'products_count'=>$this->OrderItems->count(),
-            'order_status_id'=>$this->order_status_id,
-            'payment_status_id'=>$this->payment_status_id,
+            'payment_status' => $this->payment_status->name,
+            'payment_type' => $this->payment_type->name,
+            'payment_url'=>$paymentUrl,
             'products'=>OrderItemResource::collection(OrderItem::where('order_id',$this->id)->get()),
             'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
         ];

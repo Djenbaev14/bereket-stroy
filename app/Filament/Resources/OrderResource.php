@@ -274,13 +274,12 @@ class OrderResource extends Resource
                 Action::make('ready')
                     ->label('Готово')
                     ->color('success')
-                    ->icon('heroicon-o-check')
+                    ->icon('fas-circle-check')
                     ->action(function (Order $record) {
                         $nextStatusId = $record->getNextStatusId();
                         if ($nextStatusId) {
                             if($record->payment_status && $record->payment_status->type === 'paid'){
                                 $record->update(['order_status_id' => $nextStatusId]);
-                                    // Ekranda bildirishnoma ko‘rsatish
                                     Notification::make()
                                     ->title('Buyurtma holati yangilandi')
                                     // ->body("№{$record->id} Buyurtma holati {$record->status->name} ga o‘zgartirildi.")
@@ -299,8 +298,8 @@ class OrderResource extends Resource
                     ->visible(fn (Order $record): bool => $record->getNextStatusId() !== null),
                 Action::make('payment_ready')
                     ->label('Оплата')
-                    ->color('success')
-                    ->icon('heroicon-o-check')
+                    ->color('secondary')
+                    ->icon('fas-credit-card')
                     ->action(function (Order $record) {
                         if (in_array($record->payment_type->key, ['payme', 'click'])) {
                             $paymentUrl = $record->getPaymentUrl();
