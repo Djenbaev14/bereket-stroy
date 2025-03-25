@@ -127,26 +127,39 @@ class OrderController extends Controller
 
     public function orderCancelled(Request $request,$id){
         $order = Order::find($id);
+        $success=[
+            'uz'=>'№'.$order->id.' buyurtma bekor qilindi',
+            'en'=>'Orde №'.$order->id.' canceled',
+            'ru'=>'Заказ №'.$order->id.' отменен',
+            'qr'=>'№'.$order->id.' buyırtpa biykarlandı'
+        ];
+        $error=[
+            'en'=>'Cannot cancel order',
+            'uz'=>'Buyurtmani bekor qilish imkonsiz',
+            'ru'=>'Невозможно отменить заказ',
+            'qr'=>'Buyırtpanı biykarlawǵa bolmaydı'
+        ];
         if ($order) {
-            if($order->order_status_id==1){
-                $order->update([
-                    'order_status_id'=>Order::where('status','=','cancelled')->first()->id,
-                    'payment_status_id'=>PaymentStatus::where('type','=','failed')->first()->id,
-                ]);
-
-                return response()->json(['message' => [
-                    'uz'=>'№'.$order->id.' buyurtma bekor qilindi',
-                    'en'=>'Orde №'.$order->id.' canceled',
-                    'ru'=>'Заказ №'.$order->id.' отменен',
-                    'qr'=>'№'.$order->id.' buyırtpa biykarlandı'
-                ]], 200);
+            if($order->payment_type->payment_method->name == 'payment'){
+                if($order->status->status == 'pending'){
+                    $order->update([
+                        'order_status_id'=>OrderStatus::where('status','=','cancelled')->first()->id,
+                        'payment_status_id'=>PaymentStatus::where('type','=','failed')->first()->id,
+                    ]);
+                    return response()->json(['message' => $success], 200);
+                }else{
+                    return response()->json(['message' => $error], 404);
+                }
             }else{
-                return response()->json(['message' => [
-                    'en'=>'Cannot cancel order',
-                    'uz'=>'Buyurtmani bekor qilish imkonsiz',
-                    'ru'=>'Невозможно отменить заказ',
-                    'qr'=>'Buyırtpanı biykarlawǵa bolmaydı'
-                ]], 404);
+                if($order->status->status == 'pending' || $order->status->status == 'confirmed'){
+                    $order->update([
+                        'order_status_id'=>OrderStatus::where('status','=','cancelled')->first()->id,
+                        'payment_status_id'=>PaymentStatus::where('type','=','failed')->first()->id,
+                    ]);
+                    return response()->json(['message' => $success], 200);
+                }else{
+                    return response()->json(['message' => $error], 404);
+                }
             }
         }
         
