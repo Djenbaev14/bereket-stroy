@@ -63,7 +63,15 @@ class ProductController extends Controller
             $countryIds = $request->input('country_ids'); // Array formatda kelishi kerak
             $query->whereIn('country_id', $countryIds);
         }
-
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where(DB::raw("CAST(name->>'$.uz' AS CHAR)"), 'like', "%{$search}%")
+                  ->orWhere(DB::raw("CAST(name->>'$.qr' AS CHAR)"), 'like', "%{$search}%")
+                  ->orWhere(DB::raw("CAST(name->>'$.ru' AS CHAR)"), 'like', "%{$search}%")
+                  ->orWhere(DB::raw("CAST(name->>'$.en' AS CHAR)"), 'like', "%{$search}%");
+            });
+        }
         // ✅ Ustunlar bo‘yicha tartiblash (default: `id desc`)
         if ($request->has('sort_by')) {
             if($request->input('sort_by') == 'popular'){
@@ -93,6 +101,7 @@ class ProductController extends Controller
 
     public function search(Request $request){
         $query = Product::query();
+        
         if ($request->has('name')) {
             $search = $request->input('name');
             $query->where(function ($q) use ($search) {
@@ -102,10 +111,8 @@ class ProductController extends Controller
                   ->orWhere(DB::raw("CAST(name->>'$.en' AS CHAR)"), 'like', "%{$search}%");
             });
         }
-
         $products=$query->take(10)->get();
         return $this->responsePagination($products, ProductSearchResource::collection($products));
-        
     }
 
     public function similarProducts($slug){

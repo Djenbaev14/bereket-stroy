@@ -18,8 +18,21 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
 
+        $search = mb_strtolower($request->input('search'));
+        $name = null;
+
+        if ($search) {
+            foreach (config('app.available_locales') as $locale) {
+                $translatedName = mb_strtolower($this->getTranslation('name', $locale));
+                if (str_contains(strtolower($translatedName), $search)) {
+                    $name = $translatedName;
+                    break;
+                }
+            }
+        }
         return [
             'id'=>$this->id,
+            'search'=>$name,
             'category_id'=>$this->category_id,
             'sub_category_id'=>$this->sub_category_id,
             'sub_sub_category_id'=>$this->sub_sub_category_id,
