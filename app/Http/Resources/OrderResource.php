@@ -36,6 +36,8 @@ class OrderResource extends JsonResource
             'total_amount' => $this->total_amount,
             'status' => $this->status->name,
             'products_count'=>$this->OrderItems->count(),
+            'order_status_id'=>$this->order_status_id,
+            'payment_status_id'=>$this->payment_status_id,
             'payment_status' => $this->payment_status->name,
             'payment_type' => $this->payment_type->name,
             'payment_url'=>$paymentUrl,
