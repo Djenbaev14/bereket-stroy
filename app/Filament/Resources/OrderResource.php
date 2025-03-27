@@ -9,6 +9,7 @@ use App\Filament\Resources\OrderResource\Widgets\OrderWidget;
 use App\Models\Customer;
 use App\Models\DeliveryMethod;
 use App\Models\Order;
+use App\Models\PaymentStatus;
 use App\Models\Product;
 use App\Models\User;
 use App\Notifications\OrderStatusUpdated;
@@ -35,6 +36,8 @@ use Filament\Tables;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
 use Icetalker\FilamentTableRepeatableEntry\Infolists\Components\TableRepeatableEntry;
@@ -244,6 +247,12 @@ class OrderResource extends Resource
                             ->placeholder(fn ($state): string => 'Dec 18, ' . now()->subYear()->format('Y')),
                         Forms\Components\DatePicker::make('created_until')
                             ->placeholder(fn ($state): string => now()->format('M d, Y')),
+                            
+                        SelectFilter::make('payment_status_id')
+                            ->label('Статус оплаты')
+                            ->searchable()
+                            ->options(fn () => PaymentStatus::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                            ->preload(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

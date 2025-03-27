@@ -50,7 +50,9 @@ class ProductResource extends JsonResource
             'is_sale'=>$this->is_active ,
             'sales_count'=>$this->sales_count ,
             'discounted_price' => $this->discounted_price,
-            'discount' => $this->discount
+            'discount' => $this->discount,
+            'installment_month'=>12,
+            'monthly_payment'=>$this->monthly_payment
             // 'discount_type' => $this->activeDiscount->isNotEmpty() 
             //     ? $this->activeDiscount->first()->discount_type->discount_type
             //     : null,

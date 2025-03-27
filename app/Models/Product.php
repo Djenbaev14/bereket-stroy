@@ -21,6 +21,7 @@ class Product extends Model
         'name' => 'array',
         'description' => 'array',
     ];
+
     public $translatable=['name','description'];
     public function category()
     {
@@ -137,6 +138,12 @@ class Product extends Model
             return $this->activeDiscount->discounted_price;
         }
         return $this->price;
+    }
+    
+    public $installment_month=12;
+
+    public function getMonthlyPaymentAttribute(){
+        return round($this->discounted_price * (100+37)/($this->installment_month * 100)) ;
     }
     public function getDiscountAttribute()
     {
