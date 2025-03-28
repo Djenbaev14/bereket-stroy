@@ -52,7 +52,20 @@ class ProductResource extends JsonResource
             'discounted_price' => $this->discounted_price,
             'discount' => $this->discount,
             'installment_month'=>12,
-            'monthly_payment'=>$this->monthly_payment
+            'monthly_payment'=>$this->monthly_payment,
+            'seo' => [
+                'title' => $this->name,
+                'meta_description' => substr($this->description, 0, 160),
+                'meta_keywords' => 'online',
+                'canonical_url' => env('frontend_url')."/details/{$this->slug}",               
+                'og:title' => $this->name,
+                'og:description' => substr($this->description, 0, 160),
+                'og:image' => $this->photos[0],
+                'og:url' =>env('frontend_url')."/details/{$this->slug}", 
+                'twitter:title' => $this->name,
+                'twitter:description' =>substr($this->description, 0, 160),
+                'twitter:image' => $this->photos[0],
+            ],
             // 'discount_type' => $this->activeDiscount->isNotEmpty() 
             //     ? $this->activeDiscount->first()->discount_type->discount_type
             //     : null,

@@ -22,6 +22,19 @@ class CategoryResource extends JsonResource
             "icon"=>$this->icon,
             'products_count'=>$this->getProductsCountAttribute(),
             'sub_category' => SubCategoryResource::collection($this->whenLoaded('sub_category')),
+            'seo' => [
+                'title' => $this->name,
+                'meta_description' => '',
+                'meta_keywords' => 'online',
+                'canonical_url' => env('frontend_url')."/catalogs/{$this->slug}",               
+                'og:title' => $this->name,
+                'og:description' => '',
+                'og:image' => $this->photo,
+                'og:url' =>env('frontend_url')."/catalogs/{$this->slug}", 
+                'twitter:title' => $this->name,
+                'twitter:description' =>'',
+                'twitter:image' => $this->photo,
+            ],
         ];
     }
 }
