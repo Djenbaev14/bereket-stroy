@@ -5,6 +5,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
 use Filament\Pages\Auth\Login as BaseAuth;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use MarcoGermani87\FilamentCaptcha\Forms\Components\CaptchaField;
@@ -60,5 +61,9 @@ class Login extends BaseAuth
         throw ValidationException::withMessages([
             'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
         ]);
+    }
+    public function getHeading(): string | Htmlable
+    {
+        return '';
     }
 }

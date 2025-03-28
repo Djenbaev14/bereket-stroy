@@ -88,6 +88,7 @@ class ProductController extends Controller
         }
 
         
+        
         if ($request->has('pagination')) {
             $pagination = $request->input('pagination'); // Array formatda kelishi kerak
             $products=$query->paginate($pagination);
