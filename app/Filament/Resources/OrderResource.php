@@ -248,11 +248,11 @@ class OrderResource extends Resource
                         Forms\Components\DatePicker::make('created_until')
                             ->placeholder(fn ($state): string => now()->format('M d, Y')),
                             
-                        SelectFilter::make('payment_status_id')
-                            ->label('Статус оплаты')
-                            ->searchable()
-                            ->options(fn () => PaymentStatus::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
-                            ->preload(),
+                        // SelectFilter::make('payment_status_id')
+                        //     ->label('Статус оплаты')
+                        //     ->searchable()
+                        //     ->options(fn () => PaymentStatus::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                        //     ->preload(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
