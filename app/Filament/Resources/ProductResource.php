@@ -129,7 +129,7 @@ class ProductResource extends Resource
                                 ->multiple()
                                 ->imageEditor()
                                 ->reorderable()
-                                ->minFiles(1)
+                                ->nullable()
                                 ->maxFiles(5)
                                 ->maxSize(5 * 1024)
                                 ->imageEditorAspectRatios([

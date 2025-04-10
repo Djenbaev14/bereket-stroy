@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
-
+ 
     public function index(){
         $cards=Card::with('products')->where('active','=',1)->orderBy('id','desc')->get();
         
