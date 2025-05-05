@@ -45,6 +45,10 @@ class CategoryResource extends Resource
                     FileUpload::make('featured_image')
                         ->image()
                         // ->imageResizeMode(400)
+                        ->small()
+                        ->label('Фото')
+                        ->disk('public') 
+                        ->directory('categories') 
                         ->hintAction(
                     UnsplashPickerAction::make()
                                 ->label('Выбрать из Unsplash')
@@ -55,20 +59,20 @@ class CategoryResource extends Resource
                                 ->after(function ($state, callable $set) {
                                     dd($state); // Kelayotgan ma'lumotni tekshirish
                                 })
-                        )->columnSpan(2),
-                    FileUpload::make('photo')
-                        ->image()
-                        ->label('Фото')
-                        ->disk('public') 
-                        ->directory('categories') 
-                        ->required()
-                        ->imageEditor()
-                        ->imageEditorAspectRatios([
-                            '16:9',
-                            '4:3',
-                            '1:1',
-                        ])
-                        ->columnSpan(1),
+                        )->columnSpan(1),
+                    // FileUpload::make('photo')
+                    //     ->image()
+                    //     ->label('Фото')
+                    //     ->disk('public') 
+                    //     ->directory('categories') 
+                    //     ->required()
+                    //     ->imageEditor()
+                    //     ->imageEditorAspectRatios([
+                    //         '16:9',
+                    //         '4:3',
+                    //         '1:1',
+                    //     ])
+                    //     ->columnSpan(1),
                     FileUpload::make('icon')
                         ->image()
                         ->label('Icon')

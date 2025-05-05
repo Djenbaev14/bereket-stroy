@@ -58,42 +58,6 @@ class DiscountResource extends Resource
                     ])->columnSpan(12),
                     TextInput::make('name')->label('Название')->placeholder('Название')->unique()->required()->columnSpan(12),
                     TextInput::make('text')->label('Текст')->placeholder('Текст')->columnSpan(12),
-                    // Select::make('discount_type_id')
-                    //     ->label('Тип скидки')
-                    //     ->options(DiscountType::pluck('name', 'id'))
-                    //     ->searchable()
-                    //     ->preload()
-                    //     ->reactive()
-                    //     ->columnSpan(6), // Tanlangan qiymatga qarab boshqa inputlarni o'zgartirish uchun
-
-                    // TextInput::make('discount_amount')
-                    //     ->label(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
-                    //     ->placeholder(fn ($get) =>DiscountType::find($get('discount_type_id'))?->name)
-                    //     ->suffix(fn ($get) =>DiscountType::find($get('discount_type_id'))?->discount_type)
-                    //     ->numeric()
-                    //     ->reactive()
-                    //     ->rules([
-                    //         fn ($get) => \Illuminate\Validation\Rule::when(
-                    //             DiscountType::find($get('name'))?->discount_type === 'Процент',
-                    //             ['max:100'] // Foiz chegirma 100% dan oshmasligi kerak
-                    //         ),
-                    //         fn ($get) => \Illuminate\Validation\Rule::when(
-                    //             DiscountType::find($get('name'))?->discount_type === 'Фиксированная скидка',
-                    //             ['lte:' . $get('price')] // Fiks chegirma mahsulot narxidan katta bo‘lmasligi kerak
-                    //         ),
-                    //     ])
-                    //     ->disabled(fn ($get) => !$get('discount_type_id'))
-                    //     ->columnSpan(6), // Chegirma turi tanlanmaguncha yashirin bo'ladi
-                        
-                        // Select::make('products')
-                        // ->relationship('products', 'name') // O‘zbek tilida chiqarish
-                        // ->multiple()
-                        // ->label('Продукты')
-                        // ->options(Product::whereDoesntHave('activeDiscount')->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
-                        // // ->options(fn () => Product::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
-                        // ->columnSpan(6)
-                        // ->preload(),
-                        
                         Repeater::make('Продукты')
                             ->label('Продукты')
                             ->relationship('discountProducts')// Relationshipni bog‘lash
