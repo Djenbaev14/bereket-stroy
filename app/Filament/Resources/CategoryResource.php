@@ -42,7 +42,7 @@ class CategoryResource extends Resource
                         ->label('Приоритет')
                         ->placeholder('Приоритет')
                         ->columnSpan(1),
-                    FileUpload::make('featured_image')
+                    FileUpload::make('photo')
                         ->image()
                         // ->imageResizeMode(400)
                         ->label('Фото')
