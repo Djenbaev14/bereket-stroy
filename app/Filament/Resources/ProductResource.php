@@ -267,12 +267,11 @@ class ProductResource extends Resource
                     Tables\Actions\Action::make('credit_info')
                         ->label('Кредит инфо')
                         ->icon('heroicon-o-printer')
-                        ->modalHeading('Информация о рассрочке')
-                        ->modalSubmitAction(false)
+                        ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
                         ->modalCancelActionLabel('Закрыть')
-                        ->action(function (Product $record, $data) {
-                            // Hech narsa qilinmaydi — faqat modal ochiladi
-                        })
+                        ->modalHeading('Информация о рассрочке')
+                        ->modalWidth('4xl')
+                        ->action(fn() => null)     
                         ->modalContent(function (Product $record) {
 
                             $price = $record->price;
