@@ -264,7 +264,7 @@ class ProductResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                    Action::make('credit_info')
+                    Tables\Actions\Action::make('credit_info')
                         ->label('Кредит инфо')
                         ->icon('heroicon-o-printer')
                         ->modalHeading('Информация о рассрочке')
