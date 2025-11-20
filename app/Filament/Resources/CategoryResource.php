@@ -46,7 +46,7 @@ class CategoryResource extends Resource
                         ->image()
                         // ->imageResizeMode(400)
                         ->label('Фото')
-                        ->disk('public') 
+                        ->disk('public')
                         ->directory('categories') 
                         ->hintAction(
                     UnsplashPickerAction::make()

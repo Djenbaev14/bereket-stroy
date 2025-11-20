@@ -264,6 +264,33 @@ class ProductResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
+                    Action::make('credit_info')
+                        ->label('Кредит инфо')
+                        ->icon('heroicon-o-printer')
+                        ->modalHeading('Информация о рассрочке')
+                        ->modalSubmitAction(false)
+                        ->modalCancelActionLabel('Закрыть')
+                        ->action(function (Product $record, $data) {
+                            // Hech narsa qilinmaydi — faqat modal ochiladi
+                        })
+                        ->modalContent(function (Product $record) {
+
+                            $price = $record->price;
+
+                            $calc = fn($p, $percent, $month) =>
+                                number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
+
+                            return view('filament.credit-info', [
+                                'price' => $price,
+                                'm3'  => $calc($price, 15, 3),
+                                'm6'  => $calc($price, 25, 6),
+                                'm9'  => $calc($price, 32, 9),
+                                'm12' => $calc($price, 38, 12),
+                                'm18' => $calc($price, 57, 18),
+                                'm24' => $calc($price, 76, 24),
+                                'product' => $record,
+                            ]);
+                        }),
                 ]),
             ])
             ->bulkActions([
