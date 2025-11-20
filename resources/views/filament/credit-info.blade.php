@@ -43,18 +43,32 @@
 </button>
 
 <script>
-    function printDiv() {
-        var divToPrint = document.getElementById('printArea').innerHTML;
-        var newWin = window.open('', '_blank');
-        newWin.document.write(`
+    function printCredit() {
+        const content = document.getElementById("creditPrint").innerHTML;
+        const printWindow = window.open("", "_blank", "width=800,height=900");
+
+        printWindow.document.open();
+        printWindow.document.write(`
             <html>
                 <head>
-                    <title>Print</title>
+                    <title>Печать</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+                        h2 { margin-bottom: 10px; }
+                    </style>
                 </head>
-                <body>${divToPrint}</body>
+                <body>
+                    ${content}
+                    <script>
+                        window.onload = function () {
+                            window.print();
+                        };
+                    <\/script>
+                </body>
             </html>
         `);
-        newWin.print();
-        newWin.close();
+        printWindow.document.close();
     }
 </script>
