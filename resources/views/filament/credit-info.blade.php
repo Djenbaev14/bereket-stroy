@@ -17,9 +17,10 @@
         color: #000;
         position: relative;
         display: block;
-        width: 100%; /* 🔥 ENDIIII width cheklanmagan */
-        max-width: 500px; /* xohlasangiz olib tashlashingiz mumkin */
-        margin: auto;
+        width: 100%;
+        height: 100%; /* 🔥 modalni to‘liq egallash uchun */
+        margin: 0;
+        overflow: visible; /* scroll chiqmasligi uchun */
     }
 
     .title {

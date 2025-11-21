@@ -171,8 +171,8 @@ class ProductResource extends Resource
                 Tables\Actions\Action::make('credit_info')
                             ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
                             ->modalCancelActionLabel('Закрыть')
-                            ->modalHeading('Информация о рассрочке')
-                            ->modalWidth('500px')
+                            ->modalHeading(heading: 'Информация о рассрочке')
+                            ->modalWidth('1000px')
                             ->action(fn() => null)  
                             ->modalContent(function (Product $record) {
 
