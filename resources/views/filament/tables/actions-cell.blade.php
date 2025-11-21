@@ -1,3 +1,7 @@
-<div class="flex items-center gap-2">
-    {{ $getRecordAction('credit_info') }}
-</div>
+<x-filament::button
+    tag="button"
+    color="primary"
+    wire:click="openCreditInfo({{ $row->id }})"
+>
+    Кредит инфо
+</x-filament::button>

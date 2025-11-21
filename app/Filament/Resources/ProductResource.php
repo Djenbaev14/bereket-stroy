@@ -29,6 +29,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\Layout\View;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -160,12 +161,8 @@ class ProductResource extends Resource
                     ->withAvg('commentProducts', 'rating') // 🔥 `avg_rating` ni hisoblaymiz
             )
             ->columns([
-                TextColumn::make('actions')
-                    ->label('') // header bo‘sh
-                    ->rowView('filament.tables.actions-cell')
-                    ->sortable(false)
-                    ->searchable(false)
-                    ->toggleable(false),
+                View::make('filament.tables.actions-cell')
+    ->label('Действие'),
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
