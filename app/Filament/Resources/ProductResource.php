@@ -160,40 +160,12 @@ class ProductResource extends Resource
                     ->withAvg('commentProducts', 'rating') // 🔥 `avg_rating` ni hisoblaymiz
             )
             ->columns([
-                Tables\Columns\Layout\Component::make(
-        fn ($record) =>
-            ActionGroup::make([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('credit_info')
-                    ->label('Кредит инфо')
-                    ->icon('heroicon-o-printer')
-                    ->modalSubmitAction(false)
-                    ->modalCancelActionLabel('Закрыть')
-                    ->modalHeading('Информация о рассрочке')
-                    ->modalWidth('4xl')
-                    ->action(fn() => null)
-                    ->modalContent(function (Product $record) {
-
-                        $price = $record->price;
-
-                        $calc = fn($p, $percent, $month) =>
-                            number_format((($p + ($p * $percent / 100)) / $month), 0, '.', ' ');
-
-                        return view('filament.credit-info', [
-                            'price' => $price,
-                            'm3'  => $calc($price, 15, 3),
-                            'm6'  => $calc($price, 25, 6),
-                            'm9'  => $calc($price, 32, 9),
-                            'm12' => $calc($price, 38, 12),
-                            'm18' => $calc($price, 57, 18),
-                            'm24' => $calc($price, 76, 24),
-                            'product' => $record,
-                        ]);
-                    }),
-            ])
-    )->label('')->width('80px'),
+                TextColumn::make('actions')
+                    ->label('') // header bo‘sh
+                    ->rowView('filament.tables.actions-cell')
+                    ->sortable(false)
+                    ->searchable(false)
+                    ->toggleable(false),
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
@@ -229,6 +201,39 @@ class ProductResource extends Resource
                             ->send();
                     }
                 }),
+            ])
+            ->actions([
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\Action::make('credit_info')
+                        ->label('Кредит инфо')
+                        ->icon('heroicon-o-printer')
+                        ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
+                        ->modalCancelActionLabel('Закрыть')
+                        ->modalHeading('Информация о рассрочке')
+                        ->modalWidth('4xl')
+                        ->action(fn() => null)  
+                        ->modalContent(function (Product $record) {
+
+                            $price = $record->price;
+
+                            $calc = fn($p, $percent, $month) =>
+                                number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
+
+                            return view('filament.credit-info', [
+                                'price' => $price,
+                                'm3'  => $calc($price, 15, 3),
+                                'm6'  => $calc($price, 25, 6),
+                                'm9'  => $calc($price, 32, 9),
+                                'm12' => $calc($price, 38, 12),
+                                'm18' => $calc($price, 57, 18),
+                                'm24' => $calc($price, 76, 24),
+                                'product' => $record,
+                            ]);
+                        }),
+                ]),
             ])
             ->defaultPaginationPageOption(50)
             ->defaultSort('id','desc')
