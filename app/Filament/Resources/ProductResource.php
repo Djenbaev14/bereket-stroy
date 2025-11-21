@@ -172,6 +172,7 @@ class ProductResource extends Resource
                             ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
                             ->modalCancelActionLabel('Закрыть')
                             ->modalHeading(heading: 'Информация о рассрочке')
+                            ->modalWidth('xl')
                             ->action(fn() => null)  
                             ->modalContent(function (Product $record) {
 
