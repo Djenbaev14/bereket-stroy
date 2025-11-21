@@ -105,18 +105,54 @@
     </div>
 
     <div class="table">
-        <div><span>Маҳсулот нархи</span> <span>{{ $price }} сўмдан</span></div>
+        <div><span>Маҳсулот нархи</span> <span>{{ number_format($price, 0, '.', ' ') }} сўмдан</span></div>
         {{-- <div><span>Promo нархи</span> <span>{{ $m3 }} сўмдан</span></div> --}}
         <div><span>24 ойга</span> <span>{{ $m24 }} сўмдан</span></div>
         <div><span>18 ойга</span> <span>{{ $m18 }} сўмдан</span></div>
         <div><span>9 ойга</span> <span>{{ $m9 }} сўмдан</span></div>
-        <div><span>6 ойга</span> <span>{{ $m6 }} 327 400 сўмдан</span></div>
+        <div><span>6 ойга</span> <span>{{ $m6 }} сўмдан</span></div>
         <div><span>3 ойга</span> <span>{{ $m3 }} сўмдан</span></div>
     </div>
+    <button onclick="printDiv()" 
+    style="margin-top: 15px; padding: 10px 20px; background:#2563eb; color:#fff; border-radius:8px">
+    🖨 Распечатать
+</button>
+
 
 </div>
 
 </body>
+
+<script>
+    function printCredit() {
+        const content = document.getElementById("creditPrint").innerHTML;
+        const printWindow = window.open("", "_blank", "width=800,height=900");
+
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Печать</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+                        h2 { margin-bottom: 10px; }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                    <script>
+                        window.onload = function () {
+                            window.print();
+                        };
+                    <\/script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+</script>
 </html>
 
 {{-- <div id="printArea" style="font-size:16px">
