@@ -8,97 +8,109 @@
         font-family: Arial, sans-serif;
         background: #f2f2f2;
         padding: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
     }
 
     .sticker {
-        background: #f4dd2c;
-        padding: 20px;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #f4dd2c, #f2c94c);
+        padding: 25px;
+        border-radius: 15px;
         color: #000;
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%; /* 🔥 modalni to‘liq egallash uchun */
-        margin: 0;
-        overflow: visible; /* scroll chiqmasligi uchun */
+        width: 380px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 
     .title {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: bold;
-        margin-bottom: 15px;
         line-height: 1.2;
     }
 
     .specs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         font-size: 12px;
-        line-height: 15px;
-        margin-bottom: 20px;
+        line-height: 1.4;
+        gap: 10px;
+    }
+
+    .specs div {
         display: flex;
-        justify-content: space-between;
-        gap: 20px;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .price-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
     }
 
     .big-price {
-        font-size: 42px;
+        font-size: 36px;
         font-weight: bold;
-        margin: 5px 0;
     }
 
     .gray {
         font-size: 14px;
-        margin-bottom: 5px;
+        color: #333;
     }
 
     .table {
-        margin-top: 10px;
         font-size: 14px;
+        margin-top: 10px;
+        border-top: 1px solid rgba(0,0,0,0.2);
     }
 
     .table div {
         display: flex;
         justify-content: space-between;
-        padding: 5px 0;
-        border-bottom: 1px solid rgba(0,0,0,0.2);
-    }
-
-    .qr-area {
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
     }
 
     .benefit {
-        font-size: 22px;
+        font-size: 18px;
         font-weight: bold;
-        color: #000;
         text-align: right;
+        color: #000;
     }
 
     .benefit small {
-        font-size: 14px;
+        font-size: 12px;
         display: block;
     }
 
-    .footer {
-        font-size: 12px;
-        margin-top: 15px;
-    }
-    /* 🔥 RESPONSIVE */
-    @media (max-width: 450px) {
-        .big-price { font-size: 34px; }
-        .title { font-size: 18px; }
-        .benefit { font-size: 18px; }
-        .qr-area img { width: 70px; }
+    @media (max-width: 420px) {
+        .sticker {
+            width: 90%;
+            padding: 20px;
+        }
+        .big-price {
+            font-size: 28px;
+        }
+        .title {
+            font-size: 16px;
+        }
+        .specs {
+            grid-template-columns: 1fr;
+        }
+        .benefit {
+            font-size: 16px;
+        }
     }
 </style>
 </head>
 <body>
 
 <div class="sticker">
-
 
     <div class="title">Совутгич Artel HD 395 FWEN — WH</div>
 
@@ -115,9 +127,11 @@
         </div>
     </div>
 
-    <div class="gray">12 ойга</div>
-    <div class="big-price">693 000</div>
-    <div class="gray">сўмдан бошланади</div>
+    <div class="price-section">
+        <div class="gray">12 ойга</div>
+        <div class="big-price">693 000</div>
+        <div class="gray">сўмдан бошланади</div>
+    </div>
 
     <div class="table">
         <div><span>Маҳсулот нархи</span> <span>8 873 000 сўмдан</span></div>
@@ -126,7 +140,6 @@
         <div><span>6 ойга</span> <span>1 327 400 сўмдан</span></div>
         <div><span>3 ойга</span> <span>2 479 100 сўмдан</span></div>
     </div>
-
 
 </div>
 
