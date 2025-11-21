@@ -28,6 +28,7 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ImportAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\Layout\View;
 use Filament\Tables\Columns\TextColumn;
@@ -162,35 +163,37 @@ class ProductResource extends Resource
                     ->withAvg('commentProducts', 'rating') // 🔥 `avg_rating` ni hisoblaymiz
             )
             ->columns([
-                TextColumn::make('id')->sortable()
-                ->action(
-                    Tables\Actions\Action::make('credit_info')
-                        ->label('Кредит инфо')
-                        ->icon('heroicon-o-printer')
-                        ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
-                        ->modalCancelActionLabel('Закрыть')
-                        ->modalHeading('Информация о рассрочке')
-                        ->modalWidth('4xl')
-                        ->action(fn() => null)  
-                        ->modalContent(function (Product $record) {
+                IconColumn::make('')
+                    ->getStateUsing(fn() => true) // the column requires a state to be passed to it
+                    ->icon(fn(bool $state): string => 'heroicon-o-printer') // always show the 'edit' icon
+                    ->label('')
+                    ->action(
+                Tables\Actions\Action::make('credit_info')
+                            ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
+                            ->modalCancelActionLabel('Закрыть')
+                            ->modalHeading('Информация о рассрочке')
+                            ->modalWidth('4xl')
+                            ->action(fn() => null)  
+                            ->modalContent(function (Product $record) {
 
-                            $price = $record->price;
+                                $price = $record->price;
 
-                            $calc = fn($p, $percent, $month) =>
-                                number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
+                                $calc = fn($p, $percent, $month) =>
+                                    number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
 
-                            return view('filament.credit-info', [
-                                'price' => $price,
-                                'm3'  => $calc($price, 15, 3),
-                                'm6'  => $calc($price, 25, 6),
-                                'm9'  => $calc($price, 32, 9),
-                                'm12' => $calc($price, 38, 12),
-                                'm18' => $calc($price, 57, 18),
-                                'm24' => $calc($price, 76, 24),
-                                'product' => $record,
-                            ]);
-                        }),
-                ),
+                                return view('filament.credit-info', [
+                                    'price' => $price,
+                                    'm3'  => $calc($price, 15, 3),
+                                    'm6'  => $calc($price, 25, 6),
+                                    'm9'  => $calc($price, 32, 9),
+                                    'm12' => $calc($price, 38, 12),
+                                    'm18' => $calc($price, 57, 18),
+                                    'm24' => $calc($price, 76, 24),
+                                    'product' => $record,
+                                ]);
+                            }),
+                    ),
+                TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('comment_products_avg_rating')->label('Рейтинг')->sortable(),
