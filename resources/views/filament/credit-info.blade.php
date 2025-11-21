@@ -9,7 +9,7 @@
         background: #f2f2f2;
         padding: 40px;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
         min-height: 100vh;
     }
@@ -24,7 +24,6 @@
         display: flex;
         flex-direction: column;
         gap: 15px;
-        margin-bottom: 20px;
     }
 
     .title {
@@ -32,6 +31,7 @@
         font-weight: bold;
         line-height: 1.2;
     }
+
 
     .price-section {
         display: flex;
@@ -63,20 +63,16 @@
         border-bottom: 1px solid rgba(0,0,0,0.1);
     }
 
-    .print-btn {
-        padding: 10px 20px;
-        font-size: 16px;
+    .benefit {
+        font-size: 18px;
         font-weight: bold;
-        background: #4CAF50;
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.3s;
+        text-align: right;
+        color: #000;
     }
 
-    .print-btn:hover {
-        background: #45a049;
+    .benefit small {
+        font-size: 12px;
+        display: block;
     }
 
     @media (max-width: 420px) {
@@ -90,12 +86,16 @@
         .title {
             font-size: 16px;
         }
+        .benefit {
+            font-size: 16px;
+        }
     }
 </style>
 </head>
 <body>
 
-<div class="sticker" id="sticker">
+<div class="sticker">
+
     <div class="title">{{ $product->name }}</div>
 
     <div class="price-section">
@@ -105,34 +105,51 @@
 
     <div class="table">
         <div><span>Маҳсулот нархи</span> <span>{{ number_format($price, 0, '.', ' ') }} сўмдан</span></div>
+        {{-- <div><span>Promo нархи</span> <span>{{ $m3 }} сўмдан</span></div> --}}
         <div><span>24 ойга</span> <span>{{ $m24 }} сўмдан</span></div>
         <div><span>18 ойга</span> <span>{{ $m18 }} сўмдан</span></div>
         <div><span>9 ойга</span> <span>{{ $m9 }} сўмдан</span></div>
         <div><span>6 ойга</span> <span>{{ $m6 }} сўмдан</span></div>
         <div><span>3 ойга</span> <span>{{ $m3 }} сўмдан</span></div>
     </div>
+
+
 </div>
 
-
-<button type="button" class="print-btn" onclick="printSticker()">Распечатать</button>
+    <button onclick="printDiv()" 
+        style="margin-top: 15px; padding: 10px 20px; background:#fff; color:#333; border-radius:8px;border:1px solid #333;">
+        🖨 Распечатать
+    </button>
+</body>
 
 <script>
-function printSticker() {
-    // Sticker divni olamiz
-    const stickerContent = document.getElementById('sticker').innerHTML;
+    function printCredit() {
+        const content = document.getElementById("creditPrint").innerHTML;
+        const printWindow = window.open("", "_blank", "width=800,height=900");
 
-    // Yangi window ochamiz
-    const printWindow = window.open('', '', 'width=800,height=600');
-    printWindow.document.write('<html><head><title>Печать</title>');
-    printWindow.document.write('<style>body{font-family: Arial,sans-serif;padding:20px;} .sticker{background:#f4dd2c;padding:25px;border-radius:15px;width:100%;box-sizing:border-box;} .title{font-size:20px;font-weight:bold;margin-bottom:10px;} .price-section{margin-bottom:10px;} .big-price{font-size:36px;font-weight:bold;} .gray{font-size:14px;color:#333;} .table div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.1);}</style>');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write('<div class="sticker">' + stickerContent + '</div>');
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-}
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Печать</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+                        h2 { margin-bottom: 10px; }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                    <script>
+                        window.onload = function () {
+                            window.print();
+                        };
+                    <\/script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
 </script>
-
-</body>
 </html>
