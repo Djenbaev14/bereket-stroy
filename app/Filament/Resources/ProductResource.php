@@ -160,10 +160,41 @@ class ProductResource extends Resource
                     ->withAvg('commentProducts', 'rating') // 🔥 `avg_rating` ni hisoblaymiz
             )
             ->columns([
-                TextColumn::make('id')->sortable()
-                ->action(function ($record, $livewire) {
-                    $livewire->dispatch('open-credit-info', id: $record->id);
-                }),
+                Tables\Columns\Layout\Component::make(
+        fn ($record) =>
+            ActionGroup::make([
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('credit_info')
+                    ->label('Кредит инфо')
+                    ->icon('heroicon-o-printer')
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Закрыть')
+                    ->modalHeading('Информация о рассрочке')
+                    ->modalWidth('4xl')
+                    ->action(fn() => null)
+                    ->modalContent(function (Product $record) {
+
+                        $price = $record->price;
+
+                        $calc = fn($p, $percent, $month) =>
+                            number_format((($p + ($p * $percent / 100)) / $month), 0, '.', ' ');
+
+                        return view('filament.credit-info', [
+                            'price' => $price,
+                            'm3'  => $calc($price, 15, 3),
+                            'm6'  => $calc($price, 25, 6),
+                            'm9'  => $calc($price, 32, 9),
+                            'm12' => $calc($price, 38, 12),
+                            'm18' => $calc($price, 57, 18),
+                            'm24' => $calc($price, 76, 24),
+                            'product' => $record,
+                        ]);
+                    }),
+            ])
+    )->label('')->width('80px'),
+                TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('comment_products_avg_rating')->label('Рейтинг')->sortable(),
@@ -246,10 +277,10 @@ class ProductResource extends Resource
                     }),
                 // **Subcategory bo‘yicha filter**
                 SelectFilter::make('sub_category_id')
-                ->label('Подкатегория')
-                ->searchable()
-                ->options(fn () => SubCategory::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
-                ->preload(),
+                    ->label('Подкатегория')
+                    ->searchable()
+                    ->options(fn () => SubCategory::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                    ->preload(),
                 SelectFilter::make('is_active')
                     ->label('В продаже')
                     ->options([
@@ -262,40 +293,6 @@ class ProductResource extends Resource
                     ->columnSpan('full')
                     ->query(fn ($query) => $query->whereHas('activeDiscount'))
                     ], layout: FiltersLayout::AboveContent)
-            ->actions([
-                ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\Action::make('credit_info')
-                        ->label('Кредит инфо')
-                        ->icon('heroicon-o-printer')
-                        ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
-                        ->modalCancelActionLabel('Закрыть')
-                        ->modalHeading('Информация о рассрочке')
-                        ->modalWidth('4xl')
-                        ->action(fn() => null)  
-                        ->hidden()   
-                        ->modalContent(function (Product $record) {
-
-                            $price = $record->price;
-
-                            $calc = fn($p, $percent, $month) =>
-                                number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
-
-                            return view('filament.credit-info', [
-                                'price' => $price,
-                                'm3'  => $calc($price, 15, 3),
-                                'm6'  => $calc($price, 25, 6),
-                                'm9'  => $calc($price, 32, 9),
-                                'm12' => $calc($price, 38, 12),
-                                'm18' => $calc($price, 57, 18),
-                                'm24' => $calc($price, 76, 24),
-                                'product' => $record,
-                            ]);
-                        }),
-                ]),
-            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
