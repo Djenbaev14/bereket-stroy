@@ -113,14 +113,14 @@
         <div><span>6 ойга</span> <span>{{ $m6 }} сўмдан</span></div>
         <div><span>3 ойга</span> <span>{{ $m3 }} сўмдан</span></div>
     </div>
-    <button onclick="printDiv()" 
-    style="margin-top: 15px; padding: 10px 20px; background:#2563eb; color:#fff; border-radius:8px">
-    🖨 Распечатать
-</button>
 
 
 </div>
 
+    <button onclick="printDiv()" 
+        style="margin-top: 15px; padding: 10px 20px; background:#fff; color:#333; border-radius:8px">
+        🖨 Распечатать
+    </button>
 </body>
 
 <script>
