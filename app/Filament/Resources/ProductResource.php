@@ -160,7 +160,10 @@ class ProductResource extends Resource
                     ->withAvg('commentProducts', 'rating') // 🔥 `avg_rating` ni hisoblaymiz
             )
             ->columns([
-                TextColumn::make('id')->sortable(),
+                TextColumn::make('id')->sortable()
+                ->action(function ($record, $livewire) {
+                    $livewire->dispatch('open-credit-info', id: $record->id);
+                }),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
                 TextColumn::make('comment_products_avg_rating')->label('Рейтинг')->sortable(),
@@ -271,7 +274,8 @@ class ProductResource extends Resource
                         ->modalCancelActionLabel('Закрыть')
                         ->modalHeading('Информация о рассрочке')
                         ->modalWidth('4xl')
-                        ->action(fn() => null)     
+                        ->action(fn() => null)  
+                        ->hidden()   
                         ->modalContent(function (Product $record) {
 
                             $price = $record->price;
