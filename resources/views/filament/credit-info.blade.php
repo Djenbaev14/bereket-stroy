@@ -2,7 +2,7 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Kredit Info Sticker</title>
+<title>Responsive Sticker</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -16,24 +16,30 @@
         border-radius: 8px;
         color: #000;
         position: relative;
+        display: block;
+        width: 100%; /* 🔥 ENDIIII width cheklanmagan */
+        max-width: 500px; /* xohlasangiz olib tashlashingiz mumkin */
+        margin: auto;
     }
 
     .title {
-        font-size: 20px;
+        font-size: 22px;
         font-weight: bold;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        line-height: 1.2;
     }
 
     .specs {
         font-size: 12px;
         line-height: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         display: flex;
         justify-content: space-between;
+        gap: 20px;
     }
 
     .big-price {
-        font-size: 38px;
+        font-size: 42px;
         font-weight: bold;
         margin: 5px 0;
     }
@@ -51,44 +57,47 @@
     .table div {
         display: flex;
         justify-content: space-between;
-        padding: 4px 0;
+        padding: 5px 0;
         border-bottom: 1px solid rgba(0,0,0,0.2);
     }
 
     .qr-area {
-        margin-top: 15px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        width: 100%;
     }
 
     .benefit {
-        font-size: 20px;
+        font-size: 22px;
         font-weight: bold;
         color: #000;
+        text-align: right;
+    }
+
+    .benefit small {
+        font-size: 14px;
+        display: block;
     }
 
     .footer {
         font-size: 12px;
-        margin-top: 10px;
+        margin-top: 15px;
     }
-
-    .logo {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        text-align: center;
-        font-size: 10px;
-    }
-
-    .logo img {
-        width: 50px;
+    /* 🔥 RESPONSIVE */
+    @media (max-width: 450px) {
+        .big-price { font-size: 34px; }
+        .title { font-size: 18px; }
+        .benefit { font-size: 18px; }
+        .qr-area img { width: 70px; }
     }
 </style>
 </head>
 <body>
 
 <div class="sticker">
+
 
     <div class="title">Совутгич Artel HD 395 FWEN — WH</div>
 
@@ -120,8 +129,8 @@
     <div class="qr-area">
         <img src="/mnt/data/34c5a638-2a45-4075-9e0b-372d4bdc3c34.png" width="90">
         <div class="benefit">
-            -3 016 820<br>
-            <span style="font-size:14px;">Мижозга фойда</span>
+            -3 016 820
+            <small>Мижозга фойда</small>
         </div>
     </div>
 
