@@ -127,18 +127,7 @@
         <div><span>3 ойга</span> <span>2 479 100 сўмдан</span></div>
     </div>
 
-    <div class="qr-area">
-        <img src="/mnt/data/34c5a638-2a45-4075-9e0b-372d4bdc3c34.png" width="90">
-        <div class="benefit">
-            -3 016 820
-            <small>Мижозга фойда</small>
-        </div>
-    </div>
 
-    <div class="footer">
-        ID: 1311<br>
-        2025-10-15
-    </div>
 </div>
 
 </body>
