@@ -107,7 +107,7 @@
     <div class="table">
         <div><span>Маҳсулот нархи</span> <span>{{ $price }} сўмдан</span></div>
         {{-- <div><span>Promo нархи</span> <span>{{ $m3 }} сўмдан</span></div> --}}
-        <div><span>m24 ойга</span> <span>{{ $mm24 }} сўмдан</span></div>
+        <div><span>24 ойга</span> <span>{{ $m24 }} сўмдан</span></div>
         <div><span>18 ойга</span> <span>{{ $m18 }} сўмдан</span></div>
         <div><span>9 ойга</span> <span>{{ $m9 }} сўмдан</span></div>
         <div><span>6 ойга</span> <span>{{ $m6 }} 327 400 сўмдан</span></div>
