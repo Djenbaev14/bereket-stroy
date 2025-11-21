@@ -11,7 +11,6 @@
     }
 
     .sticker {
-        width: 350px;
         background: #f4dd2c;
         padding: 20px;
         border-radius: 8px;
@@ -90,11 +89,6 @@
 <body>
 
 <div class="sticker">
-
-    <div class="logo">
-        <img src="https://i.ibb.co/wYy7xQk/10year.png">
-        <div>FOR COMPRESSOR</div>
-    </div>
 
     <div class="title">Совутгич Artel HD 395 FWEN — WH</div>
 
