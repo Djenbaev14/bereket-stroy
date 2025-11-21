@@ -118,7 +118,7 @@
 </div>
 
     <button onclick="printDiv()" 
-        style="margin-top: 15px; padding: 10px 20px; background:#fff; color:#333; border-radius:8px">
+        style="margin-top: 15px; padding: 10px 20px; background:#fff; color:#333; border-radius:8px;border:1px solid #333;">
         🖨 Распечатать
     </button>
 </body>
