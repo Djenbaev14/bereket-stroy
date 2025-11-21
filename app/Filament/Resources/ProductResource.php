@@ -17,6 +17,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Notifications\Notification;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
@@ -172,7 +173,7 @@ class ProductResource extends Resource
                             ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
                             ->modalCancelActionLabel('Закрыть')
                             ->modalHeading(heading: 'Информация о рассрочке')
-                            ->modalWidth('xl')
+                            ->modalWidth(MaxWidth::Medium)
                             ->action(fn() => null)  
                             ->modalContent(function (Product $record) {
 
