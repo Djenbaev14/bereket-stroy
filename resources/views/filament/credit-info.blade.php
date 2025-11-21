@@ -100,7 +100,7 @@
 
     <div class="price-section">
         <div class="gray">12 ойга</div>
-        <div class="big-price">{{$m12}} </div><span class="gray">сўмдан бошланади</span>
+        <div class="big-price">{{$m12}} <span class="gray" style="font-weight: normal">сўмдан бошланади</span></div>
     </div>
 
     <div class="table">
