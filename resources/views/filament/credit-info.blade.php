@@ -32,19 +32,6 @@
         line-height: 1.2;
     }
 
-    .specs {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        font-size: 12px;
-        line-height: 1.4;
-        gap: 10px;
-    }
-
-    .specs div {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-    }
 
     .price-section {
         display: flex;
@@ -99,9 +86,6 @@
         .title {
             font-size: 16px;
         }
-        .specs {
-            grid-template-columns: 1fr;
-        }
         .benefit {
             font-size: 16px;
         }
@@ -112,36 +96,100 @@
 
 <div class="sticker">
 
-    <div class="title">Совутгич Artel HD 395 FWEN — WH</div>
-
-    <div class="specs">
-        <div>
-            <div>Шиклар сони: 2</div>
-            <div>Шовқин: 42 dB</div>
-            <div>Энергия сарфи: 252 кВт</div>
-        </div>
-        <div>
-            <div>Ҳажми: 305 л</div>
-            <div>Класс: A+</div>
-            <div>No Frost</div>
-        </div>
-    </div>
+    <div class="title">{{ $product->name }}</div>
 
     <div class="price-section">
         <div class="gray">12 ойга</div>
-        <div class="big-price">693 000</div>
+        <div class="big-price">{{$m12}}</div>
         <div class="gray">сўмдан бошланади</div>
     </div>
 
     <div class="table">
-        <div><span>Маҳсулот нархи</span> <span>8 873 000 сўмдан</span></div>
-        <div><span>Promo нархи</span> <span>5 856 180 сўмдан</span></div>
-        <div><span>9 ойга</span> <span>897 900 сўмдан</span></div>
-        <div><span>6 ойга</span> <span>1 327 400 сўмдан</span></div>
-        <div><span>3 ойга</span> <span>2 479 100 сўмдан</span></div>
+        <div><span>Маҳсулот нархи</span> <span>{{ $price }} сўмдан</span></div>
+        {{-- <div><span>Promo нархи</span> <span>{{ $m3 }} сўмдан</span></div> --}}
+        <div><span>m24 ойга</span> <span>{{ $mm24 }} сўмдан</span></div>
+        <div><span>18 ойга</span> <span>{{ $m18 }} сўмдан</span></div>
+        <div><span>9 ойга</span> <span>{{ $m9 }} сўмдан</span></div>
+        <div><span>6 ойга</span> <span>{{ $m6 }} 327 400 сўмдан</span></div>
+        <div><span>3 ойга</span> <span>{{ $m3 }} сўмдан</span></div>
     </div>
 
 </div>
 
 </body>
 </html>
+
+{{-- <div id="printArea" style="font-size:16px">
+    <h2 style="font-weight: bold">{{ $product->name }}</h2>
+
+    <p><b>Цена товара:</b> {{ number_format($price, 0, '.', ' ') }} сум</p>
+
+    <hr>
+
+    <table style="width:100%; border-collapse: collapse" border="1">
+        <tr>
+            <th>Срок</th>
+            <th>Ежемесячная оплата</th>
+        </tr>
+        <tr>
+            <td>3 месяца (+15%)</td>
+            <td>{{ $m3 }} сум</td>
+        </tr>
+        <tr>
+            <td>6 месяцев (+25%)</td>
+            <td>{{ $m6 }} сум</td>
+        </tr>
+        <tr>
+            <td>9 месяцев (+32%)</td>
+            <td>{{ $m9 }} сум</td>
+        </tr>
+        <tr>
+            <td>12 месяцев (+38%)</td>
+            <td>{{ $m12 }} сум</td>
+        </tr>
+        <tr>
+            <td>18 месяцев (+57%)</td>
+            <td>{{ $m18 }} сум</td>
+        </tr>
+        <tr>
+            <td>24 месяцев (+76%)</td>
+            <td>{{ $m24 }} сум</td>
+        </tr>
+    </table>
+</div>
+
+<button onclick="printDiv()" 
+    style="margin-top: 15px; padding: 10px 20px; background:#2563eb; color:#fff; border-radius:8px">
+    🖨 Распечатать
+</button>
+
+<script>
+    function printCredit() {
+        const content = document.getElementById("creditPrint").innerHTML;
+        const printWindow = window.open("", "_blank", "width=800,height=900");
+
+        printWindow.document.open();
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Печать</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: center; }
+                        h2 { margin-bottom: 10px; }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                    <script>
+                        window.onload = function () {
+                            window.print();
+                        };
+                    <\/script>
+                </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
+</script> --}}
