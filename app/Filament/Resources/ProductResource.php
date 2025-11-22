@@ -179,15 +179,11 @@ class ProductResource extends Resource
                             ->modalContent(function (Product $record) {
 
                                 $price = $record->price;
-                                $old_price = $record->old_price;
-                                $benefit= $old_price - $price;
                                 $calc = fn($p, $percent, $month) =>
                                     number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
 
                                 return view('filament.credit-info', [
                                     'price' => $price,
-                                    'old_price' => $old_price,
-                                    'benefit' => $benefit,
                                     'm3'  => $calc($price, 15, 3),
                                     'm6'  => $calc($price, 25, 6),
                                     'm9'  => $calc($price, 32, 9),

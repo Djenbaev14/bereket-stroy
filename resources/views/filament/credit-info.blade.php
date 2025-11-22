@@ -128,7 +128,7 @@
 
         <!-- BENEFIT (MIJOZGA FOYDA) -->
         <div style="text-align:right; font-weight:bold; color:#000;">
-            {{ number_format($benefit, 0, '.', ' ') }}
+            {{ number_format($product->old_price-$price, 0, '.', ' ') }}
             <div style="font-size:12px; font-weight:normal; margin-top:2px;">
                 Мижозга фойда
             </div>
