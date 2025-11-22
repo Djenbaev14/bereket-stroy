@@ -104,7 +104,7 @@
     </div>
 
     <div class="table">
-        <div><span>Маҳсулот нархи</span> <span>{{ number_format($old_price, 0, '.', ' ') }} сўмдан</span></div>
+        <div><span>Маҳсулот нархи</span> <span>{{ number_format($product->old_price, 0, '.', ' ') }} сўмдан</span></div>
         <div><span>Promo нархи</span> <span>{{ number_format($price, 0, '.', ' ') }} сўмдан</span></div>
         <div><span>24 ойга</span> <span>{{ $m24 }} сўмдан</span></div>
         <div><span>18 ойга</span> <span>{{ $m18 }} сўмдан</span></div>
