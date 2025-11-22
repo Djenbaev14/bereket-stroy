@@ -104,8 +104,8 @@
     </div>
 
     <div class="table">
-        <div><span>Маҳсулот нархи</span> <span>{{ number_format($price, 0, '.', ' ') }} сўмдан</span></div>
-        {{-- <div><span>Promo нархи</span> <span>{{ $m3 }} сўмдан</span></div> --}}
+        <div><span>Маҳсулот нархи</span> <span>{{ number_format($old_price, 0, '.', ' ') }} сўмдан</span></div>
+        <div><span>Promo нархи</span> <span>{{ number_format($price, 0, '.', ' ') }} сўмдан</span></div>
         <div><span>24 ойга</span> <span>{{ $m24 }} сўмдан</span></div>
         <div><span>18 ойга</span> <span>{{ $m18 }} сўмдан</span></div>
         <div><span>9 ойга</span> <span>{{ $m9 }} сўмдан</span></div>
@@ -113,6 +113,34 @@
         <div><span>3 ойга</span> <span>{{ $m3 }} сўмдан</span></div>
     </div>
 
+    <div style="
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 1px solid rgba(0,0,0,0.2);
+    ">
+
+        <!-- QR CODE -->
+        <img src="/mnt/data/d3c517b7-e9ed-4101-ae01-4ae00c78db2f.png"
+            style="width:90px; height:auto; border-radius:8px;">
+
+        <!-- BENEFIT (MIJOZGA FOYDA) -->
+        <div style="text-align:right; font-weight:bold; color:#000;">
+            {{ number_format($benefit, 0, '.', ' ') }}
+            <div style="font-size:12px; font-weight:normal; margin-top:2px;">
+                Мижозга фойда
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER (ID va sana) -->
+    <div style="font-size:12px; margin-top:10px; opacity:0.8;">
+        {{-- ID: {{ $product->id }} <br> --}}
+        {{ date('Y-m-d') }}
+    </div>
 
 </div>
 

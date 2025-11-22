@@ -115,9 +115,10 @@ class ProductResource extends Resource
                         ]),
                     Wizard\Step::make('Цены и другие')
                         ->schema([
-                            Grid::make(2)
+                            Grid::make(3)
                             ->schema([
                                 TextInput::make('price')->required()->numeric()->label('Цена')->placeholder('Цена')->columnSpan(1),
+                                TextInput::make('old_price')->required()->numeric()->label('Старая цена')->placeholder('Старая цена')->columnSpan(1),
                                 TextInput::make('min_order_qty')->required()->numeric()->placeholder('Минимальное количество заказов')->label('Минимальное количество заказов')->columnSpan(1),
                             ])
                         ]),
@@ -178,12 +179,15 @@ class ProductResource extends Resource
                             ->modalContent(function (Product $record) {
 
                                 $price = $record->price;
-
+                                $old_price = $record->old_price;
+                                $benefit= $old_price - $price;
                                 $calc = fn($p, $percent, $month) =>
                                     number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
 
                                 return view('filament.credit-info', [
                                     'price' => $price,
+                                    'old_price' => $old_price,
+                                    'benefit' => $benefit,
                                     'm3'  => $calc($price, 15, 3),
                                     'm6'  => $calc($price, 25, 6),
                                     'm9'  => $calc($price, 32, 9),
