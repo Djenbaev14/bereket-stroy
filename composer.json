@@ -15,6 +15,7 @@
         "blade-ui-kit/blade-ui-kit": "^0.6.4",
         "dotswan/filament-map-picker": "^1.8",
         "eightynine/filament-excel-import": "^3.1",
+        "endroid/qr-code": "^5.1",
         "filament/actions": "^3.2",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-media-library-plugin": "3.2",

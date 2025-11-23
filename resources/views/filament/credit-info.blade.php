@@ -122,9 +122,7 @@
         border-top: 1px solid rgba(0,0,0,0.2);
     ">
 
-        <!-- QR CODE -->
-        <img src="/mnt/data/d3c517b7-e9ed-4101-ae01-4ae00c78db2f.png"
-            style="width:90px; height:auto; border-radius:8px;">
+        <img src="data:image/png;base64,{{ $base64 }}">
 
         <!-- BENEFIT (MIJOZGA FOYDA) -->
         <div style="text-align:right; font-weight:bold; color:#000;">

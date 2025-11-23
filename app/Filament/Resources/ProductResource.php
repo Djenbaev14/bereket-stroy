@@ -13,6 +13,8 @@ use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use App\Models\Unit;
 use EightyNine\ExcelImport\ExcelImportAction;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\RichEditor;
@@ -181,7 +183,13 @@ class ProductResource extends Resource
                                 $price = $record->price;
                                 $calc = fn($p, $percent, $month) =>
                                     number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
+                                
+                                $url = config('app.front_url') . '/details/' . $record->slug;
+                                $qr = QrCode::create($url);
+                                $writer = new PngWriter();
 
+                                $png = $writer->write($qr);
+                                $base64 = base64_encode($png->getString());
                                 return view('filament.credit-info', [
                                     'price' => $price,
                                     'm3'  => $calc($price, 15, 3),
@@ -191,6 +199,7 @@ class ProductResource extends Resource
                                     'm18' => $calc($price, 57, 18),
                                     'm24' => $calc($price, 76, 24),
                                     'product' => $record,
+                                    'base64'=>$base64,
                                 ]);
                             }),
                     ),

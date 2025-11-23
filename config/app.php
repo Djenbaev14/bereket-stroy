@@ -146,6 +146,7 @@ return [
     |
     */
 
+    'front_url'=>'https://bereket-stroy.uz',
     'maintenance' => [
         'driver' => 'file',
         // 'store' => 'redis',
