@@ -173,36 +173,40 @@ class ProductResource extends Resource
                     ->label('')
                     ->action(
                 Tables\Actions\Action::make('credit_info')
-                            ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
-                            ->modalCancelActionLabel('Закрыть')
-                            ->modalHeading(heading: 'Информация о рассрочке')
-                            ->modalWidth(MaxWidth::Small)
-                            ->action(fn() => null)  
-                            ->modalContent(function (Product $record) {
+    ->modalSubmitAction(false)
+    ->modalCancelActionLabel('Закрыть')
+    ->modalHeading('Информация о рассрочке')
+    ->modalWidth(MaxWidth::Large)
+    ->action(fn() => null)
+    ->modalContent(function (Product $record) {
 
-                                $price = $record->price;
-                                $calc = fn($p, $percent, $month) =>
-                                    number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
-                                
-                                $url = config('app.front_url') . '/details/' . $record->slug;
-                                $qr = QrCode::create($url);
-                                $writer = new PngWriter();
+        $price = $record->price;
 
-                                $png = $writer->write($qr);
-                                $base64 = base64_encode($png->getString());
-                                return view('filament.credit-info', [
-                                    'price' => $price,
-                                    'm3'  => $calc($price, 15, 3),
-                                    'm6'  => $calc($price, 25, 6),
-                                    'm9'  => $calc($price, 32, 9),
-                                    'm12' => $calc($price, 38, 12),
-                                    'm18' => $calc($price, 57, 18),
-                                    'm24' => $calc($price, 76, 24),
-                                    'product' => $record,
-                                    'base64'=>$base64,
-                                ]);
-                            }),
-                    ),
+        $calc = fn($p, $percent, $month) =>
+            number_format((($p + ($p * $percent / 100)) / $month), 0, '.', ' ');
+
+        // QR CODE
+        $url = config('app.front_url') . '/details/' . $record->slug;
+
+        $qr = QrCode::create($url)->setSize(200);
+        $writer = new PngWriter();
+
+        $png = $writer->write($qr);
+
+        $base64 = base64_encode($png->getString());
+
+        return view('filament.credit-info', [
+            'price'   => $price,
+            'm3'      => $calc($price, 15, 3),
+            'm6'      => $calc($price, 25, 6),
+            'm9'      => $calc($price, 32, 9),
+            'm12'     => $calc($price, 38, 12),
+            'm18'     => $calc($price, 57, 18),
+            'm24'     => $calc($price, 76, 24),
+            'product' => $record,
+            'base64'  => $base64, // 🔥 Bu yerda to‘g‘ri ketadi
+        ]);
+    })),
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),

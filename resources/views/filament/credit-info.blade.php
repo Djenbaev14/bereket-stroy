@@ -121,8 +121,8 @@
         padding-top: 10px;
         border-top: 1px solid rgba(0,0,0,0.2);
     ">
+        <img src="data:image/png;base64,{{ $base64 }}" width="90">
 
-        <img src="data:image/png;base64,{{ $base64 }}">
 
         <!-- BENEFIT (MIJOZGA FOYDA) -->
         <div style="text-align:right; font-weight:bold; color:#000;">
