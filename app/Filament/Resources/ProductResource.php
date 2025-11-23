@@ -200,18 +200,16 @@ class ProductResource extends Resource
                                 $qrImage = $writer->writeString($url);
                                 $base64 = base64_encode($qrImage);
 
-return $url;
-                    // return view('filament.credit-info', [
-                    //     'price'   => $price,
-                    //     'm3'      => $calc($price, 15, 3),
-                    //     'm6'      => $calc($price, 25, 6),
-                    //     'm9'      => $calc($price, 32, 9),
-                    //     'm12'     => $calc($price, 38, 12),
-                    //     'm18'     => $calc($price, 57, 18),
-                    //     'm24'     => $calc($price, 76, 24),
-                    //     'product' => $record,
-                    //     'base64'  => $base64, // 🔥 Bu yerda to‘g‘ri ketadi
-                    // ]);
+                    return view('filament.credit-info', [
+                        'price'   => $price,
+                        'm3'      => $calc($price, 15, 3),
+                        'm6'      => $calc($price, 25, 6),
+                        'm9'      => $calc($price, 32, 9),
+                        'm12'     => $calc($price, 38, 12),
+                        'm18'     => $calc($price, 57, 18),
+                        'm24'     => $calc($price, 76, 24),
+                        'product' => $record,
+                    ]);
                 })),
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
