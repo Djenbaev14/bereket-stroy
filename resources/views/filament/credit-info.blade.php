@@ -121,8 +121,7 @@
         padding-top: 10px;
         border-top: 1px solid rgba(0,0,0,0.2);
     ">
-    <div id="qrBox"></div>
-
+        <img src="data:image/png;base64,{{ $base64 }}" width="90">
 
 
         <!-- BENEFIT (MIJOZGA FOYDA) -->
@@ -148,19 +147,6 @@
         🖨 Распечатать
     </button>
 </body>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-<script>
-    const url = "{{ config('app.front_url') }}/details/{{ $product->slug }}";
-
-    QRCode.toDataURL(url, { width: 90 }, function (err, qr) {
-        if (!err) {
-            document.getElementById('qrBox').innerHTML =
-                `<img src="${qr}" width="90">`;
-        }
-    });
-</script>
 
 <script>
     function printCredit() {
