@@ -200,7 +200,7 @@ class ProductResource extends Resource
                                 $qrImage = $writer->writeString($url);
                                 $base64 = base64_encode($qrImage);
 
-return $base64;
+return $url;
                     return view('filament.credit-info', [
                         'price'   => $price,
                         'm3'      => $calc($price, 15, 3),
