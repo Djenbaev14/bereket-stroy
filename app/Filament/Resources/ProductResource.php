@@ -12,9 +12,12 @@ use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 use App\Models\Unit;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
 use EightyNine\ExcelImport\ExcelImportAction;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
+use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\RichEditor;
@@ -188,12 +191,15 @@ class ProductResource extends Resource
         // QR CODE
         $url = config('app.front_url') . '/details/' . $record->slug;
 
-        $qr = QrCode::create($url)->setSize(200);
-        $writer = new PngWriter();
+                    $renderer = new ImageRenderer(
+                        new RendererStyle(300),
+                        new ImagickImageBackEnd()
+                    );
+                    $writer = new Writer($renderer);
 
-        $png = $writer->write($qr);
+                    $qrImage = $writer->writeString($url);
+                    $base64 = base64_encode($qrImage);
 
-        $base64 = base64_encode($png->getString());
 
         return view('filament.credit-info', [
             'price'   => $price,

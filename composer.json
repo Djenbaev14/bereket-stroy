@@ -9,6 +9,7 @@
         "a21ns1g4ts/filament-short-url": "^0.1.5",
         "alperenersoy/filament-export": "^3.0",
         "amidesfahani/filament-tinyeditor": "^2.1",
+        "bacon/bacon-qr-code": "^3.0",
         "barryvdh/laravel-dompdf": "^3.1",
         "bezhansalleh/filament-shield": "^3.3",
         "blade-ui-kit/blade-heroicons": "^2.6",
