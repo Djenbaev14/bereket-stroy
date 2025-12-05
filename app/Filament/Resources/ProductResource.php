@@ -49,7 +49,7 @@ class ProductResource extends Resource
 {
     use Translatable;
     protected static ?string $model = Product::class;
-    
+
     protected static ?string $navigationGroup = 'Продукты';
     protected static ?int $navigationSort = 1;
 
@@ -63,8 +63,8 @@ class ProductResource extends Resource
                     Wizard\Step::make('Название товара')
                         ->schema([
                             TextInput::make('name')
-                            ->required()
-                            ->label('Название'),
+                                ->required()
+                                ->label('Название'),
                             TextInput::make('slug')->required()->label('Название')->hidden(),
                             RichEditor::make('description')
                                 ->label('Описание')
@@ -75,30 +75,32 @@ class ProductResource extends Resource
                             Grid::make(3)
                                 ->schema([
                                     Select::make('category_id')
-                                    ->label('Категории')
-                                    ->options(Category::all()->pluck('name', 'id'))
-                                    ->afterStateUpdated(fn (callable $set) => $set('sub_category_id', null)) // Kategoriya o‘zgarsa subkategoriya tozalanadi
-                                    ->reactive() // Kategoriya tanlanganda subcategory yangilansin
-                                    ->required()
-                                    ->searchable()
-                                    ->columnSpan(1),
+                                        ->label('Категории')
+                                        ->options(Category::all()->pluck('name', 'id'))
+                                        ->afterStateUpdated(fn(callable $set) => $set('sub_category_id', null)) // Kategoriya o‘zgarsa subkategoriya tozalanadi
+                                        ->reactive() // Kategoriya tanlanganda subcategory yangilansin
+                                        ->required()
+                                        ->searchable()
+                                        ->columnSpan(1),
                                     Select::make('sub_category_id')
                                         ->label('Подкатегории')
-                                        ->options(fn (callable $get) => 
+                                        ->options(
+                                            fn(callable $get) =>
                                             SubCategory::where('category_id', $get('category_id'))->pluck('name', 'id') // Faqat tanlangan categoriyaga tegishlilari chiqadi
                                         )
-                                        ->afterStateUpdated(fn (callable $set) => $set('sub_sub_category_id', null)) // Subkategoriya o‘zgarsa sub-subkategoriya tozalanadi
-                                        ->disabled(fn (callable $get) => empty($get('category_id'))) // Category tanlanmaguncha subcategory disable bo‘ladi
+                                        ->afterStateUpdated(fn(callable $set) => $set('sub_sub_category_id', null)) // Subkategoriya o‘zgarsa sub-subkategoriya tozalanadi
+                                        ->disabled(fn(callable $get) => empty($get('category_id'))) // Category tanlanmaguncha subcategory disable bo‘ladi
                                         ->required()
                                         ->reactive() // Kategoriya tanlanganda subcategory yangilansin
                                         ->columnSpan(1),
                                     Select::make('sub_sub_category_id')
                                         ->label('Под Подкатегории')
-                                        ->options(fn (callable $get) => 
+                                        ->options(
+                                            fn(callable $get) =>
                                             SubSubCategory::where('sub_category_id', $get('sub_category_id'))->pluck('name', 'id') // Faqat tanlangan categoriyaga tegishlilari chiqadi
                                         )
-                                        ->required(fn (callable $get) => SubSubCategory::where('sub_category_id', $get('sub_category_id'))->exists()) // Agar sub_sub_category mavjud bo‘lsa required bo‘ladi
-                                        ->disabled(fn (callable $get) => empty($get('sub_category_id'))) // Category tanlanmaguncha subcategory disable bo‘ladi
+                                        ->required(fn(callable $get) => SubSubCategory::where('sub_category_id', $get('sub_category_id'))->exists()) // Agar sub_sub_category mavjud bo‘lsa required bo‘ladi
+                                        ->disabled(fn(callable $get) => empty($get('sub_category_id'))) // Category tanlanmaguncha subcategory disable bo‘ladi
                                         ->columnSpan(1),
                                     Select::make('brand_id')
                                         ->label('Бренд')
@@ -116,41 +118,41 @@ class ProductResource extends Resource
                                         ->required()
                                         ->searchable()
                                         ->columnSpan(1),
-                                ])      
+                                ])
                         ]),
                     Wizard\Step::make('Цены и другие')
                         ->schema([
                             Grid::make(3)
-                            ->schema([
-                                TextInput::make('price')->required()->numeric()->label('Цена')->placeholder('Цена')->columnSpan(1),
-                                TextInput::make('old_price')->required()->numeric()->label('Старая цена')->placeholder('Старая цена')->columnSpan(1),
-                                TextInput::make('min_order_qty')->required()->numeric()->placeholder('Минимальное количество заказов')->label('Минимальное количество заказов')->columnSpan(1),
-                            ])
+                                ->schema([
+                                    TextInput::make('price')->required()->numeric()->label('Цена')->placeholder('Цена')->columnSpan(1),
+                                    TextInput::make('old_price')->required()->numeric()->label('Старая цена')->placeholder('Старая цена')->columnSpan(1),
+                                    TextInput::make('min_order_qty')->required()->numeric()->placeholder('Минимальное количество заказов')->label('Минимальное количество заказов')->columnSpan(1),
+                                ])
                         ]),
                     Wizard\Step::make('Настройка переменной товара')
-                    ->schema([
-                        Grid::make(12)
-                            ->schema([
-                                FileUpload::make('photos')
-                                ->image()
-                                ->label('Фото')
-                                ->disk('public') 
-                                ->directory('products') 
-                                ->multiple()
-                                ->imageEditor()
-                                ->reorderable()
-                                ->nullable()
-                                ->maxFiles(5)
-                                ->maxSize(5 * 1024)
-                                ->imageEditorAspectRatios([
-                                    '16:9',
-                                    '4:3',
-                                    '1:1',
-                                ])
-                                ->columnSpan(12),
-                        ])->columnSpanFull()
-                    ]),
-                    
+                        ->schema([
+                            Grid::make(12)
+                                ->schema([
+                                    FileUpload::make('photos')
+                                        ->image()
+                                        ->label('Фото')
+                                        ->disk('public')
+                                        ->directory('products')
+                                        ->multiple()
+                                        ->imageEditor()
+                                        ->reorderable()
+                                        ->nullable()
+                                        ->maxFiles(5)
+                                        ->maxSize(5 * 1024)
+                                        ->imageEditorAspectRatios([
+                                            '16:9',
+                                            '4:3',
+                                            '1:1',
+                                        ])
+                                        ->columnSpan(12),
+                                ])->columnSpanFull()
+                        ]),
+
                 ])->columnSpan(2)
             ]);
     }
@@ -159,9 +161,7 @@ class ProductResource extends Resource
 
     //     return $data;
     // }
-    public static function afterCreate($record, array $data)
-    {
-    }
+    public static function afterCreate($record, array $data) {}
     public static function table(Table $table): Table
     {
         return $table
@@ -175,42 +175,37 @@ class ProductResource extends Resource
                     ->icon(fn(bool $state): string => 'heroicon-o-printer') // always show the 'edit' icon
                     ->label('')
                     ->action(
-                Tables\Actions\Action::make('credit_info')
-                ->modalSubmitAction(false)
-                ->modalCancelActionLabel('Закрыть')
-                ->modalHeading('Информация о рассрочке')
-                ->modalWidth(MaxWidth::Large)
-                ->action(fn() => null)
-                ->modalContent(function (Product $record) {
+                        Tables\Actions\Action::make('credit_info')
+                            ->label('Кредит инфо')
+                            ->icon('heroicon-o-printer')
+                            ->url(fn(Product $record): string => route('product.print-credit', $record))
+                            ->openUrlInNewTab()
+                            ->extraModalFooterActions([
+                                Tables\Actions\Action::make('print')
+                                    ->label('🖨 Распечатать')
+                                    ->color('success')
+                                    ->extraAttributes([
+                                        'onclick' => 'window.print(); return false;',
+                                        'type' => 'button',
+                                    ]),
+                            ])
+                            ->modalContent(function (Product $record) {
+                                $price = $record->price;
+                                $calc = fn($p, $percent, $month) =>
+                                number_format((($p + ($p * $percent / 100)) / $month), 0, '.', ' ');
 
-                    $price = $record->price;
-
-                    $calc = fn($p, $percent, $month) =>
-                        number_format((($p + ($p * $percent / 100)) / $month), 0, '.', ' ');
-
-                    // QR CODE
-                    $url = config('app.front_url') . '/details/' . $record->slug;
-
-                                $renderer = new ImageRenderer(
-                                    new RendererStyle(300),
-                                    new ImagickImageBackEnd()
-                                );
-                                $writer = new Writer($renderer);
-
-                                $qrImage = $writer->writeString($url);
-                                $base64 = base64_encode($qrImage);
-
-                    return view('filament.credit-info', [
-                        'price'   => $price,
-                        'm3'      => $calc($price, 15, 3),
-                        'm6'      => $calc($price, 25, 6),
-                        'm9'      => $calc($price, 32, 9),
-                        'm12'     => $calc($price, 38, 12),
-                        'm18'     => $calc($price, 57, 18),
-                        'm24'     => $calc($price, 76, 24),
-                        'product' => $record,
-                    ]);
-                })),
+                                return view('filament.credit-info', [
+                                    'price'   => $price,
+                                    'm3'      => $calc($price, 15, 3),
+                                    'm6'      => $calc($price, 25, 6),
+                                    'm9'      => $calc($price, 32, 9),
+                                    'm12'     => $calc($price, 38, 12),
+                                    'm18'     => $calc($price, 57, 18),
+                                    'm24'     => $calc($price, 76, 24),
+                                    'product' => $record,
+                                ]);
+                            }),
+                    ),
                 TextColumn::make('id')->sortable(),
                 ImageColumn::make('photos')->circular()->stacked(),
                 TextColumn::make('name')->label('Название')->searchable()->sortable(),
@@ -218,34 +213,34 @@ class ProductResource extends Resource
                 TextColumn::make('category.name')->label('Название категория')->searchable()->sortable(),
                 TextColumn::make('sub_category.name')->label('Название подкатегория')->searchable()->sortable(),
                 TextColumn::make('price')->label('Цена')
-                ->formatStateUsing(function ($state) {
-                    return number_format($state, 0, '.', ' ') . " сум";  // Masalan, 1000.50 ni 1,000.50 formatida
-                })->searchable()->sortable(),
+                    ->formatStateUsing(function ($state) {
+                        return number_format($state, 0, '.', ' ') . " сум";  // Masalan, 1000.50 ni 1,000.50 formatida
+                    })->searchable()->sortable(),
                 TextColumn::make('discounted_price')
-                ->label('Цена со скидкой')
-                ->getStateUsing(function (Product $record) {
-                    if ($record->activeDiscount) {
-                        return number_format($record->activeDiscount->discounted_price, 0, ',', ' ') . ' сум';
-                    }
-                    return 'Озини нархида'; 
-                }),
+                    ->label('Цена со скидкой')
+                    ->getStateUsing(function (Product $record) {
+                        if ($record->activeDiscount) {
+                            return number_format($record->activeDiscount->discounted_price, 0, ',', ' ') . ' сум';
+                        }
+                        return 'Озини нархида';
+                    }),
                 ToggleColumn::make('is_active')
-                ->label('В продаже')
-                ->afterStateUpdated(function ($record, $state) {
-                    if ($state) {
-                        Notification::make()
-                            ->title('Mahsulot yoqildi')
-                            ->success()
-                            ->body($record->name . ' savdoga qo\'yildi.')
-                            ->send();
-                    } else {
-                        Notification::make()
-                            ->title('Mahsulot o‘chirildi')
-                            ->danger()
-                            ->body($record->name . ' savdodan o‘chirildi.')
-                            ->send();
-                    }
-                }),
+                    ->label('В продаже')
+                    ->afterStateUpdated(function ($record, $state) {
+                        if ($state) {
+                            Notification::make()
+                                ->title('Mahsulot yoqildi')
+                                ->success()
+                                ->body($record->name . ' savdoga qo\'yildi.')
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Mahsulot o‘chirildi')
+                                ->danger()
+                                ->body($record->name . ' savdodan o‘chirildi.')
+                                ->send();
+                        }
+                    }),
             ])
             ->actions([
                 ActionGroup::make([
@@ -254,18 +249,23 @@ class ProductResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\Action::make('credit_info')
                         ->label('Кредит инфо')
-                        ->icon('heroicon-o-printer')
-                        ->modalSubmitAction(false)       // ❗ Formani submit qilmaydi
+                        ->icon('heroicon-o-document-text')
+                        ->modalSubmitAction(false)
                         ->modalCancelActionLabel('Закрыть')
                         ->modalHeading('Информация о рассрочке')
-                        ->modalWidth('4xl')
-                        ->action(fn() => null)  
+                        ->modalWidth(MaxWidth::Large)
+                        ->action(fn() => null)
+                        ->extraModalFooterActions([
+                            Tables\Actions\Action::make('open_new_tab')
+                                ->label('🖨 Открыть для печати')
+                                ->color('success')
+                                ->url(fn(Product $record): string => route('product.print-credit', $record))
+                                ->openUrlInNewTab(),
+                        ])
                         ->modalContent(function (Product $record) {
-
                             $price = $record->price;
-
                             $calc = fn($p, $percent, $month) =>
-                                number_format( (($p + ($p * $percent / 100)) / $month), 0, '.', ' ' );
+                            number_format((($p + ($p * $percent / 100)) / $month), 0, '.', ' ');
 
                             return view('filament.credit-info', [
                                 'price' => $price,
@@ -281,33 +281,34 @@ class ProductResource extends Resource
                 ]),
             ])
             ->defaultPaginationPageOption(50)
-            ->defaultSort('id','desc')
+            ->defaultSort('id', 'desc')
             ->filters([
                 // **Brand bo‘yicha filter**
                 SelectFilter::make('brand_id')
                     ->label('Бренд')
                     ->searchable()
-                    ->options(fn () => Brand::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                    ->options(fn() => Brand::all()->pluck('name', 'id')->map(fn($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
                     ->preload(),
 
                 // **Category bo‘yicha filter**
                 SelectFilter::make('category_id')
                     ->label('Категория')
                     ->searchable()
-                    ->options(fn () => Category::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                    ->options(fn() => Category::all()->pluck('name', 'id')->map(fn($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
                     ->preload(),
-                    
+
                 SelectFilter::make('sub_category_id')
                     ->label('Подкатегория')
                     ->searchable()
-                    ->options(fn ($get) => 
+                    ->options(
+                        fn($get) =>
                         $get('category_id')
                             ? SubCategory::where('category_id', $get('category_id'))
-                                ->pluck('name', 'id')
-                                ->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name)
+                            ->pluck('name', 'id')
+                            ->map(fn($name) => json_decode($name, true)[app()->getLocale()] ?? $name)
                             : []
                     )
-                    ->hidden(fn ($get) => !$get('category_id'))
+                    ->hidden(fn($get) => !$get('category_id'))
                     ->preload(),
                 Filter::make('price_range')
                     ->form([
@@ -322,33 +323,35 @@ class ProductResource extends Resource
                     ])
                     ->query(function ($query, array $data) {
                         return $query
-                            ->when($data['min'] ?? null, fn ($q, $min) => $q->where('price', '>=', $min))
-                            ->when($data['max'] ?? null, fn ($q, $max) => $q->where('price', '<=', $max));
+                            ->when($data['min'] ?? null, fn($q, $min) => $q->where('price', '>=', $min))
+                            ->when($data['max'] ?? null, fn($q, $max) => $q->where('price', '<=', $max));
                     }),
                 // **Subcategory bo‘yicha filter**
                 SelectFilter::make('sub_category_id')
                     ->label('Подкатегория')
                     ->searchable()
-                    ->options(fn () => SubCategory::all()->pluck('name', 'id')->map(fn ($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
+                    ->options(fn() => SubCategory::all()->pluck('name', 'id')->map(fn($name) => json_decode($name, true)[app()->getLocale()] ?? $name))
                     ->preload(),
                 SelectFilter::make('is_active')
                     ->label('В продаже')
                     ->options([
-                            '1' => 'Активный',  // true
-                            '0' => 'Неактивный', // false
+                        '1' => 'Активный',  // true
+                        '0' => 'Неактивный', // false
                     ])
                     ->preload(),
                 Filter::make('discounted')
                     ->label('Только товары со скидкой')
                     ->columnSpan('full')
-                    ->query(fn ($query) => $query->whereHas('activeDiscount'))
-                    ], layout: FiltersLayout::AboveContent)
+                    ->query(fn($query) => $query->whereHas('activeDiscount'))
+            ], layout: FiltersLayout::AboveContent)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
+
+
 
     public static function getNavigationLabel(): string
     {
