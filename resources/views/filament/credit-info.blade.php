@@ -69,6 +69,20 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
+        .price-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
         .profit-section {
             margin-top: 15px;
             display: flex;
@@ -76,6 +90,17 @@
             align-items: center;
             padding-top: 10px;
             border-top: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .barcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .barcode-container img {
+            width: 80px;
+            height: 80px;
         }
 
         .profit-text {
@@ -167,55 +192,92 @@
 </head>
 
 <body>
-
     <div style="text-align: center;">
         <div class="sticker" id="printContent">
-            <div class="title">Велотренажер PowerGym B37</div>
+            <div class="title">{{ $product->name }}</div>
 
             <div class="price-section">
                 <div class="gray">12 ойга</div>
-                <div class="big-price">286 350 <span class="gray" style="font-weight: normal">сўмдан бошланади</span></div>
+                <div class="big-price">{{ $m12 }} <span class="gray" style="font-weight: normal">сўмдан бошланади</span></div>
             </div>
 
             <div class="table">
+                @if($product->old_price != $price)
                 <div class="table-row">
                     <span>Маҳсулот нархи</span>
-                    <span>2 490 000 сўмдан</span>
+                    <span class="price-container">
+                        <span class="old-price">{{ number_format($product->old_price, 0, '.', ' ') }} сўм</span>
+                    </span>
                 </div>
                 <div class="table-row">
                     <span>Promo нархи</span>
-                    <span>2 490 000 сўмдан</span>
+                    <span><strong>{{ number_format($price, 0, '.', ' ') }} сўм</strong></span>
+                </div>
+                @else
+                <div class="table-row">
+                    <span>Маҳсулот нархи</span>
+                    <span>{{ number_format($product->old_price, 0, '.', ' ') }} сўм</span>
                 </div>
                 <div class="table-row">
+                    <span>Promo нархи</span>
+                    <span>{{ number_format($price, 0, '.', ' ') }} сўм</span>
+                </div>
+                @endif
+
+                <div class="table-row">
                     <span>24 ойга</span>
-                    <span>182 600 сўмдан</span>
+                    <span>{{ $m24 }} сўм</span>
                 </div>
                 <div class="table-row">
                     <span>18 ойга</span>
-                    <span>217 183 сўмдан</span>
+                    <span>{{ $m18 }} сўм</span>
                 </div>
                 <div class="table-row">
                     <span>9 ойга</span>
-                    <span>365 200 сўмдан</span>
+                    <span>{{ $m9 }} сўм</span>
                 </div>
                 <div class="table-row">
                     <span>6 ойга</span>
-                    <span>518 750 сўмдан</span>
+                    <span>{{ $m6 }} сўм</span>
                 </div>
                 <div class="table-row">
                     <span>3 ойга</span>
-                    <span>954 500 сўмдан</span>
+                    <span>{{ $m3 }} сўм</span>
                 </div>
             </div>
 
             <div class="profit-section">
+                <div class="barcode-container">
+                    @php
+                    use BaconQrCode\Renderer\ImageRenderer;
+                    use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+                    use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+                    use BaconQrCode\Renderer\RendererStyle\Fill;
+                    use BaconQrCode\Renderer\Color\Rgb;
+                    use BaconQrCode\Writer;
+
+                    $barcodeUrl = 'https://bereket-stroy.uz/details/' . $product->slug;
+
+                    // Sariq gradient rangi (f4dd2c)
+                    $backgroundColor = new Rgb(244, 221, 44);
+                    $foregroundColor = new Rgb(0, 0, 0);
+
+                    $renderer = new ImageRenderer(
+                    new RendererStyle(200, 0, null, null, Fill::uniformColor($backgroundColor, $foregroundColor)),
+                    new SvgImageBackEnd()
+                    );
+                    $writer = new Writer($renderer);
+                    $qrCode = $writer->writeString($barcodeUrl);
+                    echo $qrCode;
+                    @endphp
+                </div>
                 <div class="profit-text">
-                    0
+                    {{ number_format($product->old_price - $price, 0, '.', ' ') }} сўм
                     <div class="profit-label">Мижозга фойда</div>
                 </div>
             </div>
 
-            <div class="date">2025-12-05</div>
+            <div class="date">{{ date('Y-m-d') }}</div>
         </div>
     </div>
 

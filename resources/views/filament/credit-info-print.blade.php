@@ -28,11 +28,9 @@
             align-items: center;
         }
 
-        /* Sticker o'lchovlari A4 ga moslashtirildi */
         .sticker {
             background: linear-gradient(135deg, #f4dd2c, #f2c94c);
             padding: 40px 60px;
-            /* Padding kamaytirildi */
             color: #000;
             width: 190mm;
             min-height: 270mm;
@@ -40,12 +38,10 @@
             flex-direction: column;
             justify-content: center;
             gap: 25px;
-            /* Bo'shliq kamaytirildi */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border-radius: 0;
         }
 
-        /* Shrift hajmlari kamaytirildi */
         .title {
             font-size: 40px;
             font-weight: bold;
@@ -101,13 +97,38 @@
             font-weight: bold;
         }
 
+        .price-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
         .profit-section {
             margin-top: 25px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             padding-top: 15px;
             border-top: 3px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .barcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .barcode-container img {
+            width: 120px;
+            height: 120px;
         }
 
         .profit-text {
@@ -130,7 +151,6 @@
             text-align: right;
         }
 
-        /* Print Controls (Tugmalar) CSS kodlari qo'shildi */
         .print-controls {
             text-align: center;
             margin-top: 30px;
@@ -173,7 +193,6 @@
             background: #f5f5f5;
         }
 
-        /* Bosib chiqarish uchun o'zgartirishlar */
         @media print {
             body {
                 width: 210mm;
@@ -191,7 +210,6 @@
                 width: 210mm;
                 min-height: 297mm;
                 padding: 20mm 15mm;
-                /* Sahifa chekka o'lchovlari kamaytirildi */
                 border-radius: 0;
                 background: linear-gradient(135deg, #f4dd2c, #f2c94c) !important;
                 -webkit-print-color-adjust: exact !important;
@@ -206,7 +224,6 @@
             }
         }
 
-        /* Ekrandagi kichik qurilmalar uchun moslashuvchanlik */
         @media screen and (max-width: 800px) {
             body {
                 width: 100%;
@@ -248,6 +265,18 @@
         </div>
 
         <div class="table">
+            @if($product->old_price != $price)
+            <div class="table-row">
+                <span>Маҳсулот нархи</span>
+                <span class="price-container">
+                    <span class="old-price">{{ number_format($product->old_price, 0, '.', ' ') }} сўм</span>
+                </span>
+            </div>
+            <div class="table-row">
+                <span>Promo нархи</span>
+                <span><strong>{{ number_format($price, 0, '.', ' ') }} сўм</strong></span>
+            </div>
+            @else
             <div class="table-row">
                 <span>Маҳсулот нархи</span>
                 <span><strong>{{ number_format($product->old_price, 0, '.', ' ') }} сўм</strong></span>
@@ -256,6 +285,8 @@
                 <span>Promo нархи</span>
                 <span><strong>{{ number_format($price, 0, '.', ' ') }} сўм</strong></span>
             </div>
+            @endif
+
             <div class="table-row">
                 <span>24 ойга</span>
                 <span>{{ $m24 }} сўм</span>
@@ -279,6 +310,30 @@
         </div>
 
         <div class="profit-section">
+            <div class="barcode-container">
+                @php
+                use BaconQrCode\Renderer\ImageRenderer;
+                use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+                use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+                use BaconQrCode\Renderer\RendererStyle\Fill;
+                use BaconQrCode\Renderer\Color\Rgb;
+                use BaconQrCode\Writer;
+
+                $barcodeUrl = 'https://bereket-stroy.uz/details/' . $product->slug;
+
+                // Sariq gradient rangi (f4dd2c)
+                $backgroundColor = new Rgb(244, 221, 44);
+                $foregroundColor = new Rgb(0, 0, 0);
+
+                $renderer = new ImageRenderer(
+                new RendererStyle(300, 0, null, null, Fill::uniformColor($backgroundColor, $foregroundColor)),
+                new SvgImageBackEnd()
+                );
+                $writer = new Writer($renderer);
+                $qrCode = $writer->writeString($barcodeUrl);
+                echo $qrCode;
+                @endphp
+            </div>
             <div class="profit-text">
                 {{ number_format($product->old_price - $price, 0, '.', ' ') }} сўм
                 <div class="profit-label">Мижозга фойда</div>
