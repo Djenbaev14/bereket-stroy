@@ -30,23 +30,23 @@
 
         .sticker {
             background: linear-gradient(135deg, #f4dd2c, #f2c94c);
-            padding: 40px 60px;
+            padding: 30px 40px;
             color: #000;
             width: 190mm;
             min-height: 270mm;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 25px;
+            gap: 18px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border-radius: 0;
         }
 
         .title {
-            font-size: 40px;
+            font-size: 36px;
             font-weight: bold;
             line-height: 1.2;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .price-section {
@@ -64,7 +64,7 @@
         }
 
         .big-price {
-            font-size: 70px;
+            font-size: 60px;
             font-weight: bold;
             line-height: 1.1;
         }
@@ -76,16 +76,16 @@
         }
 
         .table {
-            font-size: 24px;
-            margin-top: 15px;
+            font-size: 22px;
+            margin-top: 10px;
             border-top: 3px solid rgba(0, 0, 0, 0.3);
-            padding-top: 15px;
+            padding-top: 10px;
         }
 
         .table-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 2px solid rgba(0, 0, 0, 0.15);
         }
 
@@ -112,11 +112,11 @@
         }
 
         .profit-section {
-            margin-top: 25px;
+            margin-top: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 15px;
+            padding-top: 10px;
             border-top: 3px solid rgba(0, 0, 0, 0.3);
         }
 
@@ -127,21 +127,26 @@
         }
 
         .barcode-container img {
-            width: 120px;
-            height: 120px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .barcode-container svg {
+            width: 200px;
+            height: 200px;
         }
 
         .profit-text {
             text-align: right;
             font-weight: bold;
             color: #000;
-            font-size: 36px;
+            font-size: 32px;
         }
 
         .profit-label {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: normal;
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
         .date {
@@ -326,7 +331,7 @@
                 $foregroundColor = new Rgb(0, 0, 0);
 
                 $renderer = new ImageRenderer(
-                new RendererStyle(300, 0, null, null, Fill::uniformColor($backgroundColor, $foregroundColor)),
+                new RendererStyle(280, 0, null, null, Fill::uniformColor($backgroundColor, $foregroundColor)),
                 new SvgImageBackEnd()
                 );
                 $writer = new Writer($renderer);

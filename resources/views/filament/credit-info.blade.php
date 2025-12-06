@@ -99,8 +99,13 @@
         }
 
         .barcode-container img {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .barcode-container svg {
+            width: 100px;
+            height: 100px;
         }
 
         .profit-text {
